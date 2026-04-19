@@ -62,7 +62,7 @@
         android:layout_marginEnd="4dp"
         android:src="@drawable/ic_close"
         android:background="@drawable/bg_close_button"
-        android:tint="#6B7280"
+        android:tint="#B85454"
         android:padding="4dp" />
 
 </FrameLayout>
