@@ -105,7 +105,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_search"
-                    android:tint="#9CA3AF" />
+                    app:tint="#9CA3AF" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -131,7 +131,7 @@
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_folder"
-                        android:tint="#FFFFFF" />
+                        app:tint="#FFFFFF" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -218,7 +218,7 @@
                             android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_heart"
-                            android:tint="#E05A7A" />
+                            app:tint="#E05A7A" />
                     </FrameLayout>
 
                     <TextView
@@ -250,7 +250,7 @@
                             android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_brain"
-                            android:tint="#D97706" />
+                            app:tint="#D97706" />
                     </FrameLayout>
 
                     <TextView
@@ -282,7 +282,7 @@
                             android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_tooth"
-                            android:tint="#0D9488" />
+                            app:tint="#0D9488" />
                     </FrameLayout>
 
                     <TextView
@@ -314,7 +314,7 @@
                             android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_child"
-                            android:tint="#0F766E" />
+                            app:tint="#0F766E" />
                     </FrameLayout>
 
                     <TextView
@@ -403,7 +403,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="36dp"
                             android:layout_marginTop="14dp"
-                            android:background="@drawable/bg_banner_button"
+                            android:background="@drawable/bg_search_bar"
                             android:backgroundTint="@null"
                             android:paddingStart="20dp"
                             android:paddingEnd="20dp"
@@ -428,12 +428,14 @@
                 android:layout_marginBottom="12dp" />
 
             <!-- Horizontal scroll for recent doctors -->
+
+            <!-- RECOMMENDED DOCTORS -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:clipToPadding="false"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -442,22 +444,26 @@
                     android:orientation="horizontal">
 
                     <!-- Doctor Card 1 -->
-                    <include layout="@layout/item_recent_doctor"
-                        android:id="@+id/recentDoctor1" />
+                    <include
+                        android:id="@+id/recentDoctor1"
+                        layout="@layout/item_recent_doctor" />
 
                     <!-- Doctor Card 2 -->
-                    <include layout="@layout/item_recent_doctor"
+                    <include
                         android:id="@+id/recentDoctor2"
-                        android:layout_marginStart="12dp" />
+                        layout="@layout/item_recent_doctor"
+                        android:layout_marginStart="12dp"
+                        tools:ignore="IncludeLayoutParam" />
 
                     <!-- Doctor Card 3 -->
-                    <include layout="@layout/item_recent_doctor"
+                    <include
                         android:id="@+id/recentDoctor3"
-                        android:layout_marginStart="12dp" />
+                        layout="@layout/item_recent_doctor"
+                        android:layout_marginStart="12dp"
+                        tools:ignore="IncludeLayoutParam" />
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <!-- RECOMMENDED DOCTORS -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -511,7 +517,8 @@
                     <include
                         android:id="@+id/recommendedDoctor2"
                         layout="@layout/item_recommended_doctor"
-                        android:layout_marginStart="12dp" />
+                        android:layout_marginStart="12dp"
+                        tools:ignore="IncludeLayoutParam" />
                 </LinearLayout>
             </HorizontalScrollView>
 

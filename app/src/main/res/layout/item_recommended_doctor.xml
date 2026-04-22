@@ -70,7 +70,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:src="@drawable/ic_star"
-                android:tint="#F59E0B" />
+                app:tint="#F59E0B" />
 
             <TextView
                 android:id="@+id/tvRating"
@@ -91,7 +91,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:src="@drawable/ic_briefcase"
-                android:tint="#9CA3AF" />
+                app:tint="#9CA3AF" />
 
             <TextView
                 android:id="@+id/tvExperience"
