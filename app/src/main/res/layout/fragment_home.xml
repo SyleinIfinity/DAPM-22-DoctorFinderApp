@@ -1,20 +1,541 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:background="#F0F6F6">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HomeFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- HEADER -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="8dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="👋"
+                            android:textSize="28sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" Xin chào, Huy"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            android:textColor="#1A1A2E"
+                            android:fontFamily="sans-serif-medium" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chăm sóc sức khoẻ mỗi ngày"
+                        android:textSize="14sp"
+                        android:textColor="#6B7280"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+
+                <!-- Bell Icon -->
+                <FrameLayout
+                    android:layout_width="44dp"
+                    android:layout_height="44dp">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_bell"
+                        />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/bg_badge_red" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- SEARCH BAR -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_search_bar"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="12dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_search"
+                    app:tint="#9CA3AF" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="Tìm bác sĩ, bệnh, triệu chứng..."
+                    android:hintTextColor="#9CA3AF"
+                    android:textColor="#1A1A2E"
+                    android:textSize="14sp"
+                    android:paddingStart="10dp"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true" />
+
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_mic_button">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_folder"
+                        app:tint="#FFFFFF" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- SEARCH SUGGESTION -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔍"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Gợi ý: đau đầu → bác sĩ thần kinh"
+                    android:textSize="12sp"
+                    android:textColor="#0D9488" />
+            </LinearLayout>
+            <!-- HEADER CHUYÊN KHOA -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical">
+
+                <!-- Title -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Chuyên khoa"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1A2E" />
+
+                <!-- Xem tất cả -->
+                <TextView
+                    android:id="@+id/tvViewAllSpecialty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xem tất cả"
+                    android:textSize="13sp"
+                    android:textColor="#0D9488"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- SPECIALTY CATEGORIES -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="4dp"
+                android:weightSum="4">
+
+                <!-- Tim mạch -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="6dp">
+
+                    <FrameLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_category_pink">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_heart"
+                            app:tint="#E05A7A" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tim mạch"
+                        android:textSize="12sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <!-- Thần kinh -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="6dp">
+
+                    <FrameLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_category_orange">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_brain"
+                            app:tint="#D97706" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thần kinh"
+                        android:textSize="12sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <!-- Nha khoa -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="6dp">
+
+                    <FrameLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_category_teal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_tooth"
+                            app:tint="#0D9488" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nha khoa"
+                        android:textSize="12sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <!-- Nhi khoa -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="6dp">
+
+                    <FrameLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:background="@drawable/bg_category_light_teal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_child"
+                            app:tint="#0F766E" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nhi khoa"
+                        android:textSize="12sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- AI SUGGESTION BANNER -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_banner_gradient"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+
+                    <!-- Bulb Icon Circle -->
+                    <FrameLayout
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_bulb_circle"
+                        android:layout_marginEnd="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="💡"
+                            android:textSize="22sp" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="💡 "
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Gợi ý cho bạn"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:textColor="#FFFFFF" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bạn hay tìm 'đau đầu' → Khám phá danh sách các bác sĩ chuyên khoa thần kinh hàng đầu."
+                            android:textSize="13sp"
+                            android:textColor="#CCF5F3"
+                            android:layout_marginTop="6dp"
+                            android:lineSpacingExtra="3dp" />
+
+                        <Button
+                            android:id="@+id/btnViewNeurology"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginTop="14dp"
+                            android:background="@drawable/bg_search_bar"
+                            android:backgroundTint="@null"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:text="Xem bác sĩ thần kinh"
+                            android:textColor="#0D9488"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- RECENTLY SEARCHED DOCTORS -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bác sĩ tìm kiếm gần đây"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#1A1A2E"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Horizontal scroll for recent doctors -->
+
+            <!-- RECOMMENDED DOCTORS -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Doctor Card 1 -->
+                    <include
+                        android:id="@+id/recentDoctor1"
+                        layout="@layout/item_recent_doctor" />
+
+                    <!-- Doctor Card 2 -->
+                    <include
+                        android:id="@+id/recentDoctor2"
+                        layout="@layout/item_recent_doctor"
+                        android:layout_marginStart="12dp"
+                        tools:ignore="IncludeLayoutParam" />
+
+                    <!-- Doctor Card 3 -->
+                    <include
+                        android:id="@+id/recentDoctor3"
+                        layout="@layout/item_recent_doctor"
+                        android:layout_marginStart="12dp"
+                        tools:ignore="IncludeLayoutParam" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Bác sĩ đề xuất"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1A2E" />
+
+                <TextView
+                    android:id="@+id/tvViewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Xem tất cả"
+                    android:textSize="13sp"
+                    android:textColor="#0D9488"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Horizontal scroll for recommended doctors -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Recommended Doctor Card 1 -->
+                    <include
+                        android:id="@+id/recommendedDoctor1"
+                        layout="@layout/item_recommended_doctor" />
+
+                    <!-- Recommended Doctor Card 2 -->
+                    <include
+                        android:id="@+id/recommendedDoctor2"
+                        layout="@layout/item_recommended_doctor"
+                        android:layout_marginStart="12dp"
+                        tools:ignore="IncludeLayoutParam" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/bottomNavigation"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="64dp"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:background="#FFFFFF"-->
+<!--        app:menu="@menu/menu_bottom_nav"-->
+<!--        app:itemIconTint="@color/bottom_nav_color"-->
+<!--        app:itemTextColor="@color/bottom_nav_color"-->
+<!--        app:labelVisibilityMode="unlabeled"-->
+<!--        app:itemActiveIndicatorColor="#E0F7F6" />-->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
