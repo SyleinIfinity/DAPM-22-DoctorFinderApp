@@ -19,8 +19,9 @@
         android:paddingTop="@dimen/spacing_sm"
         android:paddingBottom="80dp"
         android:scrollbars="none"
-        android:visibility="visible"
-        tools:listitem="@layout/item_doctor_card" />
+
+        tools:listitem="@layout/item_doctor_card"
+        tools:itemCount="5"/>
 
     <!-- Empty State -->
     <include

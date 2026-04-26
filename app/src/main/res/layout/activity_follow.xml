@@ -131,13 +131,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/bottom_nav_height"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        android:id="@+id/viewPager"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginBottom="@dimen/bottom_nav_height"-->
+<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
 
+<!--        tools:layout="@layout/fragment_doctor_list"/>-->
+    <include
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/bottom_nav_height"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        layout="@layout/fragment_doctor_list"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
