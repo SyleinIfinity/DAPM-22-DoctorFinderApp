@@ -525,17 +525,15 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- BOTTOM NAVIGATION BAR -->
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:id="@+id/bottomNavigation"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="64dp"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        android:background="#FFFFFF"-->
-<!--        app:menu="@menu/menu_bottom_nav"-->
-<!--        app:itemIconTint="@color/bottom_nav_color"-->
-<!--        app:itemTextColor="@color/bottom_nav_color"-->
-<!--        app:labelVisibilityMode="unlabeled"-->
-<!--        app:itemActiveIndicatorColor="#E0F7F6" />-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_nav_height"
+        android:layout_gravity="bottom"
+        style="@style/Widget.App.BottomNavigationView"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/bottom_nav_color_selector"
+        app:itemTextColor="@color/bottom_nav_color_selector"
+        app:selectedItemId="@id/nav_theo_doi" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

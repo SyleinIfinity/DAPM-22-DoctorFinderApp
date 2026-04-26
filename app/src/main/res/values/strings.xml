@@ -1,3 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DoctorFinder</string>
+    <string name="app_name">Đặt Lịch Khám</string>
+    <string name="bac_si_theo_doi">Bác sĩ theo dõi</string>
+    <string name="search_hint">Tìm trong danh sách đã theo dõi…</string>
+    <string name="tab_da_theo_doi">Đã theo dõi</string>
+    <string name="tab_gan_day">Gần đây</string>
+    <string name="xem_chi_tiet">Xem chi tiết</string>
+    <string name="dat_lich">Đặt lịch</string>
+    <string name="dang_online">Dang online</string>
+    <string name="co_lich_hom_nay">Có lịch hôm nay</string>
+    <string name="empty_title">Bạn chưa theo dõi bác sĩ nào</string>
+    <string name="empty_desc">Theo dõi bác sĩ yêu thích để đặt lịch\nvà nhận thông báo dễ dàng hơn.</string>
+    <string name="kham_pha_bac_si">Khám phá bác sĩ</string>
+    <string name="nav_trang_chu">Trang chủ</string>
+    <string name="nav_tim_kiem">Tìm kiếm</string>
+    <string name="nav_lich_hen">Lịch hẹn</string>
+    <string name="nav_theo_doi">Theo dõi</string>
+    <string name="nav_tai_khoan">Tài khoản</string>
+    <string name="nam">năm</string>
 </resources>

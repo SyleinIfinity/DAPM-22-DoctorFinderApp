@@ -67,4 +67,22 @@
     <color name="bottomNavSelected">#0D9488</color>
     <color name="bottomNavUnselected">#9CA3AF</color>
 
+    <color name="primary">#24D5DB</color>
+    <color name="primary_light">#E6F9FA</color>
+    <color name="primary_dark">#1AB8BD</color>
+    <color name="background">#F4F7F8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_hint">#9CA3AF</color>
+    <color name="star_yellow">#F59E0B</color>
+    <color name="heart_red">#EF4444</color>
+    <color name="online_green">#22C55E</color>
+    <color name="card_shadow">#1A000000</color>
+    <color name="divider">#E5E7EB</color>
+    <color name="tab_inactive">#9CA3AF</color>
+    <color name="bottom_nav_bg">#FFFFFF</color>
+    <color name="icon_gray">#6B7280</color>
+
+</resources>
 </resources>
