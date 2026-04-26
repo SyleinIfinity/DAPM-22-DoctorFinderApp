@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary_color">#24D5DB</color>
+    <color name="primary_variant">#1EBABF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="gray">#757575</color>
+    
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary_color">#24D5DB</color>
+    <!-- UI -->
+    <color name="surface_color">#F9FAFB</color>
+    <color name="border_color">#E5E7EB</color>
+    <color name="icon_tint">#9CA3AF</color>
+
+    <!-- Brand -->
+    <color name="teal_primary">#1D9E75</color>
+    <color name="teal_dark">#0F6E56</color>
+    <color name="teal_light">#E1F5EE</color>
+    <color name="teal_mid">#5DCAA5</color>
+    <color name="teal_ripple">#4D1D9E75</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_muted">#6B7280</color>
+</resources>
+</resources>
     <!-- App Primary Colors -->
     <color name="colorPrimary">#0D9488</color>
     <color name="colorPrimaryDark">#0F766E</color>
@@ -53,4 +84,5 @@
     <color name="bottom_nav_bg">#FFFFFF</color>
     <color name="icon_gray">#6B7280</color>
 
+</resources>
 </resources>
