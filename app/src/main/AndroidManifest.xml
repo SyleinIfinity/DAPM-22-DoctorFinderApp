@@ -17,6 +17,7 @@
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="false" />
+
     </application>
 
 </manifest>
