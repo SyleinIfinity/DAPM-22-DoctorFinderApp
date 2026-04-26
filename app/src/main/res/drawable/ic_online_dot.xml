@@ -4,7 +4,7 @@
     <solid android:color="@color/online_green" />
     <stroke
         android:width="2dp"
-        android:color="@color/bgApp" />
+        android:color="@color/white" />
     <size
         android:width="12dp"
         android:height="12dp" />
