@@ -32,11 +32,14 @@
     <!-- Background -->
     <color name="bgApp">#F0F6F6</color>
     <color name="bgCard">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="online_green">#11D02F</color>
 
     <!-- Text Colors -->
     <color name="textPrimary">#1A1A2E</color>
     <color name="textSecondary">#6B7280</color>
     <color name="textTeal">#0D9488</color>
+
 
     <!-- Category Icon Colors -->
     <color name="cardiology">#E05A7A</color>
