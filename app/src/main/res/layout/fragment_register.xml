@@ -47,14 +47,14 @@
                 <View
                     android:layout_width="6dp"
                     android:layout_height="6dp"
-                    android:background="@drawable/bg_dot_teal"
+                    android:background="@drawable/bg_banner_gradient"
                     android:layout_marginEnd="6dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tài khoản mới"
-                    android:textColor="@color/teal_primary"
+                    android:textColor="@color/primary"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:letterSpacing="0.02"/>
@@ -102,7 +102,7 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:background="@drawable/bg_tab_active"
-                android:textColor="@color/teal_primary"/>
+                android:textColor="@color/primary"/>
 
             <TextView
                 android:id="@+id/tabDoctor"
@@ -371,7 +371,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/teal_primary"
+                android:backgroundTint="@color/primary"
                 android:stateListAnimator="@null"
                 android:layout_marginBottom="16dp"
                 style="@style/Widget.App.Button.Primary"/>

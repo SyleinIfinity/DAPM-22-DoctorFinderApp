@@ -28,7 +28,7 @@
         <FrameLayout
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:background="@drawable/bg_empty_state_icon">
+            android:background="@drawable/ic_heart">
 
             <ImageView
                 android:layout_width="44dp"
