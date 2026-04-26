@@ -3,7 +3,7 @@ package nhom22.doctorfinder.ui.auth;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-
+import nhom22.doctorfinder.ui.auth.AuthViewModel;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
