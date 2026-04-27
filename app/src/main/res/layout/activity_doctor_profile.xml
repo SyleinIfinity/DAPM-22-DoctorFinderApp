@@ -32,7 +32,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@drawable/bg_icon_btn_circle"
-            android:src="@drawable/ic_chevron_left"
+            android:src="@drawable/ic_arow_back"
             android:contentDescription="Quay lại"
             android:padding="8dp" />
 
@@ -126,7 +126,7 @@
                             android:layout_gravity="bottom|end"
                             android:layout_marginEnd="0dp"
                             android:layout_marginBottom="0dp"
-                            android:src="@drawable/ic_check_white"
+                            android:src="@drawable/ic_check"
                             android:background="@drawable/bg_verified_badge"
                             android:padding="3dp"
                             android:contentDescription="Đã xác minh" />
@@ -607,145 +607,6 @@
             </LinearLayout>
             <!-- END CARD RATING -->
 
-            <!-- ═══════════════════════════════════════
-                 CARD: LỊCH LÀM VIỆC
-            ═══════════════════════════════════════ -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/bg_card"
-                android:elevation="1dp">
-
-                <include layout="@layout/item_section_header"
-                    android:id="@+id/headerSchedule"
-                    app:headerIcon="@drawable/ic_calendar"
-                    app:headerTitle="@string/section_schedule" />
-
-                <!-- Schedule preview container -->
-                <LinearLayout
-                    android:id="@+id/schedulePreview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="14dp"
-                    android:paddingTop="0dp"
-                    android:paddingBottom="10dp">
-
-                    <!-- Day 1: Thứ Hai -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/day1_label"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textColor="#374151"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="10dp" />
-
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:id="@+id/slotsDay1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:flexWrap="wrap"
-                        app:justifyContent="flex_start"
-                        android:layout_marginBottom="8dp">
-
-                        <!-- Slot selected -->
-                        <TextView
-                            style="@style/SlotSelected"
-                            android:text="08:00" />
-                        <TextView
-                            style="@style/SlotDefault"
-                            android:text="08:30" />
-                        <TextView
-                            style="@style/SlotDefault"
-                            android:text="09:00" />
-                        <TextView
-                            style="@style/SlotFull"
-                            android:text="09:30" />
-                        <TextView
-                            style="@style/SlotDefault"
-                            android:text="10:00" />
-                        <TextView
-                            style="@style/SlotFull"
-                            android:text="10:30" />
-
-                    </com.google.android.flexbox.FlexboxLayout>
-
-                    <!-- Day 2: Thứ Ba -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/day2_label"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textColor="#374151"
-                        android:layout_marginBottom="5dp" />
-
-                    <com.google.android.flexbox.FlexboxLayout
-                        android:id="@+id/slotsDay2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:flexWrap="wrap"
-                        app:justifyContent="flex_start">
-
-                        <TextView
-                            style="@style/SlotDefault"
-                            android:text="14:00" />
-                        <TextView
-                            style="@style/SlotDefault"
-                            android:text="14:30" />
-                        <TextView
-                            style="@style/SlotDefault"
-                            android:text="15:00" />
-                        <TextView
-                            style="@style/SlotFull"
-                            android:text="15:30" />
-
-                    </com.google.android.flexbox.FlexboxLayout>
-
-                </LinearLayout>
-
-                <!-- View full schedule dashed button -->
-                <LinearLayout
-                    android:id="@+id/btnViewFullSchedule"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginStart="14dp"
-                    android:layout_marginEnd="14dp"
-                    android:layout_marginBottom="14dp"
-                    android:paddingTop="11dp"
-                    android:paddingBottom="11dp"
-                    android:background="@drawable/bg_dashed_border"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <ImageView
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:src="@drawable/ic_calendar"
-                        android:layout_marginEnd="6dp"
-                        android:contentDescription="@null" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/btn_view_schedule"
-                        android:textSize="13sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:textColor="@color/colorPrimary" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-            <!-- END CARD SCHEDULE -->
 
             <!-- ═══════════════════════════════════════
                  CARD: TÀI LIỆU & CHỨNG CHỈ
@@ -786,7 +647,7 @@
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_file"
+                            android:src="@drawable/ic_folder"
                             android:contentDescription="@null" />
                     </FrameLayout>
 
@@ -831,7 +692,7 @@
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_file"
+                            android:src="@drawable/ic_folder"
                             android:contentDescription="@null" />
                     </FrameLayout>
 
@@ -875,7 +736,7 @@
                             android:layout_width="14dp"
                             android:layout_height="14dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_file"
+                            android:src="@drawable/ic_folder"
                             android:contentDescription="@null" />
                     </FrameLayout>
 
@@ -985,12 +846,12 @@
             android:clickable="true"
             android:focusable="true">
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_arrow_right_white"
-                android:layout_marginEnd="6dp"
-                android:contentDescription="@null" />
+<!--            <ImageView-->
+<!--                android:layout_width="16dp"-->
+<!--                android:layout_height="16dp"-->
+<!--                android:src="@drawable/ic_arow_back"-->
+<!--                android:layout_marginEnd="6dp"-->
+<!--                android:contentDescription="@null" />-->
 
             <TextView
                 android:layout_width="wrap_content"
