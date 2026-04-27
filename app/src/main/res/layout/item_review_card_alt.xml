@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    item_review_card_alt.xml
+    Thẻ đánh giá người dùng (avatar vàng - Minh Lan)
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginStart="14dp"
+    android:layout_marginEnd="14dp"
+    android:layout_marginBottom="10dp"
+    android:padding="10dp"
+    android:background="@drawable/bg_review_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="6dp">
+
+        <TextView
+            android:id="@+id/tvRevAvatar2"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:gravity="center"
+            android:text="ML"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/colorRevAvatarAltText"
+            android:background="@drawable/bg_rev_avatar_yellow"
+            android:layout_marginEnd="8dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvRevName2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minh Lan"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorTextPrimary" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="2dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="11sp" android:textColor="@color/colorStar" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="11sp" android:textColor="@color/colorStar" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="11sp" android:textColor="@color/colorStar" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="11sp" android:textColor="@color/colorStar" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="11sp" android:textColor="@color/colorStarOff" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvRevDate2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="02/04/2026"
+            android:textSize="11sp"
+            android:textColor="@color/colorTextHint" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvRevText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rev2_text"
+        android:textSize="12sp"
+        android:textColor="@color/colorTextSecondary"
+        android:lineSpacingMultiplier="1.5" />
+
+</LinearLayout>
