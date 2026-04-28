@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="headerIcon" format="reference" />
+    <attr name="headerTitle" format="reference|string" />
+    <attr name="rowIcon" format="reference" />
+    <attr name="rowLabel" format="reference|string" />
+    <attr name="rowValue" format="reference|string" />
+
+    <declare-styleable name="SectionHeader">
+        <attr name="headerIcon" />
+        <attr name="headerTitle" />
+    </declare-styleable>
+
+    <declare-styleable name="InfoRow">
+        <attr name="rowIcon" />
+        <attr name="rowLabel" />
+        <attr name="rowValue" />
+    </declare-styleable>
+</resources>

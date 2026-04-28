@@ -7,14 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import nhom22.doctorfinder.R;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatBoxActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Tạm thời chỉ load giao diện UI theo yêu cầu
-        setContentView(R.layout.activity_chat);
-
+        setContentView(R.layout.activity_chatbox);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         ImageButton btnBack = findViewById(R.id.btnBack);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());

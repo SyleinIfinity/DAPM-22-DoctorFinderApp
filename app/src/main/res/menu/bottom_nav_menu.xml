@@ -11,10 +11,10 @@
         android:icon="@drawable/ic_home"
         android:title="@string/nav_trang_chu" />
 
-    <item
-        android:id="@+id/nav_tim_kiem"
-        android:icon="@drawable/ic_search"
-        android:title="@string/nav_tim_kiem" />
+<!--    <item-->
+<!--        android:id="@+id/nav_tim_kiem"-->
+<!--        android:icon="@drawable/ic_search"-->
+<!--        android:title="@string/nav_tim_kiem" />-->
 
     <item
         android:id="@+id/nav_lich_hen"
@@ -24,8 +24,12 @@
     <item
         android:id="@+id/nav_theo_doi"
         android:icon="@drawable/ic_heart"
-        android:checked="true"
         android:title="@string/nav_theo_doi" />
+
+    <item
+        android:id="@+id/nav_tinnhan"
+        android:icon="@drawable/ic_message"
+        android:title="Tin nhắn" />
 
     <item
         android:id="@+id/nav_tai_khoan"

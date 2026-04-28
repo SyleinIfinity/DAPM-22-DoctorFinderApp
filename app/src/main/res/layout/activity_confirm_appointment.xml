@@ -281,7 +281,7 @@
 
                         </LinearLayout>
 
-                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:marginStart="52dp"/>
+                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:layout_marginStart="52dp"/>
 
                         <!-- ── ROW: Thời gian (CHI_TIET_LICH) ── -->
                         <LinearLayout
@@ -340,7 +340,7 @@
 
                         </LinearLayout>
 
-                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:marginStart="52dp"/>
+                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:layout_marginStart="52dp"/>
 
                         <!-- ── ROW: Địa điểm (diaChiLamViec, tenCoSoYTe) ── -->
                         <LinearLayout
@@ -399,7 +399,7 @@
 
                         </LinearLayout>
 
-                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:marginStart="52dp"/>
+                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:layout_marginStart="52dp"/>
 
                         <!-- ── ROW: Lý do khám (loaiPhieu, trieuChungGhiChu) ── -->
                         <LinearLayout
@@ -460,7 +460,7 @@
 
                         </LinearLayout>
 
-                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:marginStart="52dp"/>
+                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:layout_marginStart="52dp"/>
 
                         <!-- ── ROW: Bệnh nhân (NGUOI_DUNG) ── -->
                         <LinearLayout

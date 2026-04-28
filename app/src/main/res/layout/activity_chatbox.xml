@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F7FA"
-    tools:context=".ui.user.chat.ChatActivity">
+    tools:context=".ui.user.chat.ChatBoxActivity">
 
     <!-- ================== HEADER ================== -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,7 +106,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- ================== CHAT LIST ================== -->
-    <!-- Dùng tools:listitem để preview trước trong UI các dạng view -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChat"
         android:layout_width="match_parent"
