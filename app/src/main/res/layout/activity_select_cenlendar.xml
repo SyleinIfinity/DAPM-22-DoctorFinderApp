@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Màn hình 1/3: Chọn ngày & khung giờ
+    Tables: LICH_LAM_VIEC, CHI_TIET_LICH, KHUNG_GIO
+    Fields: thuTrongTuan, ngayCuThe, gioBatDau, gioKetThuc, trangThai, thoiLuongPhut
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_screen"
+    tools:context=".ChonLichActivity">
+
+    <!-- ===== TOP APP BAR ===== -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="Đặt lịch khám"
+            app:titleTextAppearance="@style/TextAppearance.Title"
+            app:titleCentered="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipStep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="12dp"
+                android:text="Bước 1 / 3"
+                android:textSize="11sp"
+                android:textColor="@color/teal_600"
+                app:chipBackgroundColor="@color/teal_50"
+                app:chipStrokeWidth="0dp"
+                style="@style/Widget.Material3.Chip.Suggestion" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <!-- Progress Bar -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressStep"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:progress="33"
+            app:trackColor="@color/border_light"
+            app:indicatorColor="@color/teal_600"
+            app:trackCornerRadius="2dp" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- ===== SCROLLABLE BODY ===== -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollBody"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="88dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- ===== DOCTOR MINI CARD ===== -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDoctorMini"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_light"
+                app:strokeWidth="0.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <!-- Avatar -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imgAvatarMini"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background=" @drawable/bg_avatar_gradient"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+                        tools:src="@drawable/ic_person" />
+
+                    <!-- Name & Specialty -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="10dp">
+
+                        <TextView
+                            android:id="@+id/tvDoctorName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="BS. Nguyễn Thanh Tùng"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                        <TextView
+                            android:id="@+id/tvDoctorSpec"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thần kinh học · BV Bạch Mai"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_muted"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+
+                    <!-- Rating Chip -->
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4.9 ★"
+                        android:textSize="11sp"
+                        android:textColor="@color/teal_700"
+                        app:chipBackgroundColor="@color/teal_50"
+                        app:chipStrokeWidth="0dp"
+                        style="@style/Widget.Material3.Chip.Suggestion" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===== WEEK CALENDAR CARD ===== -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_light"
+                app:strokeWidth="0.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Tab Row: Lịch tuần / Ngày cụ thể -->
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLichLoai"
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp"
+                        app:tabSelectedTextColor="@color/teal_600"
+                        app:tabTextColor="@color/text_muted"
+                        app:tabIndicatorColor="@color/teal_600"
+                        app:tabIndicatorHeight="2dp"
+                        app:tabTextAppearance="@style/TextAppearance.TabLabel"
+                        app:tabMode="fixed">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lịch tuần" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ngày cụ thể" />
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/border_light" />
+
+                    <!-- Week Strip: RecyclerView ngang (thuTrongTuan / ngayCuThe) -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvWeekStrip"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_day_pill" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/border_light" />
+
+                    <!-- Slots Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <!-- Buổi sáng -->
+                        <TextView
+                            android:id="@+id/tvLabelSang"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="☀  Buổi sáng"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_muted"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
+
+                        <!--
+                            FlexboxLayout: hiển thị CHI_TIET_LICH slots (gioBatDau–gioKetThuc)
+                            trangThai: TRONG=available, DANG_GIU/DA_DAT=full, selected=active
+                        -->
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/flexSlotsSang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:flexWrap="wrap"
+                            app:alignItems="flex_start"
+                            app:justifyContent="flex_start"
+                            android:layout_marginBottom="14dp">
+
+                            <!-- Slot items are added programmatically from CHI_TIET_LICH -->
+                            <!-- Sample static items for layout preview -->
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="07:30"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Full"
+                                tools:ignore="HardcodedText" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="08:00"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Available"
+                                tools:ignore="HardcodedText" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="08:30"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Selected"
+                                tools:ignore="HardcodedText" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="09:00"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Available"
+                                tools:ignore="HardcodedText" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="09:30"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Full"
+                                tools:ignore="HardcodedText" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="10:00"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Available"
+                                tools:ignore="HardcodedText" />
+
+                        </com.google.android.flexbox.FlexboxLayout>
+
+                        <!-- Buổi chiều -->
+                        <TextView
+                            android:id="@+id/tvLabelChieu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🌙  Buổi chiều"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_muted"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
+
+                        <com.google.android.flexbox.FlexboxLayout
+                            android:id="@+id/flexSlotsChieu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:flexWrap="wrap"
+                            app:alignItems="flex_start"
+                            app:justifyContent="flex_start">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="13:30"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Available"
+                                tools:ignore="HardcodedText" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="14:00"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Available"
+                                tools:ignore="HardcodedText" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:text="15:00"
+                                android:textSize="12sp"
+                                android:layout_margin="3dp"
+                                style="@style/Widget.Slot.Full"
+                                tools:ignore="HardcodedText" />
+
+                        </com.google.android.flexbox.FlexboxLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ===== SELECTED SLOT INFO BANNER ===== -->
+            <LinearLayout
+                android:id="@+id/layoutSelectedInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_teal_rounded"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_calendar"
+                    app:tint="@color/teal_600"
+                    android:layout_marginEnd="6dp" />
+
+                <TextView
+                    android:id="@+id/tvSelectedSlot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đã chọn: Thứ Ba 29/04 · 08:30"
+                    android:textSize="12sp"
+                    android:textColor="@color/teal_700" />
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" · Thời lượng 30 phút"
+                    android:textSize="12sp"
+                    android:textColor="@color/teal_600" />
+
+            </LinearLayout>
+
+            <!-- ===== LOẠI HÌNH KHÁM (loaiPhieu) ===== -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardLoaiKham"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_light"
+                app:strokeWidth="0.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Card Header -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_folder"
+                            app:tint="@color/teal_600"
+                            android:layout_marginEnd="6dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Loại hình khám"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/border_light" />
+
+                    <!-- Type Options Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp"
+                        android:weightSum="3">
+
+                        <!-- TAI_PHONG_KHAM -->
+                        <LinearLayout
+                            android:id="@+id/optTaiPhongKham"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="9dp"
+                            android:background="@drawable/bg_type_selected"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="🏥"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tại phòng khám"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/teal_600"
+                                android:gravity="center"
+                                android:layout_marginTop="4dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Trực tiếp"
+                                android:textSize="10sp"
+                                android:textColor="@color/text_muted"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <!-- ONLINE -->
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/optOnline"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_margin="3dp"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:gravity="center"-->
+<!--                            android:padding="9dp"-->
+<!--                            android:background="@drawable/bg_type_normal"-->
+<!--                            android:clickable="true"-->
+<!--                            android:focusable="true">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="📹"-->
+<!--                                android:textSize="18sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Khám online"-->
+<!--                                android:textSize="11sp"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:textColor="@color/text_primary"-->
+<!--                                android:gravity="center"-->
+<!--                                android:layout_marginTop="4dp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Video call"-->
+<!--                                android:textSize="10sp"-->
+<!--                                android:textColor="@color/text_muted"-->
+<!--                                android:layout_marginTop="2dp" />-->
+
+<!--                        </LinearLayout>-->
+
+                        <!-- TAI_NHA -->
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/optTaiNha"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_margin="3dp"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:gravity="center"-->
+<!--                            android:padding="9dp"-->
+<!--                            android:background="@drawable/bg_type_normal"-->
+<!--                            android:clickable="true"-->
+<!--                            android:focusable="true">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="🏠"-->
+<!--                                android:textSize="18sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Tại nhà"-->
+<!--                                android:textSize="11sp"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:textColor="@color/text_primary"-->
+<!--                                android:gravity="center"-->
+<!--                                android:layout_marginTop="4dp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Bác sĩ đến"-->
+<!--                                android:textSize="10sp"-->
+<!--                                android:textColor="@color/text_muted"-->
+<!--                                android:layout_marginTop="2dp" />-->
+
+<!--                        </LinearLayout>-->
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ===== BOTTOM CTA BAR ===== -->
+    <LinearLayout
+        android:id="@+id/layoutCtaBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:weightSum="10"
+        style="?android:attr/buttonBarStyle">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHuy"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="3"
+            android:layout_marginEnd="6dp"
+            android:text="Huỷ"
+            android:textSize="13sp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:strokeColor="@color/border_light" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTiepTuc"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="7"
+            android:text="Tiếp tục"
+            android:textSize="13sp"
+            android:backgroundTint="@color/teal_600"
+            app:iconGravity="end"
+            style="@style/Widget.Material3.Button" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

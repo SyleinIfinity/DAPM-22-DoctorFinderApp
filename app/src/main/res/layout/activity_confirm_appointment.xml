@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Màn hình 3/3: Xác nhận phiếu đặt lịch
+    Tables: PHIEU_DAT_LICH, CHI_TIET_LICH, BAC_SI, NGUOI_DUNG
+    trangThaiPhieu enum: CHO_XAC_NHAN | DA_XAC_NHAN | DA_HUY | TU_CHOI
+    Trigger: khi bác sĩ DA_XAC_NHAN -> CHI_TIET_LICH.trangThai = DA_DAT
+             khi DA_HUY/TU_CHOI -> CHI_TIET_LICH.trangThai = TRONG
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_screen"
+    tools:context=".XacNhanDatLichActivity">
+
+    <!-- ===== TOP APP BAR ===== -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:navigationIcon="@drawable/ic_home"
+            app:title="Phiếu đặt lịch"
+            app:titleTextAppearance="@style/TextAppearance.Title"
+            app:titleCentered="false">
+
+            <!-- trangThaiPhieu chip - color updates dynamically -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTrangThai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="12dp"
+                android:text="Chờ xác nhận"
+                android:textSize="11sp"
+                android:textColor="@color/amber_800"
+                app:chipBackgroundColor="@color/amber_50"
+                app:chipStrokeWidth="0dp"
+                style="@style/Widget.Material3.Chip.Suggestion" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <!-- Full progress -->
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressStep"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:progress="100"
+            app:trackColor="@color/border_light"
+            app:indicatorColor="@color/teal_600"
+            app:trackCornerRadius="2dp" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- ===== SCROLLABLE BODY ===== -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollBody"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="88dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ===== SUCCESS HERO (White background) ===== -->
+            <LinearLayout
+                android:id="@+id/layoutHero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="18dp"
+                android:background="@color/white">
+
+                <!-- Success icon circle -->
+                <FrameLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/bg_circle_teal_light">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/teal_600" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvHeroTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phiếu đã được gửi!"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="6dp" />
+
+                <TextView
+                    android:id="@+id/tvHeroSub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bác sĩ sẽ xác nhận trong vòng 30 phút."
+                    android:textSize="12sp"
+                    android:textColor="@color/text_muted"
+                    android:gravity="center"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- maPhieuDatLich -->
+                <TextView
+                    android:id="@+id/tvMaPhieu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mã phiếu: #PDL-20260429-0085"
+                    android:textSize="12sp"
+                    android:textColor="@color/teal_600"
+                    android:fontFamily="monospace"
+                    android:layout_marginBottom="10dp" />
+
+                <!-- trangThaiPhieu status badge -->
+                <LinearLayout
+                    android:id="@+id/layoutStatusBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_status_pending"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <!-- status dot -->
+                    <View
+                        android:id="@+id/viewStatusDot"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
+                        android:background="@drawable/bg_dot_amber"
+                        android:layout_marginEnd="6dp" />
+
+                    <TextView
+                        android:id="@+id/tvStatusLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Chờ xác nhận"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/amber_800" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/border_light" />
+
+            <!-- ===== DETAIL CARD ===== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardChiTiet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/border_light"
+                    app:strokeWidth="0.5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Header -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_calendar"
+                                app:tint="@color/teal_600"
+                                android:layout_marginEnd="6dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Chi tiết lịch hẹn"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/border_light" />
+
+                        <!-- ── ROW: Bác sĩ (BAC_SI) ── -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="12dp"
+                            android:gravity="center_vertical">
+
+                            <FrameLayout
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/bg_icon_teal"
+                                android:layout_marginEnd="10dp">
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_person"
+                                    app:tint="@color/teal_600" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Bác sĩ"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted" />
+
+                                <TextView
+                                    android:id="@+id/tvBacSiName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="BS. Nguyễn Thanh Tùng"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
+                                    android:layout_marginTop="2dp" />
+
+                                <TextView
+                                    android:id="@+id/tvBacSiSpec"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Thần kinh học · TS Y khoa"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted"
+                                    android:layout_marginTop="1dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:marginStart="52dp"/>
+
+                        <!-- ── ROW: Thời gian (CHI_TIET_LICH) ── -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="12dp"
+                            android:gravity="center_vertical">
+
+                            <FrameLayout
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/bg_icon_teal"
+                                android:layout_marginEnd="10dp">
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_calendar"
+                                    app:tint="@color/teal_600" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Thời gian"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted" />
+
+                                <TextView
+                                    android:id="@+id/tvNgayKham"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Thứ Ba, 29/04/2026"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
+                                    android:layout_marginTop="2dp" />
+
+                                <TextView
+                                    android:id="@+id/tvGioKham"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="08:30 – 09:00 · 30 phút"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted"
+                                    android:layout_marginTop="1dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:marginStart="52dp"/>
+
+                        <!-- ── ROW: Địa điểm (diaChiLamViec, tenCoSoYTe) ── -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="12dp"
+                            android:gravity="center_vertical">
+
+                            <FrameLayout
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/bg_icon_teal"
+                                android:layout_marginEnd="10dp">
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_location_pin"
+                                    app:tint="@color/teal_600" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Địa điểm"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted" />
+
+                                <TextView
+                                    android:id="@+id/tvLoaiKham"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tại phòng khám"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
+                                    android:layout_marginTop="2dp" />
+
+                                <TextView
+                                    android:id="@+id/tvDiaChi"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="BV Bạch Mai, 78 Giải Phóng, HN"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted"
+                                    android:layout_marginTop="1dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:marginStart="52dp"/>
+
+                        <!-- ── ROW: Lý do khám (loaiPhieu, trieuChungGhiChu) ── -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="12dp"
+                            android:gravity="center_vertical">
+
+                            <FrameLayout
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/bg_icon_teal"
+                                android:layout_marginEnd="10dp">
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_clipboard"
+                                    app:tint="@color/teal_600" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Lý do khám"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted" />
+
+                                <TextView
+                                    android:id="@+id/tvLoaiPhieu"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Khám lần đầu"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
+                                    android:layout_marginTop="2dp" />
+
+                                <TextView
+                                    android:id="@+id/tvTrieuChung"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Đau đầu liên tục, chóng mặt buổi sáng"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted"
+                                    android:layout_marginTop="1dp"
+                                    android:maxLines="2"
+                                    android:ellipsize="end" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View android:layout_width="match_parent" android:layout_height="0.5dp" android:background="@color/border_light" android:marginStart="52dp"/>
+
+                        <!-- ── ROW: Bệnh nhân (NGUOI_DUNG) ── -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="12dp"
+                            android:gravity="center_vertical">
+
+                            <FrameLayout
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/bg_icon_teal"
+                                android:layout_marginEnd="10dp">
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_person"
+                                    app:tint="@color/teal_600" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Bệnh nhân"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted" />
+
+                                <TextView
+                                    android:id="@+id/tvBenhNhanName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Trần Văn An"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary"
+                                    android:layout_marginTop="2dp" />
+
+                                <TextView
+                                    android:id="@+id/tvBenhNhanSdt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="SĐT: 0901 234 567"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_muted"
+                                    android:layout_marginTop="1dp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ===== LƯU Ý TRƯỚC KHÁM ===== -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardLuuY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/border_light"
+                    app:strokeWidth="0.5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_info_circle"
+                                app:tint="@color/teal_600"
+                                android:layout_marginEnd="6dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Lưu ý trước khi khám"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="@color/border_light" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="14dp">
+
+                            <!-- Note 1 -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:orientation="horizontal" android:layout_marginBottom="10dp" android:gravity="top">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:text="01" android:textSize="12sp" android:textStyle="bold"
+                                    android:textColor="@color/teal_600" android:layout_marginEnd="8dp"
+                                    android:fontFamily="monospace" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                                    android:layout_weight="1" android:text="Mang theo CCCD và sổ khám bệnh (nếu có) khi đến phòng khám."
+                                    android:textSize="12sp" android:textColor="@color/text_primary" android:lineSpacingExtra="2dp" />
+                            </LinearLayout>
+
+                            <!-- Note 2 -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:orientation="horizontal" android:layout_marginBottom="10dp" android:gravity="top">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:text="02" android:textSize="12sp" android:textStyle="bold"
+                                    android:textColor="@color/teal_600" android:layout_marginEnd="8dp"
+                                    android:fontFamily="monospace" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                                    android:layout_weight="1" android:text="Có mặt trước giờ hẹn ít nhất 10 phút để làm thủ tục."
+                                    android:textSize="12sp" android:textColor="@color/text_primary" android:lineSpacingExtra="2dp" />
+                            </LinearLayout>
+
+                            <!-- Note 3 -->
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                                android:orientation="horizontal" android:gravity="top">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                    android:text="03" android:textSize="12sp" android:textStyle="bold"
+                                    android:textColor="@color/teal_600" android:layout_marginEnd="8dp"
+                                    android:fontFamily="monospace" />
+                                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                                    android:layout_weight="1" android:text="Nếu cần huỷ lịch, vui lòng huỷ trước 2 tiếng để tránh bị khoá slot."
+                                    android:textSize="12sp" android:textColor="@color/text_primary" android:lineSpacingExtra="2dp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- ===== BOTTOM CTA BAR ===== -->
+    <LinearLayout
+        android:id="@+id/layoutCtaBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:weightSum="10">
+
+        <!-- Huỷ lịch -> trangThaiPhieu = DA_HUY -> trigger releases slot -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHuyLich"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="3"
+            android:layout_marginEnd="4dp"
+            android:text="Huỷ lịch"
+            android:textSize="12sp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:strokeColor="@color/border_light" />
+
+        <!-- Nhắn tin -> mở CUOC_HOI_THOAI -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNhanTin"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="3"
+            android:layout_marginEnd="4dp"
+            android:text="Nhắn tin"
+            android:textSize="12sp"
+            android:backgroundTint="@color/teal_50"
+            android:textColor="@color/teal_600"
+            app:icon="@drawable/ic_message"
+            app:iconSize="14dp"
+            app:iconTint="@color/teal_600"
+            style="@style/Widget.Material3.Button" />
+
+        <!-- Về trang chủ -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTrangChu"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="4"
+            android:text="Trang chủ"
+            android:textSize="12sp"
+            android:backgroundTint="@color/teal_600"
+            app:icon="@drawable/ic_home"
+            app:iconSize="14dp"
+            style="@style/Widget.Material3.Button" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

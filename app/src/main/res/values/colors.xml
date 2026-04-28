@@ -30,8 +30,6 @@
 
     <!-- Background -->
     <color name="bgApp">#F0F6F6</color>
-    <color name="bgCard">#FFFFFF</color>
-    <color name="black">#000000</color>
     <color name="online_green">#11D02F</color>
 
     <!-- Text Colors -->
@@ -72,12 +70,76 @@
     <color name="text_hint">#9CA3AF</color>
     <color name="star_yellow">#F59E0B</color>
     <color name="heart_red">#EF4444</color>
-
     <color name="card_shadow">#1A000000</color>
     <color name="divider">#E5E7EB</color>
     <color name="tab_inactive">#9CA3AF</color>
     <color name="bottom_nav_bg">#FFFFFF</color>
     <color name="icon_gray">#6B7280</color>
+
+
+    <color name="colorPrimaryLight">#14b8a6</color>
+    <color name="colorPrimaryBg">#E0F7F4</color>
+    <color name="colorBackground">#F0F6F6</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorTextPrimary">#1A1A2E</color>
+    <color name="colorTextSecondary">#4B5563</color>
+    <color name="colorTextHint">#9CA3AF</color>
+    <color name="colorTextMuted">#6B7280</color>
+    <color name="colorBorder">#E5E7EB</color>
+    <color name="colorOnline">#22c55e</color>
+    <color name="colorStar">#F59E0B</color>
+    <color name="colorStarOff">#D1D5DB</color>
+    <color name="colorDocBg">#FEF3C7</color>
+    <color name="colorDocIcon">#D97706</color>
+    <color name="colorSlotFull">#F3F4F6</color>
+    <color name="colorSlotFullText">#9CA3AF</color>
+    <color name="colorReviewBg">#F9FAFB</color>
+    <color name="colorRevAvatarAlt">#FEF3C7</color>
+    <color name="colorRevAvatarAltText">#D97706</color>
+
+
+
+    <color name="teal_50">#E0F7F4</color>
+    <color name="teal_100">#B2EBE0</color>
+    <color name="teal_400">#14b8a6</color>
+    <color name="teal_600">#0D9488</color>
+
+    <color name="teal_800">#085A52</color>
+    <color name="teal_900">#054039</color>
+
+    <!-- Amber (warning / CHO_XAC_NHAN status) -->
+    <color name="amber_50">#FEF3C7</color>
+    <color name="amber_100">#FDE68A</color>
+    <color name="amber_700">#D97706</color>
+    <color name="amber_800">#92400E</color>
+
+    <!-- Green (DA_XAC_NHAN status) -->
+    <color name="green_50">#D1FAE5</color>
+    <color name="green_700">#059669</color>
+    <color name="green_800">#065F46</color>
+
+    <!-- Red (DA_HUY / TU_CHOI status) -->
+    <color name="red_50">#FEE2E2</color>
+    <color name="red_700">#DC2626</color>
+    <color name="red_800">#991B1B</color>
+
+    <!-- Neutrals -->
+
+    <color name="bg_screen">#F0F6F6</color>
+    <color name="border_light">#1E000000</color>
+
+    <!-- Text -->
+
+
+    <!-- Slot states -->
+    <color name="slot_available_border">#0D9488</color>
+    <color name="slot_available_text">#0D9488</color>
+    <color name="slot_full_bg">#F3F4F6</color>
+    <color name="slot_full_border">#D1D5DB</color>
+    <color name="slot_full_text">#9CA3AF</color>
+    <color name="slot_selected_bg">#0D9488</color>
+    <color name="slot_selected_text">#FFFFFF</color>
+
 
 </resources>
 

@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_doctor_profile_detail.xml
+    Màn hình chi tiết hồ sơ bác sĩ
+    Tương ứng: doctor_profile_detail.html
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <!-- ───────────── TOP BAR ───────────── -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:spacing="10dp"
+        android:background="@color/colorWhite"
+        android:elevation="2dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Nút quay lại -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_icon_btn_circle"
+            android:src="@drawable/ic_arow_back"
+            android:contentDescription="Quay lại"
+            android:padding="8dp" />
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/tvTopTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="@string/title_doctor_profile"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/colorTextPrimary" />
+
+        <!-- Nút chia sẻ -->
+        <TextView
+            android:id="@+id/tvShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+    <!-- ───────────── SCROLLABLE CONTENT ───────────── -->
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="68dp"
+        android:scrollbars="none"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ═══════════════════════════════════════
+                 HERO SECTION (Avatar + Tên + Stats)
+            ═══════════════════════════════════════ -->
+            <LinearLayout
+                android:id="@+id/heroSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="16dp"
+                android:background="@color/colorWhite"
+                android:layout_marginBottom="10dp">
+
+                <!-- Hero Top: Avatar + Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="14dp">
+
+                    <!-- Avatar + verified badge -->
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="14dp">
+
+                        <!-- Avatar circle -->
+                        <TextView
+                            android:id="@+id/tvAvatar"
+                            android:layout_width="76dp"
+                            android:layout_height="76dp"
+                            android:gravity="center"
+                            android:text="@string/avatar_initials"
+                            android:textSize="26sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/colorWhite"
+                            android:background="@drawable/bg_avatar_circle" />
+
+                        <!-- Verified badge -->
+                        <ImageView
+                            android:id="@+id/ivVerifiedBadge"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="bottom|end"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:src="@drawable/ic_check"
+                            android:background="@drawable/bg_verified_badge"
+                            android:padding="3dp"
+                            android:contentDescription="Đã xác minh" />
+
+                    </FrameLayout>
+
+                    <!-- Doctor Info -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvDoctorName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/doctor_name"
+                            android:textSize="17sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/colorTextPrimary"
+                            android:layout_marginBottom="3dp" />
+
+                        <!-- Degree chip -->
+                        <TextView
+                            android:id="@+id/tvDegreeChip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/doctor_degree"
+                            android:textSize="11sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/colorPrimary"
+                            android:background="@drawable/bg_chip_teal"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:layout_marginBottom="5dp" />
+
+                        <TextView
+                            android:id="@+id/tvSpecialty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/doctor_specialty"
+                            android:textSize="13sp"
+                            android:textColor="@color/colorTextSecondary"
+                            android:layout_marginBottom="4dp" />
+
+                        <!-- Hospital with icon -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:src="@drawable/ic_home"
+                                android:layout_marginEnd="4dp"
+                                android:contentDescription="@null" />
+
+                            <TextView
+                                android:id="@+id/tvHospital"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/doctor_hospital"
+                                android:textSize="12sp"
+                                android:textColor="@color/colorTextMuted" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Status row + Follow button -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="0dp">
+
+                    <!-- Online dot -->
+                    <View
+                        android:layout_width="7dp"
+                        android:layout_height="7dp"
+                        android:background="@drawable/bg_dot_online"
+                        android:layout_marginEnd="6dp" />
+
+                    <TextView
+                        android:id="@+id/tvStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/status_verified"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/colorOnline" />
+
+                    <!-- Follow button -->
+                    <LinearLayout
+                        android:id="@+id/btnFollow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:background="@drawable/bg_follow_btn"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:src="@drawable/ic_heart"
+                            android:layout_marginEnd="5dp"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:id="@+id/tvFollowText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btn_follow"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/colorPrimary" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Stats row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_stats_row"
+                    android:layout_marginTop="14dp">
+
+                    <!-- Năm KN -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/stat_years_xp"
+                            android:textSize="17sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/colorPrimary" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_years_xp"
+                            android:textSize="10sp"
+                            android:textColor="@color/colorTextHint"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+
+                    <View android:layout_width="0.5dp" android:layout_height="match_parent" android:background="@color/colorBorder" />
+
+                    <!-- Đánh giá -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/stat_rating"
+                            android:textSize="17sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/colorPrimary" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_rating"
+                            android:textSize="10sp"
+                            android:textColor="@color/colorTextHint"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+
+                    <View android:layout_width="0.5dp" android:layout_height="match_parent" android:background="@color/colorBorder" />
+
+                    <!-- Lượt khám -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/stat_patients"
+                            android:textSize="17sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/colorPrimary" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_patients"
+                            android:textSize="10sp"
+                            android:textColor="@color/colorTextHint"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+
+                    <View android:layout_width="0.5dp" android:layout_height="match_parent" android:background="@color/colorBorder" />
+
+                    <!-- Phí khám -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/stat_fee"
+                            android:textSize="17sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/colorPrimary" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_fee"
+                            android:textSize="10sp"
+                            android:textColor="@color/colorTextHint"
+                            android:layout_marginTop="2dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <!-- END HERO -->
+
+            <!-- ═══════════════════════════════════════
+                 CARD: THÔNG TIN CHUYÊN MÔN
+            ═══════════════════════════════════════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_card"
+                android:elevation="1dp">
+
+                <!-- Section header -->
+                <include layout="@layout/item_section_header"
+                    android:id="@+id/headerInfo"
+                    app:headerIcon="@drawable/ic_info_circle"
+                    app:headerTitle="@string/section_info" />
+
+                <!-- Row: Chuyên khoa -->
+                <include layout="@layout/item_info_row"
+                    android:id="@+id/rowSpecialty"
+                    app:rowIcon="@drawable/ic_activity"
+                    app:rowLabel="@string/lbl_specialty"
+                    app:rowValue="@string/val_specialty" />
+
+                <!-- Row: Trình độ -->
+                <include layout="@layout/item_info_row"
+                    android:id="@+id/rowDegree"
+                    app:rowIcon="@drawable/ic_book"
+                    app:rowLabel="@string/lbl_degree"
+                    app:rowValue="@string/val_degree" />
+
+                <!-- Row: Loại hình -->
+                <include layout="@layout/item_info_row"
+                    android:id="@+id/rowType"
+                    app:rowIcon="@drawable/ic_briefcase"
+                    app:rowLabel="@string/lbl_type"
+                    app:rowValue="@string/val_type" />
+
+                <!-- Row: Nơi làm việc -->
+                <include layout="@layout/item_info_row"
+                    android:id="@+id/rowWorkplace"
+                    app:rowIcon="@drawable/ic_map_pin"
+                    app:rowLabel="@string/lbl_workplace"
+                    app:rowValue="@string/val_workplace" />
+
+                <!-- Row: Số CCHN (last, no divider) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:gravity="top">
+
+                    <FrameLayout
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="1dp"
+                        android:background="@drawable/bg_info_icon">
+                        <ImageView
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_clipboard"
+                            android:contentDescription="@null" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_license"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorTextHint"
+                            android:layout_marginBottom="2dp" />
+                        <TextView
+                            android:id="@+id/tvLicenseNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/val_license"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorTextPrimary"
+                            android:fontFamily="monospace" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <!-- END CARD INFO -->
+
+            <!-- ═══════════════════════════════════════
+                 CARD: GIỚI THIỆU BẢN THÂN
+            ═══════════════════════════════════════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_card"
+                android:elevation="1dp">
+
+                <include layout="@layout/item_section_header"
+                    android:id="@+id/headerBio"
+                    app:headerIcon="@drawable/ic_user"
+                    app:headerTitle="@string/section_bio" />
+
+                <TextView
+                    android:id="@+id/tvBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="14dp"
+                    android:text="@string/bio_text"
+                    android:textSize="13sp"
+                    android:textColor="#374151"
+                    android:lineSpacingMultiplier="1.6" />
+
+                <TextView
+                    android:id="@+id/tvReadMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="@string/read_more"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/colorPrimary"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+            </LinearLayout>
+            <!-- END CARD BIO -->
+
+            <!-- ═══════════════════════════════════════
+                 CARD: ĐÁNH GIÁ
+            ═══════════════════════════════════════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_card"
+                android:elevation="1dp">
+
+                <include layout="@layout/item_section_header"
+                    android:id="@+id/headerRating"
+                    app:headerIcon="@drawable/ic_star"
+                    app:headerTitle="@string/section_rating" />
+
+                <!-- Big rating row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/tvBigRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/big_rating"
+                        android:textSize="36sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/colorTextPrimary"
+                        android:layout_marginEnd="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- 5 stars -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="14sp" android:textColor="@color/colorStar" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="14sp" android:textColor="@color/colorStar" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="14sp" android:textColor="@color/colorStar" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="14sp" android:textColor="@color/colorStar" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="★" android:textSize="14sp" android:textColor="@color/colorStar" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvRatingCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/rating_count"
+                            android:textSize="11sp"
+                            android:textColor="@color/colorTextHint"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Review 1 -->
+                <include layout="@layout/item_review_card"
+                    android:id="@+id/review1" />
+
+                <!-- Review 2 -->
+                <include layout="@layout/item_review_card_alt"
+                    android:id="@+id/review2" />
+
+                <Space android:layout_width="match_parent" android:layout_height="4dp" />
+
+            </LinearLayout>
+            <!-- END CARD RATING -->
+
+
+            <!-- ═══════════════════════════════════════
+                 CARD: TÀI LIỆU & CHỨNG CHỈ
+            ═══════════════════════════════════════ -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_card"
+                android:elevation="1dp">
+
+                <include layout="@layout/item_section_header"
+                    android:id="@+id/headerDocs"
+                    app:headerIcon="@drawable/ic_file"
+                    app:headerTitle="@string/section_docs" />
+
+                <!-- Doc row 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/bg_divider_bottom">
+
+                    <FrameLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bg_doc_icon">
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_folder"
+                            android:contentDescription="@null" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/doc1_name"
+                        android:textSize="12sp"
+                        android:textColor="#374151" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/doc_view"
+                        android:textSize="11sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                </LinearLayout>
+
+                <!-- Doc row 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/bg_divider_bottom">
+
+                    <FrameLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bg_doc_icon">
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_folder"
+                            android:contentDescription="@null" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/doc2_name"
+                        android:textSize="12sp"
+                        android:textColor="#374151" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/doc_view"
+                        android:textSize="11sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                </LinearLayout>
+
+                <!-- Doc row 3 (last - no divider) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <FrameLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bg_doc_icon">
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_folder"
+                            android:contentDescription="@null" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/doc3_name"
+                        android:textSize="12sp"
+                        android:textColor="#374151" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/doc_view"
+                        android:textSize="11sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <!-- END CARD DOCS -->
+
+            <Space android:layout_width="match_parent" android:layout_height="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ═══════════════════════════════════════
+         BOTTOM CTA BAR (fixed)
+    ═══════════════════════════════════════ -->
+    <LinearLayout
+        android:id="@+id/ctaBar"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@color/colorWhite"
+        android:elevation="8dp"
+        app:layout_anchor="@id/scrollContent"
+        app:layout_anchorGravity="bottom"
+        android:layout_gravity="bottom">
+
+        <!-- Message icon button -->
+        <FrameLayout
+            android:id="@+id/btnMessage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_cta_icon_btn"
+            android:clickable="true"
+            android:focusable="true">
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_message"
+                android:contentDescription="Nhắn tin" />
+        </FrameLayout>
+
+        <!-- View schedule button -->
+        <LinearLayout
+            android:id="@+id/btnViewSchedule"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/bg_cta_secondary"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_calendar"
+                android:layout_marginEnd="6dp"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_schedule"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
+
+        <!-- Book appointment button -->
+        <LinearLayout
+            android:id="@+id/btnBook"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/bg_cta_primary"
+            android:clickable="true"
+            android:focusable="true">
+
+<!--            <ImageView-->
+<!--                android:layout_width="16dp"-->
+<!--                android:layout_height="16dp"-->
+<!--                android:src="@drawable/ic_arow_back"-->
+<!--                android:layout_marginEnd="6dp"-->
+<!--                android:contentDescription="@null" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_book"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!-- END CTA BAR -->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
