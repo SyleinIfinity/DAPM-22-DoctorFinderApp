@@ -175,4 +175,56 @@
         <item name="android:focusable">false</item>
     </style>
 
+
+    <style name="TextAppearance.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.TabLabel" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- ===== SLOT BUTTON STYLES ===== -->
+
+    <!-- Slot: còn trống (CHI_TIET_LICH.trangThai = TRONG) -->
+    <style name="Widget.Slot.Available" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/slot_available_text</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <!-- Slot: đã đặt / đang giữ (DANG_GIU / DA_DAT) -->
+    <style name="Widget.Slot.Full" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/slot_full_text</item>
+        <item name="android:backgroundTint">@color/slot_full_bg</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:enabled">false</item>
+    </style>
+
+    <!-- Slot: đang chọn (selected) -->
+    <style name="Widget.Slot.Selected" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/slot_selected_text</item>
+        <item name="android:backgroundTint">@color/slot_selected_bg</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <!-- ===== SHAPE APPEARANCE ===== -->
+    <style name="ShapeAppearance.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>
