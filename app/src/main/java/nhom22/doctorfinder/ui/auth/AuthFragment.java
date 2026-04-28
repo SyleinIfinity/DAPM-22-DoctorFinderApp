@@ -1,39 +1,26 @@
 package nhom22.doctorfinder.ui.auth;
 
-import androidx.lifecycle.ViewModelProvider;
-
-import android.os.Bundle;
-import nhom22.doctorfinder.ui.auth.AuthViewModel;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import nhom22.doctorfinder.R;
 
-public class AuthFragment extends Fragment {
+public abstract class AuthFragment extends Fragment {
 
-    private AuthViewModel mViewModel;
-
-    public static AuthFragment newInstance() {
-        return new AuthFragment();
+    protected void navigateToLogin() {
+        NavController navController = NavHostFragment.findNavController(this);
+        if (!navController.popBackStack(R.id.loginFragment, false)) {
+            navController.navigate(R.id.action_registerFragment_to_loginFragment);
+        }
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        // TODO: Use the ViewModel
+    protected void navigateToRegister() {
+        NavController navController = NavHostFragment.findNavController(this);
+        if (navController.getCurrentDestination() != null
+                && navController.getCurrentDestination().getId() == R.id.registerFragment) {
+            return;
+        }
+        navController.navigate(R.id.action_loginFragment_to_registerFragment);
     }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_auth, container, false);
-    }
-
 }

@@ -36,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:background="@drawable/bg_tag_pill"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
@@ -48,28 +49,33 @@
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     android:background="@drawable/bg_banner_gradient"
-                    android:layout_marginEnd="6dp"/>
+                    android:layout_marginEnd="6dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:letterSpacing="0.02"
                     android:text="Tài khoản mới"
                     android:textColor="@color/primary"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:letterSpacing="0.02"/>
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
             </LinearLayout>
 
             <!-- Title -->
             <TextView
-                android:layout_width="304dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:lineSpacingMultiplier="1.2"
-                android:text="Tạo tài khoản\ncủa bạn"
-                android:textColor="@color/text_primary"
-                android:textSize="26sp"
-                android:textStyle="bold" />
+                android:text="TẠO TÀI KHOẢN CỦA BẠN"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-black"
+                android:maxLines="1"
+                android:ellipsize="end" />
 
             <!-- Subtitle -->
             <TextView

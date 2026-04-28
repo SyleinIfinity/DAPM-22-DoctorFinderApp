@@ -154,7 +154,6 @@
         style="@style/Widget.App.BottomNavigationView"
         app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@color/bottom_nav_color_selector"
-        app:itemTextColor="@color/bottom_nav_color_selector"
-        app:selectedItemId="@id/nav_theo_doi" />
+        app:itemTextColor="@color/bottom_nav_color_selector" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

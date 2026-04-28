@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import android.view.LayoutInflater;
@@ -17,12 +16,13 @@ import android.widget.Toast;
 
 import nhom22.doctorfinder.R;
 
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends AuthFragment {
 
     private RegisterViewModel mViewModel;
     private TextView tabMember, tabDoctor, tvLogin;
     private LinearLayout layoutDoctorInfo;
     private Button btnRegister;
+    private View btnBack;
     private boolean isDoctorMode = false;
 
     public static RegisterFragment newInstance() {
@@ -34,6 +34,7 @@ public class RegisterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         
+        btnBack = view.findViewById(R.id.btnBack);
         tabMember = view.findViewById(R.id.tabMember);
         tabDoctor = view.findViewById(R.id.tabDoctor);
         layoutDoctorInfo = view.findViewById(R.id.layoutDoctorInfo);
@@ -78,5 +79,12 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> navigateToLogin());
+        }
+        if (tvLogin != null) {
+            tvLogin.setOnClickListener(v -> navigateToLogin());
+        }
     }
 }

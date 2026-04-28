@@ -2,7 +2,7 @@
 <!--
     Bottom Navigation Menu
     File: res/menu/bottom_nav_menu.xml
-    Tab "Theo dõi" là tab active (selectedItemId trong layout)
+    Tab "Theo dõi" là tab active (android:checked trong menu)
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -24,6 +24,7 @@
     <item
         android:id="@+id/nav_theo_doi"
         android:icon="@drawable/ic_heart"
+        android:checked="true"
         android:title="@string/nav_theo_doi" />
 
     <item

@@ -1,20 +1,19 @@
 package nhom22.doctorfinder.ui.auth;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import nhom22.doctorfinder.R;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends AuthFragment {
 
     private LoginViewModel mViewModel;
 
@@ -29,10 +28,14 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-        // TODO: Use the ViewModel
+
+        TextView tvRegister = view.findViewById(R.id.tvRegister);
+        if (tvRegister != null) {
+            tvRegister.setOnClickListener(v -> navigateToRegister());
+        }
     }
 
 }

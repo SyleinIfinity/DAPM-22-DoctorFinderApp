@@ -220,7 +220,7 @@
                     android:layout_height="32dp"
                     android:layout_marginStart="4dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_emoticons"
+                    android:src="@drawable/ic_menu_emoticons"
                     app:tint="#B0B0B0" />
             </LinearLayout>
 
