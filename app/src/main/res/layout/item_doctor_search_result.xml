@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0.5dp"
+    app:strokeColor="#E5E7EB">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <!-- TOP ROW: Avatar + Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Avatar -->
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="12dp">
+
+                <ImageView
+                    android:id="@+id/ivDoctorAvatar"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/bg_avatar_teal"
+                    android:contentDescription="Ảnh bác sĩ"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/ic_doctor_placeholder" />
+
+                <!-- Online indicator dot -->
+                <View
+                    android:id="@+id/onlineDot"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="bottom|end"
+                    android:background="@drawable/bg_online_dot"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <!-- Info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Name + Badge row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tvDoctorName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="BS. Nguyễn Thị Lan"
+                        android:textSize="14sp"
+                        android:textColor="#1A1A2E"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/badgeTop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:layout_marginStart="6dp"
+                        android:text="Top bác sĩ"
+                        android:textSize="10sp"
+                        android:textColor="#B45309"
+                        android:fontFamily="sans-serif-medium"
+                        android:background="@drawable/bg_badge_amber"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <!-- Specialty + Experience -->
+                <TextView
+                    android:id="@+id/tvSpecialty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thần kinh • Bác sĩ • 15 năm KN"
+                    android:textSize="11sp"
+                    android:textColor="#0D9488"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginTop="2dp"
+                    tools:ignore="HardcodedText" />
+
+                <!-- Hospital -->
+                <TextView
+                    android:id="@+id/tvHospital"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🏥 BV Đà Nẵng"
+                    android:textSize="11sp"
+                    android:textColor="#6B7280"
+                    android:layout_marginTop="3dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:ignore="HardcodedText" />
+
+                <!-- Rating row -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:id="@+id/tvStars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="★★★★★"
+                        android:textSize="11sp"
+                        android:textColor="#F59E0B" />
+
+                    <TextView
+                        android:id="@+id/tvRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" 4.9"
+                        android:textSize="11sp"
+                        android:textColor="#1A1A2E"
+                        android:fontFamily="sans-serif-medium"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/tvReviewCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" (312 đánh giá)"
+                        android:textSize="11sp"
+                        android:textColor="#6B7280"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- STATUS BADGES ROW -->
+        <LinearLayout
+            android:id="@+id/badgesRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/badgeAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="9dp"
+                android:paddingEnd="9dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Còn lịch hôm nay"
+                android:textSize="10sp"
+                android:textColor="#0F766E"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/bg_badge_teal_outline"
+                android:layout_marginEnd="5dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/badgeOnline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="9dp"
+                android:paddingEnd="9dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Tư vấn Online"
+                android:textSize="10sp"
+                android:textColor="#4338CA"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/bg_badge_indigo"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- SPECIALTY TAGS -->
+        <LinearLayout
+            android:id="@+id/tagsRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tag1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="Đau đầu"
+                android:textSize="11sp"
+                android:textColor="#6B7280"
+                android:background="@drawable/bg_tag"
+                android:layout_marginEnd="5dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tag2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="Động kinh"
+                android:textSize="11sp"
+                android:textColor="#6B7280"
+                android:background="@drawable/bg_tag"
+                android:layout_marginEnd="5dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tag3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="Parkinson"
+                android:textSize="11sp"
+                android:textColor="#6B7280"
+                android:background="@drawable/bg_tag"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
+        <!-- DIVIDER -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#E5E7EB"
+            android:layout_marginTop="10dp" />
+
+        <!-- FOOTER: Price + Book Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giá khám"
+                    android:textSize="10sp"
+                    android:textColor="#9CA3AF" />
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="300.000đ / lần"
+                    android:textSize="14sp"
+                    android:textColor="#0D9488"
+                    android:fontFamily="sans-serif-medium"
+                    tools:ignore="HardcodedText" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBookAppointment"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Đặt lịch"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:backgroundTint="#0D9488"
+                app:cornerRadius="50dp"
+                app:elevation="0dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
