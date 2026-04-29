@@ -10,6 +10,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import android.os.Bundle;
 
 import nhom22.doctorfinder.ui.home.HomeFragment;
+import nhom22.doctorfinder.ui.user.booking.history.HistoryFragment;
 import nhom22.doctorfinder.ui.user.chat.ChatListFragment;
 import nhom22.doctorfinder.ui.user.follow.FollowFragment;
 
@@ -30,6 +31,13 @@ public class UserActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_trang_chu) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, HomeFragment.newInstance())
+                        .commit();
+                updateBottomNavIconSizes(bottomNavigation, item.getItemId());
+                return true;
+            }
+            if (item.getItemId() == R.id.nav_lich_hen) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, HistoryFragment.newInstance())
                         .commit();
                 updateBottomNavIconSizes(bottomNavigation, item.getItemId());
                 return true;

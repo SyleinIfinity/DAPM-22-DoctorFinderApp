@@ -143,5 +143,52 @@
     <color name="slot_selected_text">#FFFFFF</color>
 
 
+    <color name="brand_primary">#24D5DB</color>
+    <color name="brand_dark">#0FA8AE</color>
+    <color name="brand_light">#E8FAFB</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="white_25">#40FFFFFF</color>
+
+    <!-- Backgrounds -->
+    <color name="bg_page">#F5F7F8</color>
+    <color name="bg_pill">#F2F2F2</color>
+    <color name="bg_note">#F8F9FA</color>
+
+    <!-- Text -->
+
+    <color name="text_tertiary">#9CA3AF</color>
+
+
+
+    <!-- Status: Chờ xác nhận (Pending) -->
+    <color name="status_pending_bg">#FFF8EC</color>
+    <color name="status_pending_text">#A06000</color>
+
+    <!-- Status: Đã khám (Done) -->
+    <color name="status_done_bg">#F0FDF4</color>
+    <color name="status_done_text">#166534</color>
+
+    <!-- Status: Đã hủy (Cancelled) -->
+    <color name="status_cancelled_bg">#FEF2F2</color>
+    <color name="status_cancelled_text">#991B1B</color>
+
+    <!-- Status: Đã xác nhận (Confirmed) -->
+    <color name="status_confirmed_bg">#E8FAFB</color>
+    <color name="status_confirmed_text">#0FA8AE</color>
+
+    <!-- Avatar tints (light bg + dark text pairs) -->
+    <color name="avatar_teal_bg">#DCFAFA</color>
+    <color name="avatar_teal_text">#0A8A8E</color>
+    <color name="avatar_amber_bg">#FEF9EC</color>
+    <color name="avatar_amber_text">#92640A</color>
+    <color name="avatar_pink_bg">#FDF0F5</color>
+    <color name="avatar_pink_text">#9A2D56</color>
+    <color name="avatar_green_bg">#EDFBEC</color>
+    <color name="avatar_green_text">#1A6B18</color>
+
+    <!-- Tab ripple -->
+    <color name="tab_ripple">#33FFFFFF</color>
+
+
 </resources>
 
