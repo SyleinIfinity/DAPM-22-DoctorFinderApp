@@ -22,7 +22,7 @@
         android:background="@color/white"
         app:elevation="0dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
+            <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -41,8 +41,7 @@
                 android:textSize="11sp"
                 android:textColor="@color/teal_600"
                 app:chipBackgroundColor="@color/teal_50"
-                app:chipStrokeWidth="0dp"
-                style="@style/Widget.Material3.Chip.Suggestion" />
+                app:chipStrokeWidth="0dp" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 

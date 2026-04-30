@@ -12,6 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DoctorFinder">
         <activity
+            android:name=".ui.user.search.SearchResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user.search.SearchBoxActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user.profile.DoctorProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user.schedule.SelectCenlendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user.schedule.SchedulingInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user.schedule.ConfirmAppointmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.user.chat.ChatBoxActivity"
             android:exported="false" />
         <activity

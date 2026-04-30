@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Chip text appearance used across the app to avoid missing TextAppearance -->
+    <style name="TextAppearance.App.Chip" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!-- (Removed explicit Widget.App.Chip because some AGP setups can't resolve chipTextAppearance
+         Use app:chipTextAppearance on individual Chip views instead) -->
+
+</resources>

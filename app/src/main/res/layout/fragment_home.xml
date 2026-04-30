@@ -92,6 +92,7 @@
 
             <!-- SEARCH BAR -->
             <LinearLayout
+                android:id="@+id/searchBarContainer"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginStart="20dp"
@@ -101,7 +102,10 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
-                android:paddingEnd="12dp">
+                android:paddingEnd="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -109,19 +113,19 @@
                     android:src="@drawable/ic_search"
                     app:tint="#9CA3AF" />
 
-                <EditText
+                <TextView
+                    android:id="@+id/tvSearchHint"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="Tìm bác sĩ, bệnh, triệu chứng..."
-                    android:textColorHint="#9CA3AF"
-                    android:textColor="#1A1A2E"
-                    android:textSize="14sp"
+                    android:gravity="center_vertical"
                     android:paddingStart="10dp"
-                    android:inputType="text"
-                    android:imeOptions="actionSearch"
-                    android:singleLine="true" />
+                    android:text="Tìm bác sĩ, bệnh, triệu chứng..."
+                    android:textColor="#9CA3AF"
+                    android:textSize="14sp"
+                    android:singleLine="true"
+                    android:ellipsize="end" />
 
                 <FrameLayout
                     android:layout_width="40dp"
