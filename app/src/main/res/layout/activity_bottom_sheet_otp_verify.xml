@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/bottom_sheet_otp_verify.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_bottom_sheet"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="32dp">
+
+    <!-- Drag handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_drag_handle"/>
+
+    <!-- Header row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XÁC NHẬN EMAIL"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.04"
+                android:textColor="@color/text_primary"/>
+
+            <TextView
+                android:id="@+id/tvEmailHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="@color/text_muted"
+                android:layout_marginTop="2dp"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_close"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="Đóng"/>
+    </LinearLayout>
+
+    <!-- Instruction -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nhập mã 6 chữ số được gửi đến email của bạn."
+        android:textSize="13sp"
+        android:textColor="@color/text_muted"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- OTP boxes row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="8dp">
+
+        <EditText android:id="@+id/otp1"
+            style="@style/Widget.App.OtpBox"/>
+        <EditText android:id="@+id/otp2"
+            style="@style/Widget.App.OtpBox"/>
+        <EditText android:id="@+id/otp3"
+            style="@style/Widget.App.OtpBox"/>
+
+        <!-- Separator -->
+        <View
+            android:layout_width="12dp"
+            android:layout_height="2dp"
+            android:background="@color/text_muted"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"/>
+
+        <EditText android:id="@+id/otp4"
+            style="@style/Widget.App.OtpBox"/>
+        <EditText android:id="@+id/otp5"
+            style="@style/Widget.App.OtpBox"/>
+        <EditText android:id="@+id/otp6"
+            style="@style/Widget.App.OtpBox"/>
+    </LinearLayout>
+
+    <!-- Status message (error / success) -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone"/>
+
+    <!-- Countdown + Resend -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gửi lại sau "
+            android:textSize="13sp"
+            android:textColor="@color/text_muted"/>
+
+        <TextView
+            android:id="@+id/tvCountdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:text="02:00"/>
+
+        <TextView
+            android:id="@+id/tvResend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" • Gửi lại"
+            android:textSize="13sp"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
+            android:visibility="visible"/>
+    </LinearLayout>
+
+    <!-- Progress bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
+
+    <!-- Verify button -->
+    <Button
+        android:id="@+id/btnVerify"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:text="Xác nhận"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/primary"
+        android:enabled="false"
+        android:alpha="0.5"
+        android:stateListAnimator="@null"
+        style="@style/Widget.App.Button.Primary"/>
+
+</LinearLayout>

@@ -290,6 +290,34 @@
         <item name="android:gravity">center</item>
         <item name="android:letterSpacing">0</item>
     </style>
+    <style name="Widget.App.OtpBox">
+        <item name="android:layout_width">46dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:background">@drawable/bg_otp_box</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:textAlignment">center</item>
+    </style>
 
+    <!--
+        Theme cho BottomSheetDialogFragment:
+        - Góc trên tròn
+        - Nền trắng
+        Thêm vào res/values/themes.xml
+    -->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppBottomSheetStyle</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="AppBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
 
 </resources>
