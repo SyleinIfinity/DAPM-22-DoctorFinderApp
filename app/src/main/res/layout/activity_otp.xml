@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- res/layout/bottom_sheet_otp_verify.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -167,7 +166,7 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:backgroundTint="@color/primary"
-        android:enabled="false"
+        android:enabled="true"
         android:alpha="0.5"
         android:stateListAnimator="@null"
         style="@style/Widget.App.Button.Primary"/>

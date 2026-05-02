@@ -290,20 +290,6 @@
         <item name="android:gravity">center</item>
         <item name="android:letterSpacing">0</item>
     </style>
-    <style name="Widget.App.OtpBox">
-        <item name="android:layout_width">46dp</item>
-        <item name="android:layout_height">56dp</item>
-        <item name="android:layout_marginEnd">6dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:inputType">number</item>
-        <item name="android:maxLength">1</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_primary</item>
-        <item name="android:background">@drawable/bg_otp_box</item>
-        <item name="android:imeOptions">actionNext</item>
-        <item name="android:textAlignment">center</item>
-    </style>
 
     <!--
         Theme cho BottomSheetDialogFragment:
@@ -321,5 +307,13 @@
     </style>
     <style name="TextAppearance.App.Chip" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textSize">11sp</item>
+    </style>
+    <style name="Widget.App" parent="Theme.MaterialComponents" />
+    <style name="Widget.App.OtpBox">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

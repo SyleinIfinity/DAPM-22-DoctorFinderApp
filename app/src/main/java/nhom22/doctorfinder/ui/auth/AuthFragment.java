@@ -17,10 +17,11 @@ public abstract class AuthFragment extends Fragment {
 
     protected void navigateToRegister() {
         NavController navController = NavHostFragment.findNavController(this);
-        if (navController.getCurrentDestination() != null
-                && navController.getCurrentDestination().getId() == R.id.registerFragment) {
-            return;
+
+        if (navController.getCurrentDestination() != null &&
+                navController.getCurrentDestination().getId() == R.id.loginFragment) {
+
+            navController.navigate(R.id.action_loginFragment_to_registerFragment);
         }
-        navController.navigate(R.id.action_loginFragment_to_registerFragment);
     }
 }
