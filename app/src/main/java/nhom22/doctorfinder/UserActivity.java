@@ -13,6 +13,7 @@ import nhom22.doctorfinder.ui.home.HomeFragment;
 import nhom22.doctorfinder.ui.user.booking.history.HistoryFragment;
 import nhom22.doctorfinder.ui.user.chat.ChatListFragment;
 import nhom22.doctorfinder.ui.user.follow.FollowFragment;
+import nhom22.doctorfinder.ui.user.user_profile.AccountFragment;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -52,6 +53,13 @@ public class UserActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_tinnhan) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, ChatListFragment.newInstance())
+                        .commit();
+                updateBottomNavIconSizes(bottomNavigation, item.getItemId());
+                return true;
+            }
+            if (item.getItemId() == R.id.nav_tai_khoan) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, AccountFragment.newInstance())
                         .commit();
                 updateBottomNavIconSizes(bottomNavigation, item.getItemId());
                 return true;

@@ -228,13 +228,13 @@
         <item name="cornerSize">50%</item>
     </style>
 
-<!--    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">-->
-<!--        <item name="colorPrimary">@color/brand_primary</item>-->
-<!--        <item name="colorPrimaryDark">@color/brand_dark</item>-->
-<!--        <item name="colorAccent">@color/brand_primary</item>-->
-<!--        <item name="android:windowBackground">@color/bg_page</item>-->
-<!--        <item name="android:statusBarColor">@color/brand_primary</item>-->
-<!--    </style>-->
+    <!--    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+    <!--        <item name="colorPrimary">@color/brand_primary</item>-->
+    <!--        <item name="colorPrimaryDark">@color/brand_dark</item>-->
+    <!--        <item name="colorAccent">@color/brand_primary</item>-->
+    <!--        <item name="android:windowBackground">@color/bg_page</item>-->
+    <!--        <item name="android:statusBarColor">@color/brand_primary</item>-->
+    <!--    </style>-->
 
     <style name="ActionButton">
         <item name="android:layout_width">match_parent</item>
@@ -291,5 +291,29 @@
         <item name="android:letterSpacing">0</item>
     </style>
 
+    <!--
+        Theme cho BottomSheetDialogFragment:
+        - Góc trên tròn
+        - Nền trắng
+        Thêm vào res/values/themes.xml
+    -->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppBottomSheetStyle</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 
+    <style name="AppBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
+    <style name="TextAppearance.App.Chip" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">11sp</item>
+    </style>
+    <style name="Widget.App" parent="Theme.MaterialComponents" />
+    <style name="Widget.App.OtpBox">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

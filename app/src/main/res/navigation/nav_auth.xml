@@ -20,6 +20,20 @@
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_otpFragment"
+            app:destination="@id/otpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="nhom22.doctorfinder.ui.auth.OtpFragment"
+        android:label="OTP">
+
+        <!-- 👉 thêm dòng này -->
+        <action
+            android:id="@+id/action_otpFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+
     </fragment>
 
 </navigation>

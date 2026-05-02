@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import nhom22.doctorfinder.R;
 import nhom22.doctorfinder.UserActivity;
@@ -18,35 +20,60 @@ import nhom22.doctorfinder.UserActivity;
 public class LoginFragment extends AuthFragment {
 
     private LoginViewModel mViewModel;
-
+    private EditText etEmail, etPassword;
+    private View btnLogin;
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }
 
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_login, container, false);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        TextView tvRegister = view.findViewById(R.id.tvRegister);
-        if (tvRegister != null) {
-            tvRegister.setOnClickListener(v -> navigateToRegister());
-        }
+        // 👉 Ánh xạ view ở đây
+        etEmail = view.findViewById(R.id.etEmail);
+        etPassword = view.findViewById(R.id.etPassword);
+        btnLogin = view.findViewById(R.id.btnLogin);
 
-        View btnLogin = view.findViewById(R.id.btnLogin);
-        if (btnLogin != null) {
-            btnLogin.setOnClickListener(v -> {
+        TextView tvRegister = view.findViewById(R.id.tvRegister);
+
+        // 👉 Click register
+        tvRegister.setOnClickListener(v -> navigateToRegister());
+
+        // 👉 Click login
+        btnLogin.setOnClickListener(v -> {
+            String username = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+
+            mViewModel.login(username, password);
+        });
+
+        // 👉 Observe kết quả login
+        mViewModel.loginResult.observe(getViewLifecycleOwner(), response -> {
+            if (response != null && response.authenticated) {
+
                 Intent intent = new Intent(requireContext(), UserActivity.class);
                 startActivity(intent);
                 requireActivity().finish();
-            });
-        }
+
+            }
+        });
+
+        mViewModel.error.observe(getViewLifecycleOwner(), err -> {
+            Toast.makeText(requireContext(), err, Toast.LENGTH_SHORT).show();
+        });
     }
 
 }
