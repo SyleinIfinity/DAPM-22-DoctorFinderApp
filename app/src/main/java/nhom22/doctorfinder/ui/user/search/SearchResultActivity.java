@@ -72,7 +72,7 @@ public class SearchResultActivity extends AppCompatActivity {
         initViews();
         bindSortChips();
         bindFilterButton();
-        fetchData();
+        fetchDoctors();
     }
 
     // ================= INTENT =================
@@ -327,63 +327,7 @@ public class SearchResultActivity extends AppCompatActivity {
         }
     }
 
-    private void fetchData() {
 
-        ArrayList<String> imageUris = getIntent().getStringArrayListExtra(
-                SearchBoxActivity.EXTRA_IMAGE_URIS
-        );
-
-        if (imageUris != null && !imageUris.isEmpty()) {
-            fetchDoctorsByImage(Uri.parse(imageUris.get(0)));
-        } else {
-            fetchDoctors();
-        }
-    }
-
-    private void fetchDoctorsByImage(Uri uri) {
-
-        DoctorApiService api = RetrofitClient.getClient().create(DoctorApiService.class);
-
-        File file = FileUtils.getFile(this, uri);
-
-        RequestBody requestFile =
-                RequestBody.create(file, okhttp3.MediaType.parse("image/*"));
-
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
-
-        RequestBody limit =
-                RequestBody.create("10", okhttp3.MediaType.parse("text/plain"));
-
-        api.searchDoctorsByImage(body, limit)
-                .enqueue(new Callback<List<DoctorResponse>>() {
-
-                    @Override
-                    public void onResponse(Call<List<DoctorResponse>> call, Response<List<DoctorResponse>> response) {
-
-                        Log.d("API", "CODE: " + response.code());
-
-                        if (!response.isSuccessful()) {
-                            showError("Lỗi: " + response.code());
-                            return;
-                        }
-
-                        List<DoctorResponse> body = response.body();
-
-                        if (body == null || body.isEmpty()) {
-                            showError("Không tìm thấy");
-                            return;
-                        }
-
-                        handleData(body);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<DoctorResponse>> call, Throwable t) {
-                        showError("Lỗi mạng: " + t.getMessage());
-                    }
-                });
-    }
     private void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         rvDoctors.setVisibility(View.GONE);
