@@ -44,7 +44,26 @@ public class RetrofitClient {
             return new OkHttpClient.Builder()
                     .sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0])
                     .hostnameVerifier((hostname, session) -> true)
+                    .addInterceptor(chain -> {
+
+                        String username = "sylein"; // nhập cái bạn dùng trong Swagger
+                        String password = "123456";
+
+                        String credentials = username + ":" + password;
+
+                        String basicAuth = "Basic " + android.util.Base64.encodeToString(
+                                credentials.getBytes(),
+                                android.util.Base64.NO_WRAP
+                        );
+
+                        okhttp3.Request request = chain.request().newBuilder()
+                                .addHeader("Authorization", basicAuth)
+                                .build();
+
+                        return chain.proceed(request);
+                    })
                     .build();
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
