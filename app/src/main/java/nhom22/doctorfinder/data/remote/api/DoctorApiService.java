@@ -6,6 +6,7 @@ import nhom22.doctorfinder.data.remote.dto.response.DoctorResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface DoctorApiService {
@@ -19,5 +20,8 @@ public interface DoctorApiService {
             @Query("limit") Integer limit,
             @Query("offset") Integer offset
     );
+    @GET("api/doctors/{id}")
+    Call<DoctorResponse> getDoctorById(@Path("id") int id);
+
 
 }
