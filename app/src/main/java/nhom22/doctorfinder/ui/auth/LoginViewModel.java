@@ -1,5 +1,8 @@
 package nhom22.doctorfinder.ui.auth;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.lifecycle.ViewModel;
 
 import androidx.lifecycle.MutableLiveData;
@@ -26,8 +29,16 @@ public class LoginViewModel extends ViewModel {
         api.login(request).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful()) {
-                    loginResult.postValue(response.body());
+                if (response.isSuccessful() && response.body() != null) {
+
+                    LoginResponse data = response.body();
+
+                    if (data.authenticated) {
+                        loginResult.postValue(data); // 👉 chỉ trả data về Activity
+                    } else {
+                        error.postValue(data.message);
+                    }
+
                 } else {
                     error.postValue("Sai tài khoản hoặc mật khẩu");
                 }
