@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    activity_doctor_profile_detail.xml
+    activity_doctor_profile.xml
     Màn hình chi tiết hồ sơ bác sĩ
-    Tương ứng: doctor_profile_detail.html
+    Tương ứng: doctorProfileActivity.java
 -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"

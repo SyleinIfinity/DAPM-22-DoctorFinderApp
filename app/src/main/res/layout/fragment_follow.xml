@@ -130,10 +130,44 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:layout_height="match_parent"
+    <!-- Content area: RecyclerView + loading + empty state -->
+    <FrameLayout
         android:layout_width="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        layout="@layout/fragment_doctor_list"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Danh sách bác sĩ đã theo dõi -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:visibility="gone" />
+
+        <!-- Loading indicator -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <!-- Empty state -->
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Bạn chưa theo dõi bác sĩ nào."
+            android:textSize="14sp"
+            android:textColor="@color/colorTextMuted"
+            android:padding="24dp"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,5 +1,6 @@
 package nhom22.doctorfinder.ui.auth;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import nhom22.doctorfinder.R;
 import nhom22.doctorfinder.UserActivity;
+import nhom22.doctorfinder.utils.SharedPrefManager;
 
 public class LoginFragment extends AuthFragment {
 
@@ -32,7 +34,7 @@ public class LoginFragment extends AuthFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_login, container, false);
+          return inflater.inflate(R.layout.fragment_login, container, false);
 
     }
 
@@ -64,10 +66,20 @@ public class LoginFragment extends AuthFragment {
         mViewModel.loginResult.observe(getViewLifecycleOwner(), response -> {
             if (response != null && response.authenticated) {
 
-                Intent intent = new Intent(requireContext(), UserActivity.class);
-                startActivity(intent);
-                requireActivity().finish();
+                SharedPrefManager prefs = SharedPrefManager.getInstance(requireContext());
 
+                if (response.maNguoiDung != null) {
+                    prefs.saveUserId(response.maNguoiDung);
+                }
+
+                prefs.saveRole(response.vaiTro);
+
+                Toast.makeText(requireContext(),
+                        "UserID: " + response.maNguoiDung,
+                        Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(requireContext(), UserActivity.class));
+                requireActivity().finish();
             }
         });
 
