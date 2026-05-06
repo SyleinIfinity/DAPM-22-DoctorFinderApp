@@ -516,11 +516,6 @@
                         layout="@layout/item_recommended_doctor" />
 
                     <!-- Recommended Doctor Card 2 -->
-                    <include
-                        android:id="@+id/recommendedDoctor2"
-                        layout="@layout/item_recommended_doctor"
-                        android:layout_marginStart="12dp"
-                        tools:ignore="IncludeLayoutParam" />
                 </LinearLayout>
             </HorizontalScrollView>
 

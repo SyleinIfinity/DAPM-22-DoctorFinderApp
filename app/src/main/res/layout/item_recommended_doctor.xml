@@ -39,7 +39,7 @@
                     android:id="@+id/tvDoctorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PGS.TS Nguyễn Anh"
+                    android:text=""
                     android:textSize="13sp"
                     android:textStyle="bold"
                     android:textColor="#1A1A2E"
@@ -50,7 +50,7 @@
                     android:id="@+id/tvSpecialty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Khoa Thần Kinh"
+                    android:text=""
                     android:textSize="12sp"
                     android:textColor="#9CA3AF"
                     android:layout_marginTop="2dp" />
@@ -76,7 +76,7 @@
                 android:id="@+id/tvRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4.9 (120)"
+                android:text=""
                 android:textSize="12sp"
                 android:textColor="#374151"
                 android:layout_marginStart="4dp" />
@@ -97,7 +97,7 @@
                 android:id="@+id/tvExperience"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15 năm"
+                android:text=""
                 android:textSize="12sp"
                 android:textColor="#374151"
                 android:layout_marginStart="4dp" />
