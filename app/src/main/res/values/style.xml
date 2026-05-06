@@ -126,39 +126,58 @@
     <!-- ─── TIME SLOT STYLES ─── -->
 
     <!-- Default slot: border teal, text teal -->
-    <style name="SlotDefault">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:layout_marginBottom">5dp</item>
-        <item name="android:textSize">11sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:background">@drawable/bg_slot_default</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
+<!--    <style name="SlotDefault">-->
+<!--        <item name="android:layout_width">wrap_content</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:paddingStart">10dp</item>-->
+<!--        <item name="android:paddingEnd">10dp</item>-->
+<!--        <item name="android:paddingTop">4dp</item>-->
+<!--        <item name="android:paddingBottom">4dp</item>-->
+<!--        <item name="android:layout_marginEnd">5dp</item>-->
+<!--        <item name="android:layout_marginBottom">5dp</item>-->
+<!--        <item name="android:textSize">11sp</item>-->
+<!--        <item name="android:textColor">@color/colorPrimary</item>-->
+<!--        <item name="android:background">@drawable/bg_slot_default</item>-->
+<!--        <item name="android:clickable">true</item>-->
+<!--        <item name="android:focusable">true</item>-->
+<!--    </style>-->
 
     <!-- Selected slot: filled teal, text white -->
-    <style name="SlotSelected">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+<!--    <style name="SlotSelected">-->
+<!--        <item name="android:layout_width">wrap_content</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:paddingStart">10dp</item>-->
+<!--        <item name="android:paddingEnd">10dp</item>-->
+<!--        <item name="android:paddingTop">4dp</item>-->
+<!--        <item name="android:paddingBottom">4dp</item>-->
+<!--        <item name="android:layout_marginEnd">5dp</item>-->
+<!--        <item name="android:layout_marginBottom">5dp</item>-->
+<!--        <item name="android:textSize">11sp</item>-->
+<!--        <item name="android:textColor">@color/colorWhite</item>-->
+<!--        <item name="android:background">@drawable/bg_slot_selected</item>-->
+<!--        <item name="android:clickable">true</item>-->
+<!--        <item name="android:focusable">true</item>-->
+<!--    </style>-->
+
+
+    <style name="Widget.Slot.Base" parent="Widget.Material3.Button">
+
+        <!-- FIX ROOT CAUSE -->
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+
+        <!-- REMOVE MATERIAL INSET -->
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+
+        <!-- SIZE -->
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:layout_marginBottom">5dp</item>
-        <item name="android:textSize">11sp</item>
-        <item name="android:textColor">@color/colorWhite</item>
-        <item name="android:background">@drawable/bg_slot_selected</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-    </style>
+        <item name="android:textSize">12sp</item>
 
+    </style>
     <!-- Full slot: gray border, gray text, gray bg -->
     <style name="SlotFull">
         <item name="android:layout_width">wrap_content</item>
@@ -190,36 +209,23 @@
     <!-- ===== SLOT BUTTON STYLES ===== -->
 
     <!-- Slot: còn trống (CHI_TIET_LICH.trangThai = TRONG) -->
-    <style name="Widget.Slot.Available" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:textColor">@color/slot_available_text</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:minWidth">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
+
+    <style name="Widget.Slot.Available" parent="Widget.Slot.Base">
+        <item name="backgroundTint">@color/teal_50</item>
+        <item name="android:textColor">@color/teal_700</item>
     </style>
 
     <!-- Slot: đã đặt / đang giữ (DANG_GIU / DA_DAT) -->
-    <style name="Widget.Slot.Full" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:textColor">@color/slot_full_text</item>
-        <item name="android:backgroundTint">@color/slot_full_bg</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:minWidth">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
+    <style name="Widget.Slot.Full" parent="Widget.Slot.Base">
+        <item name="backgroundTint">@color/gray_200</item>
+        <item name="android:textColor">@color/text_muted</item>
         <item name="android:enabled">false</item>
     </style>
 
     <!-- Slot: đang chọn (selected) -->
-    <style name="Widget.Slot.Selected" parent="Widget.Material3.Button">
-        <item name="android:textColor">@color/slot_selected_text</item>
-        <item name="android:backgroundTint">@color/slot_selected_bg</item>
-        <item name="android:paddingStart">10dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:minWidth">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
+    <style name="Widget.Slot.Selected" parent="Widget.Slot.Base">
+        <item name="backgroundTint">@color/teal_600</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <!-- ===== SHAPE APPEARANCE ===== -->

@@ -3,6 +3,7 @@ package nhom22.doctorfinder.data.remote.api;
 import java.util.List;
 
 import nhom22.doctorfinder.data.remote.dto.response.DoctorResponse;
+import nhom22.doctorfinder.data.remote.dto.response.WorkingSlot;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -23,5 +24,16 @@ public interface DoctorApiService {
     @GET("api/doctors/{id}")
     Call<DoctorResponse> getDoctorById(@Path("id") int id);
 
+    /**
+     * Lấy danh sách khung giờ khám còn trống / đã đặt của bác sĩ theo ngày.
+     *
+     * @param maBacSi ID bác sĩ
+     * @param date    Ngày cần tra cứu, định dạng yyyy-MM-dd
+     */
+    @GET("api/doctors/{maBacSi}/working-slots")
+    Call<List<WorkingSlot>> getWorkingSlots(
+            @Path("maBacSi") int maBacSi,
+            @Query("date") String date
+    );
 
 }

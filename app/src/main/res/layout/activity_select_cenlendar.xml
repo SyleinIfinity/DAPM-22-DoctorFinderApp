@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_screen"
-    tools:context=".ChonLichActivity">
+    tools:context=".ui.user.schedule.SelectCenlendarActivity">
 
     <!-- ===== TOP APP BAR ===== -->
     <com.google.android.material.appbar.AppBarLayout
@@ -175,10 +175,7 @@
                             android:layout_height="wrap_content"
                             android:text="Lịch tuần" />
 
-                        <com.google.android.material.tabs.TabItem
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ngày cụ thể" />
+
 
                     </com.google.android.material.tabs.TabLayout>
 
@@ -213,7 +210,7 @@
                         android:orientation="vertical"
                         android:padding="12dp">
 
-                        <!-- Buổi sáng -->
+                        <!-- ===== BUỔI SÁNG ===== -->
                         <TextView
                             android:id="@+id/tvLabelSang"
                             android:layout_width="wrap_content"
@@ -224,78 +221,16 @@
                             android:textStyle="bold"
                             android:layout_marginBottom="8dp" />
 
-                        <!--
-                            FlexboxLayout: hiển thị CHI_TIET_LICH slots (gioBatDau–gioKetThuc)
-                            trangThai: TRONG=available, DANG_GIU/DA_DAT=full, selected=active
-                        -->
                         <com.google.android.flexbox.FlexboxLayout
                             android:id="@+id/flexSlotsSang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:flexWrap="wrap"
-                            app:alignItems="flex_start"
                             app:justifyContent="flex_start"
-                            android:layout_marginBottom="14dp">
+                            app:alignItems="flex_start"
+                            android:layout_marginBottom="14dp" />
 
-                            <!-- Slot items are added programmatically from CHI_TIET_LICH -->
-                            <!-- Sample static items for layout preview -->
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="07:30"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Full"
-                                tools:ignore="HardcodedText" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="08:00"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Available"
-                                tools:ignore="HardcodedText" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="08:30"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Selected"
-                                tools:ignore="HardcodedText" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="09:00"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Available"
-                                tools:ignore="HardcodedText" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="09:30"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Full"
-                                tools:ignore="HardcodedText" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="10:00"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Available"
-                                tools:ignore="HardcodedText" />
-
-                        </com.google.android.flexbox.FlexboxLayout>
-
-                        <!-- Buổi chiều -->
+                        <!-- ===== BUỔI CHIỀU ===== -->
                         <TextView
                             android:id="@+id/tvLabelChieu"
                             android:layout_width="wrap_content"
@@ -311,37 +246,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:flexWrap="wrap"
-                            app:alignItems="flex_start"
-                            app:justifyContent="flex_start">
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="13:30"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Available"
-                                tools:ignore="HardcodedText" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="14:00"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Available"
-                                tools:ignore="HardcodedText" />
-
-                            <com.google.android.material.button.MaterialButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="32dp"
-                                android:text="15:00"
-                                android:textSize="12sp"
-                                android:layout_margin="3dp"
-                                style="@style/Widget.Slot.Full"
-                                tools:ignore="HardcodedText" />
-
-                        </com.google.android.flexbox.FlexboxLayout>
+                            app:justifyContent="flex_start"
+                            app:alignItems="flex_start" />
 
                     </LinearLayout>
 
@@ -480,85 +386,83 @@
 
                         </LinearLayout>
 
-                        <!-- ONLINE -->
-<!--                        <LinearLayout-->
-<!--                            android:id="@+id/optOnline"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:layout_margin="3dp"-->
-<!--                            android:orientation="vertical"-->
-<!--                            android:gravity="center"-->
-<!--                            android:padding="9dp"-->
-<!--                            android:background="@drawable/bg_type_normal"-->
-<!--                            android:clickable="true"-->
-<!--                            android:focusable="true">-->
+                        <LinearLayout
+                            android:id="@+id/optOnline"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="9dp"
+                            android:background="@drawable/bg_type_normal"
+                            android:clickable="true"
+                            android:focusable="true">
 
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="📹"-->
-<!--                                android:textSize="18sp" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📹"
+                                android:textSize="18sp" />
 
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Khám online"-->
-<!--                                android:textSize="11sp"-->
-<!--                                android:textStyle="bold"-->
-<!--                                android:textColor="@color/text_primary"-->
-<!--                                android:gravity="center"-->
-<!--                                android:layout_marginTop="4dp" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Khám online"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:gravity="center"
+                                android:layout_marginTop="4dp" />
 
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Video call"-->
-<!--                                android:textSize="10sp"-->
-<!--                                android:textColor="@color/text_muted"-->
-<!--                                android:layout_marginTop="2dp" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Video call"
+                                android:textSize="10sp"
+                                android:textColor="@color/text_muted"
+                                android:layout_marginTop="2dp" />
 
-<!--                        </LinearLayout>-->
+                        </LinearLayout>
 
-                        <!-- TAI_NHA -->
-<!--                        <LinearLayout-->
-<!--                            android:id="@+id/optTaiNha"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:layout_margin="3dp"-->
-<!--                            android:orientation="vertical"-->
-<!--                            android:gravity="center"-->
-<!--                            android:padding="9dp"-->
-<!--                            android:background="@drawable/bg_type_normal"-->
-<!--                            android:clickable="true"-->
-<!--                            android:focusable="true">-->
+                        <LinearLayout
+                            android:id="@+id/optTaiNha"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="9dp"
+                            android:background="@drawable/bg_type_normal"
+                            android:clickable="true"
+                            android:focusable="true">
 
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="🏠"-->
-<!--                                android:textSize="18sp" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="🏠"
+                                android:textSize="18sp" />
 
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Tại nhà"-->
-<!--                                android:textSize="11sp"-->
-<!--                                android:textStyle="bold"-->
-<!--                                android:textColor="@color/text_primary"-->
-<!--                                android:gravity="center"-->
-<!--                                android:layout_marginTop="4dp" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tại nhà"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:gravity="center"
+                                android:layout_marginTop="4dp" />
 
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Bác sĩ đến"-->
-<!--                                android:textSize="10sp"-->
-<!--                                android:textColor="@color/text_muted"-->
-<!--                                android:layout_marginTop="2dp" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bác sĩ đến"
+                                android:textSize="10sp"
+                                android:textColor="@color/text_muted"
+                                android:layout_marginTop="2dp" />
 
-<!--                        </LinearLayout>-->
+                        </LinearLayout>
 
                     </LinearLayout>
 

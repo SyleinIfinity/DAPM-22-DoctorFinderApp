@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nền ngày đang được chọn: hình tròn / pill màu teal -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/teal_600" />
+    <corners android:radius="10dp" />
+</shape>
