@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Nguyễn Văn Huy"
+                    android:text=""
                     android:textColor="#0F172A"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -164,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="huy.nguyen@gmail.com"
+                    android:text=""
                     android:textColor="#94A3B8"
                     android:textSize="13sp" />
 
