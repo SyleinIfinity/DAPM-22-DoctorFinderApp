@@ -12,8 +12,14 @@ import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 
 import nhom22.doctorfinder.R;
+import nhom22.doctorfinder.data.remote.api.UserApiService;
+import nhom22.doctorfinder.data.remote.client.RetrofitClient;
 import nhom22.doctorfinder.data.remote.dto.response.AppointmentResponse;
 import nhom22.doctorfinder.ui.home.HomeFragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import android.widget.Toast;
 
 public class ConfirmAppointmentActivity extends AppCompatActivity {
 
@@ -164,8 +170,35 @@ public class ConfirmAppointmentActivity extends AppCompatActivity {
         MaterialButton btnHuyLich = findViewById(R.id.btnHuyLich);
         if (btnHuyLich != null) {
             btnHuyLich.setOnClickListener(v -> {
-                // TODO: gọi API huỷ
-                finish();
+                if (data == null || data.maPhieuDatLich == 0) return;
+                
+                btnHuyLich.setEnabled(false);
+                btnHuyLich.setText("Đang xử lý...");
+
+                UserApiService apiService = RetrofitClient.getClient().create(UserApiService.class);
+                apiService.cancelAppointment(data.maPhieuDatLich).enqueue(new Callback<AppointmentResponse>() {
+                    @Override
+                    public void onResponse(Call<AppointmentResponse> call, Response<AppointmentResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            data = response.body();
+                            setStatusUI(data.trangThaiPhieu);
+                            Toast.makeText(ConfirmAppointmentActivity.this, "Đã huỷ lịch", Toast.LENGTH_SHORT).show();
+                            // Button remains disabled because status is now DA_HUY
+                            btnHuyLich.setText("Đã huỷ");
+                        } else {
+                            Toast.makeText(ConfirmAppointmentActivity.this, "Lỗi khi huỷ lịch", Toast.LENGTH_SHORT).show();
+                            btnHuyLich.setEnabled(true);
+                            btnHuyLich.setText("Huỷ lịch");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AppointmentResponse> call, Throwable t) {
+                        Toast.makeText(ConfirmAppointmentActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                        btnHuyLich.setEnabled(true);
+                        btnHuyLich.setText("Huỷ lịch");
+                    }
+                });
             });
         }
 

@@ -41,4 +41,14 @@ public interface UserApiService {
             @Query("maNguoiDung") int maNguoiDung,
             @Query("scope") String scope
     );
+
+    /**
+     * Huỷ lịch khám.
+     *
+     * @param maPhieuDatLich ID phiếu đặt lịch
+     */
+    @POST("api/appointments/{id}/cancel")
+    Call<AppointmentResponse> cancelAppointment(
+            @Path("id") int maPhieuDatLich
+    );
 }

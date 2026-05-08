@@ -30,8 +30,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     private final OnAppointmentClickListener listener;
 
     public interface OnAppointmentClickListener {
-        void onPrimaryClick(AppointmentResponse appointment);
-        void onSecondaryClick(AppointmentResponse appointment);
+        void onPrimaryClick(AppointmentResponse appointment, int position);
+        void onSecondaryClick(AppointmentResponse appointment, int position);
     }
 
     public AppointmentAdapter(Context context, OnAppointmentClickListener listener) {
@@ -122,12 +122,28 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             // Status
             tvStatus.setText(mapStatus(item.trangThaiPhieu));
             
-            // Update styling based on status if needed (optional based on your design system)
+            // Update styling based on status
             if ("DA_HUY".equals(item.trangThaiPhieu) || "TU_CHOI".equals(item.trangThaiPhieu)) {
-                tvStatus.setBackgroundResource(R.drawable.bg_badge_pending); // Change if there is specific bg
+                tvStatus.setBackgroundResource(R.drawable.bg_badge_pending); // Note: Update this to a red badge drawable if available
                 tvStatus.setTextColor(ContextCompat.getColor(context, R.color.status_pending_text));
             } else if ("DA_XAC_NHAN".equals(item.trangThaiPhieu)) {
-                 // Adjust colors
+                // Adjust colors for confirmed
+            } else {
+                // Adjust colors for CHO_XAC_NHAN
+                tvStatus.setBackgroundResource(R.drawable.bg_badge_pending);
+                tvStatus.setTextColor(ContextCompat.getColor(context, R.color.status_pending_text));
+            }
+
+            // Disable secondary button if status is DA_HUY or TU_CHOI
+            if ("DA_HUY".equals(item.trangThaiPhieu)) {
+                btnSecondary.setEnabled(false);
+                btnSecondary.setText("Đã huỷ");
+            } else if ("TU_CHOI".equals(item.trangThaiPhieu)) {
+                btnSecondary.setEnabled(false);
+                btnSecondary.setText("Bị từ chối");
+            } else {
+                btnSecondary.setEnabled(true);
+                btnSecondary.setText("Hủy lịch");
             }
 
             // Date Time
@@ -145,11 +161,11 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             }
 
             btnPrimary.setOnClickListener(v -> {
-                if (listener != null) listener.onPrimaryClick(item);
+                if (listener != null) listener.onPrimaryClick(item, getAdapterPosition());
             });
 
             btnSecondary.setOnClickListener(v -> {
-                if (listener != null) listener.onSecondaryClick(item);
+                if (listener != null) listener.onSecondaryClick(item, getAdapterPosition());
             });
         }
     }

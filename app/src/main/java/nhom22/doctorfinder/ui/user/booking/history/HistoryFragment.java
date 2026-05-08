@@ -77,16 +77,35 @@ public class HistoryFragment extends Fragment {
     private void setupRecyclerView() {
         adapter = new AppointmentAdapter(requireContext(), new AppointmentAdapter.OnAppointmentClickListener() {
             @Override
-            public void onPrimaryClick(AppointmentResponse appointment) {
+            public void onPrimaryClick(AppointmentResponse appointment, int position) {
                 Intent intent = new Intent(requireContext(), ConfirmAppointmentActivity.class);
                 intent.putExtra("appointment_result", new Gson().toJson(appointment));
                 startActivity(intent);
             }
 
             @Override
-            public void onSecondaryClick(AppointmentResponse appointment) {
-                // TODO: call cancel API
-                Toast.makeText(requireContext(), "Cancel API not implemented yet", Toast.LENGTH_SHORT).show();
+            public void onSecondaryClick(AppointmentResponse appointment, int position) {
+                if (appointment == null || appointment.maPhieuDatLich == 0) return;
+
+                apiService.cancelAppointment(appointment.maPhieuDatLich).enqueue(new Callback<AppointmentResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<AppointmentResponse> call, @NonNull Response<AppointmentResponse> response) {
+                        if (!isAdded()) return;
+                        if (response.isSuccessful() && response.body() != null) {
+                            appointment.trangThaiPhieu = "DA_HUY";
+                            adapter.notifyItemChanged(position);
+                            Toast.makeText(requireContext(), "Đã huỷ lịch", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(requireContext(), "Lỗi khi huỷ lịch", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<AppointmentResponse> call, @NonNull Throwable t) {
+                        if (!isAdded()) return;
+                        Toast.makeText(requireContext(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         rvAppointments.setLayoutManager(new LinearLayoutManager(requireContext()));
