@@ -305,8 +305,29 @@ public class SchedulingInformationActivity extends AppCompatActivity {
                     // Truyền kết quả sang màn hình xác nhận
                     Intent intent = new Intent(
                             SchedulingInformationActivity.this,
-                            ConfirmAppointmentActivity.class);
+                            ConfirmAppointmentActivity.class
+                    );
+
+// API response
                     intent.putExtra("appointment_result", gson.toJson(response.body()));
+
+// 🔥 THÊM dữ liệu UI (quan trọng)
+                    intent.putExtra("doctor_name", doctorName);
+                    intent.putExtra("slot_date", slotDate);
+                    intent.putExtra("slot_start", slotStart);
+                    intent.putExtra("slot_end", slotEnd);
+                    intent.putExtra("slot_duration", slotDuration);
+                    intent.putExtra("loai_phieu_label", actvLoaiPhieu.getText().toString());
+
+// triệu chứng
+                    if (etTrieuChung.getText() != null) {
+                        intent.putExtra("trieu_chung", etTrieuChung.getText().toString());
+                    }
+
+// bệnh nhân
+                    intent.putExtra("patient_name", etHoTen.getText().toString());
+                    intent.putExtra("patient_phone", etSdt.getText().toString());
+
                     startActivity(intent);
                     finish();
 
