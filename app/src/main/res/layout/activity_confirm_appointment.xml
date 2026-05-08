@@ -13,7 +13,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_screen"
-    tools:context=".XacNhanDatLichActivity">
+    tools:context=".ui.user.schedule.ConfirmAppointmentActivity">
 
     <!-- ===== TOP APP BAR ===== -->
     <com.google.android.material.appbar.AppBarLayout

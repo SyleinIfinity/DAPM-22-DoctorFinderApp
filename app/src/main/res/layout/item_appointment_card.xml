@@ -179,7 +179,6 @@
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp"
                 android:lineSpacingMultiplier="1.4"
-                android:background="@drawable/bg_note"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:paddingTop="7dp"

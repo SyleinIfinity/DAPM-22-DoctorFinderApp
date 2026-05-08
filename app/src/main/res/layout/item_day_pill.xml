@@ -1,51 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Item layout cho RecyclerView tuần (rvWeekStrip)
-    Bind: thuTrongTuan, ngayCuThe từ LICH_LAM_VIEC
-    State: normal | has_slot | selected (set via background drawable)
+    item_day_pill.xml
+    Mỗi ô ngày trong week strip RecyclerView ngang.
+    Hiển thị: nhãn ngày (T2, T3...) + số ngày (01, 02...)
 -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutDayPill"
-    android:layout_width="44dp"
+    android:layout_width="48dp"
     android:layout_height="56dp"
     android:orientation="vertical"
     android:gravity="center"
-    android:layout_marginEnd="5dp"
-    android:background="@drawable/bg_day_pill_normal"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:background="@drawable/bg_day_normal"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:padding="4dp">
 
-    <!-- Thứ trong tuần: T2, T3, ... CN -->
+    <!-- Nhãn ngày: "T2", "T3", "Hôm nay" -->
     <TextView
-        android:id="@+id/tvDow"
+        android:id="@+id/tvDayLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="T3"
-        android:textSize="10sp"
+        android:text="T2"
+        android:textSize="9sp"
         android:textColor="@color/text_muted"
-        android:layout_marginBottom="2dp"
-        tools:ignore="HardcodedText" />
+        android:gravity="center"
+        android:maxLines="2" />
 
-    <!-- Ngày trong tháng -->
+    <!-- Số ngày: "06" -->
     <TextView
         android:id="@+id/tvDayNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="29"
+        android:text="06"
         android:textSize="14sp"
         android:textStyle="bold"
         android:textColor="@color/text_primary"
-        tools:ignore="HardcodedText" />
-
-    <!-- Dot indicator: có lịch -->
-    <View
-        android:id="@+id/viewDot"
-        android:layout_width="4dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="3dp"
-        android:background="@drawable/bg_dot_teal"
-        android:visibility="gone" />
+        android:layout_marginTop="2dp" />
 
 </LinearLayout>
