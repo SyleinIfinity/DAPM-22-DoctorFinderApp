@@ -318,6 +318,7 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         intent.putExtra("slot_start",   selectedSlot.getDisplayTime());
         intent.putExtra("slot_end",     selectedSlot.getDisplayEndTime());
         intent.putExtra("slot_duration",selectedSlot.thoiLuongPhut);
+
         startActivity(intent);
     }
 
