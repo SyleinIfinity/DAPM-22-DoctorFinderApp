@@ -126,10 +126,10 @@
             app:tabMode="fixed"
             app:tabGravity="fill">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tất cả" />
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Tất cả" />-->
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -141,10 +141,10 @@
                 android:layout_height="wrap_content"
                 android:text="Đã khám" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đã hủy" />
+<!--            <com.google.android.material.tabs.TabItem-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Đã hủy" />-->
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -161,50 +161,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!-- Filter chips -->
-<!--            <HorizontalScrollView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:scrollbars="none"-->
-<!--                android:paddingTop="10dp"-->
-<!--                android:paddingBottom="2dp"-->
-<!--                android:paddingStart="12dp"-->
-<!--                android:paddingEnd="12dp">-->
-
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/chipGroup"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:gravity="center_vertical">-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/chipAll"-->
-<!--                        style="@style/FilterChip.Active"-->
-<!--                        android:text="Tất cả" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/chipClinic"-->
-<!--                        style="@style/FilterChip"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:text="Tại phòng khám" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/chipOnline"-->
-<!--                        style="@style/FilterChip"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:text="Khám online" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/chipHome"-->
-<!--                        style="@style/FilterChip"-->
-<!--                        android:layout_marginStart="8dp"-->
-<!--                        android:text="Tại nhà" />-->
-
-<!--                </LinearLayout>-->
-
-<!--            </HorizontalScrollView>-->
 
             <!-- List content (populated by RecyclerView in practice) -->
             <androidx.recyclerview.widget.RecyclerView

@@ -1,5 +1,7 @@
 package nhom22.doctorfinder.data.remote.api;
 
+import java.util.List;
+
 import nhom22.doctorfinder.data.remote.dto.request.AppointmentRequest;
 import nhom22.doctorfinder.data.remote.dto.response.AppointmentResponse;
 import nhom22.doctorfinder.data.remote.dto.response.UserProfileResponse;
@@ -8,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserApiService {
 
@@ -26,4 +29,16 @@ public interface UserApiService {
      */
     @POST("api/appointments")
     Call<AppointmentResponse> createAppointment(@Body AppointmentRequest body);
+
+    /**
+     * Lấy danh sách lịch khám.
+     *
+     * @param maNguoiDung ID người dùng
+     * @param scope "upcoming" hoặc "history"
+     */
+    @GET("api/appointments")
+    Call<List<AppointmentResponse>> getAppointments(
+            @Query("maNguoiDung") int maNguoiDung,
+            @Query("scope") String scope
+    );
 }
