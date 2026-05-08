@@ -1,8 +1,6 @@
 package nhom22.doctorfinder.ui.user.user_profile;
 
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,15 +13,22 @@ import androidx.fragment.app.Fragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import nhom22.doctorfinder.R;
-import nhom22.doctorfinder.ui.auth.LoginFragment;
-
+import nhom22.doctorfinder.data.remote.api.UserApiService;
+import nhom22.doctorfinder.data.remote.client.RetrofitClient;
+import nhom22.doctorfinder.data.remote.dto.response.UserProfileResponse;
+import nhom22.doctorfinder.ui.auth.AuthActivity;
+import nhom22.doctorfinder.utils.SharedPrefManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountFragment extends Fragment {
 
     private CircleImageView ivAvatar;
     private TextView tvUserName, tvEmail, tvAppointmentCount, tvFavoriteCount;
-
     private LinearLayout btnLogout;
+
+    private UserApiService userApiService;
 
     public AccountFragment() {
         super(R.layout.fragment_profile);
@@ -38,6 +43,10 @@ public class AccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initView(view);
+
+        // Init API
+        userApiService = RetrofitClient.getClient().create(UserApiService.class);
+
         loadUserData();
         handleClick(view);
     }
@@ -55,21 +64,59 @@ public class AccountFragment extends Fragment {
 
     // ================= LOAD DATA =================
     private void loadUserData() {
-        // TODO: sau này call API thật
-        tvUserName.setText("Nguyễn Văn Huy");
-        tvEmail.setText("huy.nguyen@gmail.com");
 
-        tvAppointmentCount.setText("12");
-        tvFavoriteCount.setText("5");
+        int userId = SharedPrefManager
+                .getInstance(requireContext())
+                .getUserId();
+
+        if (userId == -1) {
+            showToast("Chưa đăng nhập");
+            return;
+        }
+
+        userApiService.getUserProfile(userId)
+                .enqueue(new Callback<UserProfileResponse>() {
+                    @Override
+                    public void onResponse(Call<UserProfileResponse> call,
+                                           Response<UserProfileResponse> response) {
+
+                        if (!isAdded()) return;
+
+                        if (response.isSuccessful() && response.body() != null) {
+
+                            UserProfileResponse user = response.body();
+
+                            // Set dữ liệu
+                            tvUserName.setText(
+                                    user.hoTenDayDu != null ? user.hoTenDayDu : "Chưa cập nhật"
+                            );
+
+                            tvEmail.setText(
+                                    user.email != null ? user.email : "Chưa cập nhật"
+                            );
+
+                            // Fake tạm stats (sau này call API)
+                            tvAppointmentCount.setText("12");
+                            tvFavoriteCount.setText("5");
+
+                        } else {
+                            showToast("Không tải được thông tin user");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserProfileResponse> call, Throwable t) {
+                        if (!isAdded()) return;
+                        showToast("Lỗi kết nối server");
+                    }
+                });
     }
 
     // ================= CLICK EVENTS =================
     private void handleClick(View view) {
 
-        // Đăng xuất
         btnLogout.setOnClickListener(v -> logout());
 
-        // Các menu
         view.findViewById(R.id.menuPersonalInfo).setOnClickListener(v ->
                 showToast("Thông tin cá nhân"));
 
@@ -103,15 +150,14 @@ public class AccountFragment extends Fragment {
 
     // ================= LOGOUT =================
     private void logout() {
-        // Xóa token
-        SharedPreferences prefs = requireContext()
-                .getSharedPreferences("USER_PREF", getContext().MODE_PRIVATE);
-        prefs.edit().clear().apply();
+
+        // Clear toàn bộ dữ liệu login
+        SharedPrefManager.getInstance(requireContext()).clear();
 
         Toast.makeText(getContext(), "Đã đăng xuất", Toast.LENGTH_SHORT).show();
 
-        // Chuyển về Login
-        Intent intent = new Intent(getActivity(), LoginFragment.class);
+        // Về màn hình login
+        Intent intent = new Intent(getActivity(), AuthActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
