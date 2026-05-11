@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import com.bumptech.glide.Glide;
 
 import nhom22.doctorfinder.R;
 import nhom22.doctorfinder.data.remote.api.DoctorApiService;
@@ -60,6 +63,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
     // ───── API ─────
     private FollowApiService followApi;
     private DoctorApiService doctorApi;
+    private ImageView ivDoctorAvatar;
+    private String doctorAvatarUrl;
 
     // ──────────────────────────────────────────────────────────────────────────
 
@@ -92,6 +97,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
         doctorExperience  = intent.getIntExtra("doctor_experience", 0);
         isOnline       = intent.getBooleanExtra("doctor_is_online", false);
         doctorType     = intent.getStringExtra("doctor_type");
+        doctorAvatarUrl = intent.getStringExtra("doctor_avatar_url");
     }
 
     // ─── Bind views ───────────────────────────────────────────────────────────
@@ -120,10 +126,12 @@ public class DoctorProfileActivity extends AppCompatActivity {
         bindInfoRow(R.id.rowWorkplace, "Nơi làm việc", v -> tvRowWorkplaceValue = v);
 
         // Avatar initials
-        TextView tvAvatar = findViewById(R.id.tvAvatar);
-        if (tvAvatar != null && doctorName != null && !doctorName.isEmpty()) {
-            tvAvatar.setText(doctorName.substring(0, 1).toUpperCase());
-        }
+//        TextView tvAvatar = findViewById(R.id.tvAvatar);
+//        if (tvAvatar != null && doctorName != null && !doctorName.isEmpty()) {
+//            tvAvatar.setText(doctorName.substring(0, 1).toUpperCase());
+
+        ivDoctorAvatar = findViewById(R.id.ivDoctorAvatar);
+        loadAvatar(doctorAvatarUrl);
 
         // ─── Follow button ────────────────────────────────────────────────────
         btnFollow   = findViewById(R.id.btnFollow);
@@ -160,6 +168,27 @@ public class DoctorProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void loadAvatar(String avatarUrl) {
+        if (ivDoctorAvatar == null) return;
+
+        if (avatarUrl != null && avatarUrl.startsWith("data:image")) {
+            String base64Data = avatarUrl.substring(avatarUrl.indexOf(",") + 1);
+            byte[] bytes = android.util.Base64.decode(base64Data, android.util.Base64.DEFAULT);
+            Glide.with(this)
+                    .load(bytes)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_doctor_placeholder)
+                    .into(ivDoctorAvatar);
+        } else if (avatarUrl != null && !avatarUrl.isEmpty()) {
+            Glide.with(this)
+                    .load(avatarUrl)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_doctor_placeholder)
+                    .into(ivDoctorAvatar);
+        } else {
+            ivDoctorAvatar.setImageResource(R.drawable.ic_doctor_placeholder);
+        }
+    }
     /** Helper: bind một info-row (label + value) */
     private void bindInfoRow(int rowId, String label, java.util.function.Consumer<TextView> valueSetter) {
         View row = findViewById(rowId);
@@ -379,12 +408,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
         setText(tvRowWorkplaceValue, buildWorkplace(d));
 
         // Cập nhật avatar initials nếu tên thay đổi
-        if (d.hoTenDayDu != null && !d.hoTenDayDu.isEmpty()) {
-            doctorName = d.hoTenDayDu;
-            TextView tvAvatar = findViewById(R.id.tvAvatar);
-            if (tvAvatar != null) {
-                tvAvatar.setText(doctorName.substring(0, 1).toUpperCase());
-            }
+        if (d.anhDaiDien != null && !d.anhDaiDien.isEmpty()) {
+            loadAvatar(d.anhDaiDien);
         }
     }
 

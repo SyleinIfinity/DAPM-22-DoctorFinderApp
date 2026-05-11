@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import nhom22.doctorfinder.R;
@@ -106,14 +108,30 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
             tvRating.setText(String.format(" %.1f", doctor.getRating()));
             tvReviewCount.setText(String.format(" (%d đánh giá)", doctor.getReviewCount()));
 
-            // Show top doctor badge if applicable
-            if (doctor.isTopDoctor()) {
-                badgeTop.setVisibility(View.VISIBLE);
+            // ✅ THÊM PHẦN NÀY — Load avatar
+            String avatarUrl = doctor.getAvatarUrl();
+            if (avatarUrl != null && avatarUrl.startsWith("data:image")) {
+                String base64Data = avatarUrl.substring(avatarUrl.indexOf(",") + 1);
+                byte[] bytes = android.util.Base64.decode(base64Data, android.util.Base64.DEFAULT);
+                Glide.with(context)
+                        .load(bytes)
+                        .circleCrop()
+                        .placeholder(R.drawable.ic_doctor_placeholder)
+                        .into(ivDoctorAvatar);
+            } else if (avatarUrl != null && !avatarUrl.isEmpty()) {
+                Glide.with(context)
+                        .load(avatarUrl)
+                        .circleCrop()
+                        .placeholder(R.drawable.ic_doctor_placeholder)
+                        .into(ivDoctorAvatar);
             } else {
-                badgeTop.setVisibility(View.GONE);
+                ivDoctorAvatar.setImageResource(R.drawable.ic_doctor_placeholder);
             }
 
-            // Show online dot if online
+            // Badge top doctor
+            badgeTop.setVisibility(doctor.isTopDoctor() ? View.VISIBLE : View.GONE);
+
+            // Badge online
             if (doctor.isOnline()) {
                 onlineDot.setVisibility(View.VISIBLE);
                 badgeOnline.setVisibility(View.VISIBLE);
@@ -122,12 +140,8 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                 badgeOnline.setVisibility(View.GONE);
             }
 
-            // Show available slot badge if has slot
-            if (doctor.hasAvailableSlot()) {
-                badgeAvailable.setVisibility(View.VISIBLE);
-            } else {
-                badgeAvailable.setVisibility(View.GONE);
-            }
+            // Badge còn lịch
+            badgeAvailable.setVisibility(doctor.hasAvailableSlot() ? View.VISIBLE : View.GONE);
         }
     }
 }

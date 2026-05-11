@@ -210,28 +210,23 @@ public class SearchResultActivity extends AppCompatActivity {
     private void fetchDoctors() {
         DoctorApiService api = RetrofitClient.getClient().create(DoctorApiService.class);
 
-        // 🔥 FIX: truyền đúng param cho API
-        String keywordParam = (keyword != null && !keyword.isEmpty()) ? keyword : null;
-
-        // Ví dụ fix cứng để test trước
-        String chuyenKhoaParam = "Rang ham mat";
+        String keywordParam    = (!keyword.isEmpty())    ? keyword    : null;
+        String symptomParam    = (!symptom.isEmpty())     ? symptom    : null;
+        // Dùng symptom làm chuyenKhoa, hoặc null nếu không có
+        String chuyenKhoaParam = symptomParam;
 
         api.searchDoctors(
                 keywordParam,
-                chuyenKhoaParam,
+                chuyenKhoaParam, // ← Dùng input thực từ người dùng
                 null,
                 "DA_DUYET",
                 50,
                 0
         ).enqueue(new Callback<List<DoctorResponse>>() {
-
             @Override
             public void onResponse(Call<List<DoctorResponse>> call,
                                    Response<List<DoctorResponse>> response) {
 
-                // 🔥 Log debug
-
-                Log.d("API_DEBUG", "Message: " + response.message());
                 Log.d("API_DEBUG", "Code: " + response.code());
 
                 if (!response.isSuccessful()) {
@@ -240,20 +235,14 @@ public class SearchResultActivity extends AppCompatActivity {
                 }
 
                 List<DoctorResponse> body = response.body();
-
-                // 🔥 FIX: check rỗng
                 if (body == null || body.isEmpty()) {
                     showError("Không tìm thấy bác sĩ");
                     return;
                 }
 
-                // 🔥 Map dữ liệu
-                List<Doctor> mapped = mapResponse(body);
-
-                fullList = mapped;
-
+                fullList = mapResponse(body);
                 applySort(currentSort);
-                updateResultCount(mapped.size());
+                updateResultCount(fullList.size());
             }
 
             @Override
@@ -274,12 +263,17 @@ public class SearchResultActivity extends AppCompatActivity {
                     d.chuyenKhoa,
                     d.trinhDoChuyenMon != null ? d.trinhDoChuyenMon : "",
                     d.tenCoSoYTe,
-                    0f,   // API chưa trả rating → để 0, cập nhật khi backend bổ sung
+                    0f,
                     0,
                     false,
                     0,
                     mapDoctorType(d.loaiHinhBacSi)
             );
+
+            // Gán avatar và mô tả
+            doctor.setAvatarUrl(d.anhDaiDien);
+            doctor.setDescription(d.moTaBanThan);
+
             list.add(doctor);
         }
 

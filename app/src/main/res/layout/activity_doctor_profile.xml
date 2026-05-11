@@ -107,16 +107,14 @@
                         android:layout_marginEnd="14dp">
 
                         <!-- Avatar circle -->
-                        <TextView
-                            android:id="@+id/tvAvatar"
+                        <!-- Avatar circle -->
+                        <ImageView
+                            android:id="@+id/ivDoctorAvatar"
                             android:layout_width="76dp"
                             android:layout_height="76dp"
-                            android:gravity="center"
-                            android:text="@string/avatar_initials"
-                            android:textSize="26sp"
-                            android:fontFamily="sans-serif-medium"
-                            android:textColor="@color/colorWhite"
-                            android:background="@drawable/bg_avatar_circle" />
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_avatar_circle"
+                            android:contentDescription="Ảnh bác sĩ" />
 
                         <!-- Verified badge -->
                         <ImageView

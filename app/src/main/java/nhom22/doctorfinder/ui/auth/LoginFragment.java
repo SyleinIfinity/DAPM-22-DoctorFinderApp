@@ -42,7 +42,7 @@ public class LoginFragment extends AuthFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
 
         // 👉 Ánh xạ view ở đây
         etEmail = view.findViewById(R.id.etEmail);
@@ -64,7 +64,7 @@ public class LoginFragment extends AuthFragment {
 
         // 👉 Observe kết quả login
         mViewModel.loginResult.observe(getViewLifecycleOwner(), response -> {
-            if (response != null && response.authenticated) {
+            if (response != null && Boolean.TRUE.equals(response.authenticated)) {
 
                 SharedPrefManager prefs = SharedPrefManager.getInstance(requireContext());
 
