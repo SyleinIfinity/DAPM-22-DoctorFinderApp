@@ -95,6 +95,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                     intent.putExtra("doctor_experience", doctor.getExperienceYears());
                     intent.putExtra("doctor_is_online", doctor.isOnline());
                     intent.putExtra("doctor_type", doctor.getDoctorType());
+                    intent.putExtra("doctor_avatar_url", doctor.getAvatarUrl());
                     context.startActivity(intent);
                 }
             });
