@@ -1,6 +1,7 @@
 package nhom22.doctorfinder.ui.user.schedule;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,7 @@ import com.google.android.material.button.MaterialButton;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,18 +45,18 @@ public class SelectCenlendarActivity extends AppCompatActivity {
     private String doctorName;
 
     // ── Views ─────────────────────────────────────────────────────────────────
-    private RecyclerView      rvWeekStrip;
-    private FlexboxLayout     flexSlotsSang;
-    private FlexboxLayout     flexSlotsChieu;
-    private TextView          tvSelectedSlot;
-    private TextView          tvDuration;
+    private RecyclerView  rvWeekStrip;
+    private FlexboxLayout flexSlotsSang;
+    private FlexboxLayout flexSlotsChieu;
+    private TextView      tvSelectedSlot;
+    private TextView      tvDuration;
 
     // ── State ─────────────────────────────────────────────────────────────────
     private WorkingSlot    selectedSlot   = null;
     private MaterialButton selectedButton = null;
 
     /** Ngày đang được chọn trên week strip (yyyy-MM-dd) */
-    private String         selectedDate   = null;
+    private String selectedDate = null;
 
     // ── Adapters ──────────────────────────────────────────────────────────────
     private DayStripAdapter dayStripAdapter;
@@ -72,7 +75,16 @@ public class SelectCenlendarActivity extends AppCompatActivity {
 
         readIntentExtras();
         bindViews();
-        buildWeekStrip(); // Xây dựng 14 ngày từ hôm nay
+        buildWeekStrip();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Re-fetch khi quay lại app để cập nhật slot đã qua giờ
+        if (selectedDate != null && maBacSi >= 0) {
+            fetchWorkingSlots(maBacSi, selectedDate);
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -80,9 +92,9 @@ public class SelectCenlendarActivity extends AppCompatActivity {
     // ─────────────────────────────────────────────────────────────────────────
 
     private void readIntentExtras() {
-        Intent intent  = getIntent();
-        String idStr   = intent.getStringExtra("doctor_id");
-        doctorName     = intent.getStringExtra("doctor_name");
+        Intent intent = getIntent();
+        String idStr  = intent.getStringExtra("doctor_id");
+        doctorName    = intent.getStringExtra("doctor_name");
 
         if (idStr != null) {
             try { maBacSi = Integer.parseInt(idStr); }
@@ -100,7 +112,7 @@ public class SelectCenlendarActivity extends AppCompatActivity {
 
         TextView tvDoctorNameView = findViewById(R.id.tvDoctorName);
         if (tvDoctorNameView != null && doctorName != null)
-            tvDoctorNameView.setText(doctorName);
+            tvDoctorNameView.setText("BS. "+doctorName);
 
         rvWeekStrip    = findViewById(R.id.rvWeekStrip);
         flexSlotsSang  = findViewById(R.id.flexSlotsSang);
@@ -119,10 +131,6 @@ public class SelectCenlendarActivity extends AppCompatActivity {
     // Xây dựng week strip 14 ngày
     // ─────────────────────────────────────────────────────────────────────────
 
-    /**
-     * Tạo danh sách 14 ngày bắt đầu từ hôm nay, hiển thị trong RecyclerView ngang.
-     * Mặc định chọn ngày đầu tiên (hôm nay) và tải slot của ngày đó.
-     */
     private void buildWeekStrip() {
         List<DayItem> days = new ArrayList<>();
         SimpleDateFormat sdfKey  = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -131,14 +139,13 @@ public class SelectCenlendarActivity extends AppCompatActivity {
 
         Calendar cal = Calendar.getInstance();
         for (int i = 0; i < 14; i++) {
-            DayItem item = new DayItem();
-            item.dateKey  = sdfKey.format(cal.getTime());   // "2026-05-06"
-            item.dayNum   = sdfDay.format(cal.getTime());   // "06"
-            item.dayLabel = sdfDow.format(cal.getTime())    // "Th 3"
+            DayItem item  = new DayItem();
+            item.dateKey  = sdfKey.format(cal.getTime());
+            item.dayNum   = sdfDay.format(cal.getTime());
+            item.dayLabel = sdfDow.format(cal.getTime())
                     .replace("thứ", "T")
                     .replace("Thứ", "T");
 
-            // Hôm nay
             if (i == 0) item.dayLabel = "Hôm\nnay";
 
             days.add(item);
@@ -146,15 +153,11 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         }
 
         dayStripAdapter = new DayStripAdapter(days, position -> {
-            // Callback khi người dùng chọn một ngày
             DayItem selected = days.get(position);
-            selectedDate = selected.dateKey;
-
-            // Reset slot đã chọn trước đó
+            selectedDate   = selected.dateKey;
             selectedSlot   = null;
             selectedButton = null;
             clearSelectedSlotInfo();
-
             fetchWorkingSlots(maBacSi, selectedDate);
         });
 
@@ -162,8 +165,39 @@ public class SelectCenlendarActivity extends AppCompatActivity {
                 new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvWeekStrip.setAdapter(dayStripAdapter);
 
-        // Tự động chọn ngày hôm nay
+        // Tự động chọn hôm nay
         dayStripAdapter.selectPosition(0);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Kiểm tra slot đã qua giờ chưa (chỉ áp dụng cho ngày hôm nay)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Trả về true nếu slot đã qua giờ hiện tại (chỉ check khi đang xem hôm nay).
+     * So sánh theo phút: slotHH*60+mm < nowHH*60+mm
+     */
+    private boolean isSlotPassed(@NonNull WorkingSlot slot) {
+        // Chỉ kiểm tra khi xem ngày hôm nay
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String today          = sdf.format(new Date());
+        if (!today.equals(selectedDate)) return false;
+
+        try {
+            String startTime = slot.getDisplayTime(); // "08:00"
+            String[] parts   = startTime.split(":");
+            int slotHour     = Integer.parseInt(parts[0]);
+            int slotMinute   = Integer.parseInt(parts[1]);
+
+            Calendar now     = Calendar.getInstance();
+            int nowHour      = now.get(Calendar.HOUR_OF_DAY);
+            int nowMinute    = now.get(Calendar.MINUTE);
+
+            return (slotHour * 60 + slotMinute) < (nowHour * 60 + nowMinute);
+        } catch (Exception e) {
+            Log.e(TAG, "isSlotPassed parse error", e);
+            return false;
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -176,7 +210,6 @@ public class SelectCenlendarActivity extends AppCompatActivity {
             return;
         }
 
-        // Xóa slot cũ trong khi chờ
         if (flexSlotsSang  != null) flexSlotsSang.removeAllViews();
         if (flexSlotsChieu != null) flexSlotsChieu.removeAllViews();
 
@@ -220,18 +253,40 @@ public class SelectCenlendarActivity extends AppCompatActivity {
             return;
         }
 
+        boolean hasSang   = false;
+        boolean hasChieu  = false;
+
         for (WorkingSlot slot : slots) {
             MaterialButton btn = createSlotButton(slot);
             if (slot.isMorning()) {
-                if (flexSlotsSang  != null) flexSlotsSang.addView(btn);
+                if (flexSlotsSang != null) {
+                    flexSlotsSang.addView(btn);
+                    hasSang = true;
+                }
             } else {
-                if (flexSlotsChieu != null) flexSlotsChieu.addView(btn);
+                if (flexSlotsChieu != null) {
+                    flexSlotsChieu.addView(btn);
+                    hasChieu = true;
+                }
             }
         }
+
+        // Ẩn label "Buổi sáng" / "Buổi chiều" nếu không có slot
+        View tvLabelSang  = findViewById(R.id.tvLabelSang);
+        View tvLabelChieu = findViewById(R.id.tvLabelChieu);
+        if (tvLabelSang  != null) tvLabelSang.setVisibility(hasSang  ? View.VISIBLE : View.GONE);
+        if (tvLabelChieu != null) tvLabelChieu.setVisibility(hasChieu ? View.VISIBLE : View.GONE);
     }
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // Tạo slot button với logic passed / full / available
+    // ─────────────────────────────────────────────────────────────────────────
+
     private MaterialButton createSlotButton(@NonNull WorkingSlot slot) {
-        int styleRes = slot.isAvailable()
+        boolean passed    = isSlotPassed(slot);
+        boolean available = slot.isAvailable() && !passed;
+
+        int styleRes = available
                 ? R.style.Widget_Slot_Available
                 : R.style.Widget_Slot_Full;
 
@@ -241,18 +296,42 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         btn.setText(slot.getDisplayTime());
         btn.setTextSize(12f);
 
+        int dp1  = (int)(1  * getResources().getDisplayMetrics().density);
+        int dp12 = (int)(12 * getResources().getDisplayMetrics().density);
+
+        if (available) {
+            // ── Còn trống, chưa qua giờ ──────────────────────────────────────
+            btn.setTextColor(ContextCompat.getColor(this, R.color.teal_600));
+            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.teal_50));
+            btn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.teal_600));
+            btn.setStrokeWidth(dp1);
+            btn.setCornerRadius(dp12);
+            btn.setOnClickListener(v -> onSlotSelected(btn, slot));
+
+        } else if (passed) {
+            // ── Đã qua giờ → xám + gạch ngang ───────────────────────────────
+            btn.setTextColor(ContextCompat.getColor(this, R.color.text_muted));
+            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray_200));
+            btn.setCornerRadius(dp12);
+            btn.setEnabled(false);
+            // Gạch ngang để phân biệt với "hết chỗ"
+            btn.setPaintFlags(btn.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        } else {
+            // ── Hết chỗ (full) ────────────────────────────────────────────────
+            btn.setTextColor(ContextCompat.getColor(this, R.color.text_muted));
+            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.gray_200));
+            btn.setCornerRadius(dp12);
+            btn.setEnabled(false);
+        }
+
+        // Layout params
         FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        int margin = (int) (3 * getResources().getDisplayMetrics().density);
+        int margin = (int)(3 * getResources().getDisplayMetrics().density);
         lp.setMargins(margin, margin, margin, margin);
         btn.setLayoutParams(lp);
-
-        if (slot.isAvailable()) {
-            btn.setOnClickListener(v -> onSlotSelected(btn, slot));
-        } else {
-            btn.setEnabled(false);
-        }
 
         return btn;
     }
@@ -262,37 +341,44 @@ public class SelectCenlendarActivity extends AppCompatActivity {
     // ─────────────────────────────────────────────────────────────────────────
 
     private void onSlotSelected(@NonNull MaterialButton clickedBtn, @NonNull WorkingSlot slot) {
+        // Bỏ chọn button cũ
         if (selectedButton != null && selectedButton != clickedBtn) {
-            applySlotStyle(selectedButton, R.style.Widget_Slot_Available);
+            applySlotStyle(selectedButton, false /* restore to available */);
         }
-        applySlotStyle(clickedBtn, R.style.Widget_Slot_Selected);
+        // Chọn button mới
+        applySlotStyle(clickedBtn, true /* selected */);
         selectedButton = clickedBtn;
         selectedSlot   = slot;
         updateSelectedSlotInfo(slot);
     }
 
-    private void applySlotStyle(@NonNull MaterialButton btn, int styleRes) {
-        if (styleRes == R.style.Widget_Slot_Selected) {
-            btn.setBackgroundTintList(
-                    androidx.core.content.ContextCompat.getColorStateList(this, R.color.slot_selected_bg));
-            btn.setTextColor(
-                    androidx.core.content.ContextCompat.getColor(this, R.color.slot_selected_text));
+    /**
+     * @param selected true = apply style "đang chọn", false = restore "còn trống"
+     */
+    private void applySlotStyle(@NonNull MaterialButton btn, boolean selected) {
+        int dp1  = (int)(1 * getResources().getDisplayMetrics().density);
+        int dp12 = (int)(12 * getResources().getDisplayMetrics().density);
+
+        if (selected) {
+            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.teal_600));
+            btn.setTextColor(ContextCompat.getColor(this, R.color.white));
             btn.setStrokeWidth(0);
+            btn.setCornerRadius(dp12);
         } else {
-            btn.setBackgroundTintList(null);
-            btn.setTextColor(
-                    androidx.core.content.ContextCompat.getColor(this, R.color.slot_available_text));
-            btn.setStrokeWidth(1);
-            btn.setStrokeColor(
-                    androidx.core.content.ContextCompat.getColorStateList(this, R.color.slot_available_text));
+            btn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.teal_50));
+            btn.setTextColor(ContextCompat.getColor(this, R.color.teal_600));
+            btn.setStrokeWidth(dp1);
+            btn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.teal_600));
+            btn.setCornerRadius(dp12);
         }
     }
 
     private void updateSelectedSlotInfo(@NonNull WorkingSlot slot) {
         if (tvSelectedSlot != null)
-            tvSelectedSlot.setText("Đã chọn: " + slot.getDisplayTime() + " - " + slot.getDisplayEndTime());
+            tvSelectedSlot.setText("Đã chọn: " + slot.getDisplayTime()
+                    + " - " + slot.getDisplayEndTime());
         if (tvDuration != null)
-            tvDuration.setText("· Thời lượng " + slot.thoiLuongPhut + " phút");
+            tvDuration.setText(" · Thời lượng " + slot.thoiLuongPhut + " phút");
     }
 
     private void clearSelectedSlotInfo() {
@@ -311,13 +397,13 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, SchedulingInformationActivity.class);
-        intent.putExtra("doctor_id",    String.valueOf(maBacSi));
-        intent.putExtra("doctor_name",  doctorName);
-        intent.putExtra("slot_id",      selectedSlot.maChiTiet);
-        intent.putExtra("slot_date",    selectedSlot.ngayCuThe);
-        intent.putExtra("slot_start",   selectedSlot.getDisplayTime());
-        intent.putExtra("slot_end",     selectedSlot.getDisplayEndTime());
-        intent.putExtra("slot_duration",selectedSlot.thoiLuongPhut);
+        intent.putExtra("doctor_id",     String.valueOf(maBacSi));
+        intent.putExtra("doctor_name",   doctorName);
+        intent.putExtra("slot_id",       selectedSlot.maChiTiet);
+        intent.putExtra("slot_date",     selectedSlot.ngayCuThe);
+        intent.putExtra("slot_start",    selectedSlot.getDisplayTime());
+        intent.putExtra("slot_end",      selectedSlot.getDisplayEndTime());
+        intent.putExtra("slot_duration", selectedSlot.thoiLuongPhut);
 
         startActivity(intent);
     }
@@ -340,9 +426,9 @@ public class SelectCenlendarActivity extends AppCompatActivity {
 
         interface OnDaySelected { void onSelected(int position); }
 
-        private final List<DayItem>   items;
-        private final OnDaySelected   callback;
-        private int                   selectedPos = -1;
+        private final List<DayItem> items;
+        private final OnDaySelected callback;
+        private int                 selectedPos = -1;
 
         DayStripAdapter(List<DayItem> items, OnDaySelected callback) {
             this.items    = items;
@@ -350,7 +436,7 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         }
 
         void selectPosition(int pos) {
-            int prev = selectedPos;
+            int prev    = selectedPos;
             selectedPos = pos;
             if (prev >= 0) notifyItemChanged(prev);
             notifyItemChanged(pos);
@@ -360,7 +446,6 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         @NonNull
         @Override
         public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            // Inflate item layout, hoặc tạo View code-only để không phụ thuộc XML
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_day_pill, parent, false);
             return new VH(itemView);
@@ -368,29 +453,24 @@ public class SelectCenlendarActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull VH holder, int position) {
-            DayItem item = items.get(position);
+            DayItem item       = items.get(position);
+            boolean isSelected = (position == selectedPos);
+
             holder.tvDayNum.setText(item.dayNum);
             holder.tvDayLabel.setText(item.dayLabel);
 
-            boolean isSelected = (position == selectedPos);
-
-            // Thay đổi background & màu chữ theo trạng thái
             if (isSelected) {
                 holder.itemView.setBackgroundResource(R.drawable.bg_day_selected);
                 holder.tvDayNum.setTextColor(
-                        androidx.core.content.ContextCompat.getColor(
-                                holder.itemView.getContext(), R.color.white));
+                        ContextCompat.getColor(holder.itemView.getContext(), R.color.white));
                 holder.tvDayLabel.setTextColor(
-                        androidx.core.content.ContextCompat.getColor(
-                                holder.itemView.getContext(), R.color.white));
+                        ContextCompat.getColor(holder.itemView.getContext(), R.color.white));
             } else {
                 holder.itemView.setBackgroundResource(R.drawable.bg_day_normal);
                 holder.tvDayNum.setTextColor(
-                        androidx.core.content.ContextCompat.getColor(
-                                holder.itemView.getContext(), R.color.text_primary));
+                        ContextCompat.getColor(holder.itemView.getContext(), R.color.text_primary));
                 holder.tvDayLabel.setTextColor(
-                        androidx.core.content.ContextCompat.getColor(
-                                holder.itemView.getContext(), R.color.text_muted));
+                        ContextCompat.getColor(holder.itemView.getContext(), R.color.text_muted));
             }
 
             holder.itemView.setOnClickListener(v -> selectPosition(holder.getAdapterPosition()));

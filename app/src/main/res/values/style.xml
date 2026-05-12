@@ -13,20 +13,16 @@
         <item name="hintTextColor">@color/teal_primary</item>
         <item name="android:textColorHint">@color/text_muted</item>
     </style>
-    <style name="Widget.Slot.Available" parent="Widget.Material3.Button.OutlinedButton">
-
-        <item name="android:textColor">@color/slot_available_text</item>
-
-        <item name="strokeColor">@color/slot_available_text</item>
+    <style name="Widget.Slot.Available" parent="Widget.Slot.Base">
+        <item name="backgroundTint">@color/teal_50</item>
+        <item name="android:textColor">@color/teal_600</item>
+        <item name="strokeColor">@color/teal_600</item>
         <item name="strokeWidth">1dp</item>
-
         <item name="cornerRadius">12dp</item>
-
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingTop">6dp</item>
         <item name="android:paddingBottom">6dp</item>
-
     </style>
     <!-- ===== TextInputLayout – Small (inside Doctor Card) ===== -->
     <style name="Widget.App.TextInputLayout.Small" parent="Widget.App.TextInputLayout">
@@ -182,23 +178,18 @@
 
 
     <style name="Widget.Slot.Base" parent="Widget.Material3.Button">
-
-        <!-- FIX ROOT CAUSE -->
         <item name="backgroundTint">@null</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:minHeight">0dp</item>
-
-        <!-- REMOVE MATERIAL INSET -->
         <item name="android:insetLeft">0dp</item>
         <item name="android:insetRight">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-
-        <!-- SIZE -->
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">10dp</item>
         <item name="android:textSize">12sp</item>
-
+        <!-- THÊM: tắt ripple tím từ theme -->
+        <item name="rippleColor">@color/teal_ripple</item>
     </style>
     <!-- Full slot: gray border, gray text, gray bg -->
     <style name="SlotFull">
@@ -242,12 +233,23 @@
         <item name="backgroundTint">@color/gray_200</item>
         <item name="android:textColor">@color/text_muted</item>
         <item name="android:enabled">false</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
     </style>
 
     <!-- Slot: đang chọn (selected) -->
     <style name="Widget.Slot.Selected" parent="Widget.Slot.Base">
         <item name="backgroundTint">@color/teal_600</item>
         <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="rippleColor">@color/teal_ripple</item>
     </style>
 
     <!-- ===== SHAPE APPEARANCE ===== -->

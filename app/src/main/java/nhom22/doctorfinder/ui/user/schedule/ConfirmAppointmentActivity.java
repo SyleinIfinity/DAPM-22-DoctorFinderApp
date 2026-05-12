@@ -12,10 +12,11 @@ import com.google.android.material.chip.Chip;
 import com.google.gson.Gson;
 
 import nhom22.doctorfinder.R;
+import nhom22.doctorfinder.UserActivity;
 import nhom22.doctorfinder.data.remote.api.UserApiService;
 import nhom22.doctorfinder.data.remote.client.RetrofitClient;
 import nhom22.doctorfinder.data.remote.dto.response.AppointmentResponse;
-import nhom22.doctorfinder.ui.home.HomeFragment;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -214,8 +215,9 @@ public class ConfirmAppointmentActivity extends AppCompatActivity {
         MaterialButton btnTrangChu = findViewById(R.id.btnTrangChu);
         if (btnTrangChu != null) {
             btnTrangChu.setOnClickListener(v -> {
-                Intent intent = new Intent(this, HomeFragment.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(this, UserActivity.class);
+                intent.putExtra("open_tab", R.id.nav_trang_chu);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             });

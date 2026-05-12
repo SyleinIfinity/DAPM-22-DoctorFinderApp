@@ -79,7 +79,7 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowView
 
         void bind(@NonNull FollowDoctorItem item) {
             // ─── Tên bác sĩ ───
-            tvName.setText(item.hoTenBacSi != null ? item.hoTenBacSi : "");
+            tvName.setText(item.hoTenBacSi != null ? "BS. "+ item.hoTenBacSi : "");
 
             // ─── Chuyên khoa ───
             tvSpecialty.setText(item.chuyenKhoa != null ? item.chuyenKhoa : "");

@@ -101,7 +101,7 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
         }
 
         public void bind(Doctor doctor) {
-            tvDoctorName.setText(doctor.getName());
+            tvDoctorName.setText("BS. " + doctor.getName());
             tvSpecialty.setText(doctor.getFormattedInfo());
             tvHospital.setText("🏥 " + doctor.getHospital());
             tvStars.setText(doctor.getStarString());

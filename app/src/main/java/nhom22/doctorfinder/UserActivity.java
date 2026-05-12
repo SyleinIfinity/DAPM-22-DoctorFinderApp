@@ -68,7 +68,8 @@ public class UserActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            bottomNavigation.setSelectedItemId(R.id.nav_trang_chu);
+            int tab = getIntent().getIntExtra("open_tab", R.id.nav_trang_chu);
+            bottomNavigation.setSelectedItemId(tab);
         }
     }
 

@@ -23,10 +23,10 @@
     <string name="app_name_profile">Doctor Profile</string>
     <string name="title_doctor_profile">Hồ sơ bác sĩ</string>
     <string name="share">Chia sẻ</string>
-    <string name="doctor_name">TS.BS. Nguyễn Thanh Tùng</string>
-    <string name="doctor_degree">Tiến sĩ Y khoa</string>
-    <string name="doctor_specialty">Chuyên khoa Thần kinh</string>
-    <string name="doctor_hospital">BV Bạch Mai – Hà Nội</string>
+    <string name="doctor_name"></string>
+    <string name="doctor_degree"></string>
+    <string name="doctor_specialty"></string>
+    <string name="doctor_hospital"></string>
     <string name="status_verified">Hồ sơ đã duyệt · Nhận bệnh online</string>
     <string name="btn_follow">Theo dõi</string>
     <string name="btn_followed">Đã theo dõi</string>
