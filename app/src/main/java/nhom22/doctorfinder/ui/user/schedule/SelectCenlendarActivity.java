@@ -242,8 +242,8 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         btn.setTextSize(12f);
 
         FlexboxLayout.LayoutParams lp = new FlexboxLayout.LayoutParams(
-                FlexboxLayout.LayoutParams.WRAP_CONTENT,
-                (int) (32 * getResources().getDisplayMetrics().density));
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         int margin = (int) (3 * getResources().getDisplayMetrics().density);
         lp.setMargins(margin, margin, margin, margin);
         btn.setLayoutParams(lp);
