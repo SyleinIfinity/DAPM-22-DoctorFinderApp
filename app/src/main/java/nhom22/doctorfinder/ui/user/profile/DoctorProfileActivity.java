@@ -202,7 +202,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
     // ─── Populate từ Intent extras ────────────────────────────────────────────
 
     private void populateFromExtras() {
-        setText(tvDoctorName, doctorName);
+        setText(tvDoctorName, doctorName != null ? "BS. " + doctorName : "");
         setText(tvSpecialty, doctorSpecialty);
         setText(tvDegreeChip, doctorDegree);
         setText(tvHospital, doctorHospital);

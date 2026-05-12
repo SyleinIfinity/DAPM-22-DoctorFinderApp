@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment {
     private void bindTopDoctors(@NonNull List<TopDoctor> doctors) {
         if (doctors.size() >= 1) {
             TopDoctor d1 = doctors.get(0);
-            safeSetText(tvDoctorName1, d1.getHoTenDayDu());
+            safeSetText(tvDoctorName1, "BS " + d1.getHoTenDayDu());
             safeSetText(tvSpecialty1,  "Top Doctor");
             safeSetText(tvRating1,     "⭐ " + d1.getCount());
             safeSetText(tvExperience1, "N/A");
@@ -175,7 +175,7 @@ public class HomeFragment extends Fragment {
 
         if (doctors.size() >= 2) {
             TopDoctor d2 = doctors.get(1);
-            safeSetText(tvDoctorName2, d2.getHoTenDayDu());
+            safeSetText(tvDoctorName2, "BS " + d2.getHoTenDayDu());
             safeSetText(tvSpecialty2,  "Top Doctor");
             safeSetText(tvRating2,     "⭐ " + d2.getCount());
             safeSetText(tvExperience2, "N/A");

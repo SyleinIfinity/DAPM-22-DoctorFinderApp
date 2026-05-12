@@ -95,13 +95,14 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                     intent.putExtra("doctor_experience", doctor.getExperienceYears());
                     intent.putExtra("doctor_is_online", doctor.isOnline());
                     intent.putExtra("doctor_type", doctor.getDoctorType());
+                    intent.putExtra("doctor_avatar_url", doctor.getAvatarUrl());
                     context.startActivity(intent);
                 }
             });
         }
 
         public void bind(Doctor doctor) {
-            tvDoctorName.setText(doctor.getName());
+            tvDoctorName.setText("BS. " + doctor.getName());
             tvSpecialty.setText(doctor.getFormattedInfo());
             tvHospital.setText("🏥 " + doctor.getHospital());
             tvStars.setText(doctor.getStarString());

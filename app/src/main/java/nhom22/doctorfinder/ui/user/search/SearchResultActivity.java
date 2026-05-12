@@ -210,19 +210,22 @@ public class SearchResultActivity extends AppCompatActivity {
     private void fetchDoctors() {
         DoctorApiService api = RetrofitClient.getClient().create(DoctorApiService.class);
 
-        String keywordParam    = (!keyword.isEmpty())    ? keyword    : null;
-        String symptomParam    = (!symptom.isEmpty())     ? symptom    : null;
-        // Dùng symptom làm chuyenKhoa, hoặc null nếu không có
-        String chuyenKhoaParam = symptomParam;
+        // ✅ KHÔNG dùng null → tránh crash backend
+        String keywordParam = keyword.isEmpty() ? "" : keyword;
+        String chuyenKhoaParam = symptom.isEmpty() ? "" : symptom;
+
+        Log.d("API_DEBUG", "keyword=" + keywordParam);
+        Log.d("API_DEBUG", "chuyenKhoa=" + chuyenKhoaParam);
 
         api.searchDoctors(
                 keywordParam,
-                chuyenKhoaParam, // ← Dùng input thực từ người dùng
-                null,
+                chuyenKhoaParam,
+                "",
                 "DA_DUYET",
                 50,
                 0
         ).enqueue(new Callback<List<DoctorResponse>>() {
+
             @Override
             public void onResponse(Call<List<DoctorResponse>> call,
                                    Response<List<DoctorResponse>> response) {
@@ -230,23 +233,33 @@ public class SearchResultActivity extends AppCompatActivity {
                 Log.d("API_DEBUG", "Code: " + response.code());
 
                 if (!response.isSuccessful()) {
+                    try {
+                        Log.e("API_ERROR", response.errorBody().string());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     showError("Lỗi server: " + response.code());
                     return;
                 }
 
                 List<DoctorResponse> body = response.body();
+
                 if (body == null || body.isEmpty()) {
                     showError("Không tìm thấy bác sĩ");
                     return;
                 }
 
-                fullList = mapResponse(body);
+                // ✅ Map + Filter
+                List<Doctor> mapped = mapResponse(body);
+                fullList = clientFilter(mapped);
+
                 applySort(currentSort);
                 updateResultCount(fullList.size());
             }
 
             @Override
             public void onFailure(Call<List<DoctorResponse>> call, Throwable t) {
+                Log.e("API_FAIL", t.getMessage());
                 showError("Lỗi kết nối: " + t.getMessage());
             }
         });
@@ -259,10 +272,10 @@ public class SearchResultActivity extends AppCompatActivity {
         for (DoctorResponse d : body) {
             Doctor doctor = new Doctor(
                     String.valueOf(d.maBacSi),
-                    d.hoTenDayDu,
-                    d.chuyenKhoa,
+                    d.hoTenDayDu != null ? d.hoTenDayDu : "",
+                    d.chuyenKhoa != null ? d.chuyenKhoa : "",
                     d.trinhDoChuyenMon != null ? d.trinhDoChuyenMon : "",
-                    d.tenCoSoYTe,
+                    d.tenCoSoYTe != null ? d.tenCoSoYTe : "",
                     0f,
                     0,
                     false,
@@ -270,7 +283,6 @@ public class SearchResultActivity extends AppCompatActivity {
                     mapDoctorType(d.loaiHinhBacSi)
             );
 
-            // Gán avatar và mô tả
             doctor.setAvatarUrl(d.anhDaiDien);
             doctor.setDescription(d.moTaBanThan);
 
@@ -287,14 +299,15 @@ public class SearchResultActivity extends AppCompatActivity {
         String type = typeParam();
 
         for (Doctor d : source) {
-            // Lọc loại hình bác sĩ
+
+            // Lọc loại bác sĩ
             if (type != null && !type.equalsIgnoreCase(d.getDoctorType())) {
                 continue;
             }
-            // Lọc rating tối thiểu (chỉ có hiệu lực khi backend bổ sung rating)
-            if (minRating > 0f && d.getRating() < minRating) {
-                continue;
-            }
+
+            // ⚠️ Tạm thời bỏ filter rating vì API chưa có
+            // if (minRating > 0f && d.getRating() < minRating) continue;
+
             result.add(d);
         }
 

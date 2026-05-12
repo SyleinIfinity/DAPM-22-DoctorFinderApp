@@ -22,7 +22,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.user.schedule.SelectCenlendarActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.DoctorFinder" />
         <activity
             android:name=".ui.user.schedule.SchedulingInformationActivity"
             android:exported="false" />
@@ -44,6 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.home.HomeActivity" />
 
     </application>
 

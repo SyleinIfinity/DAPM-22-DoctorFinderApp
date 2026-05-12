@@ -255,18 +255,11 @@ public class SearchBoxActivity extends AppCompatActivity {
         String keyword = getTextValue(etKeyword);
         String symptom = getTextValue(etSymptom);
 
-//        if (keyword.isEmpty() && symptom.isEmpty() && selectedImages.isEmpty()) {
-//            Toast.makeText(this,
-//                    "Vui lòng nhập từ khóa, triệu chứng hoặc tải ảnh",
-//                    Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-
         Intent intent = new Intent(this, SearchResultActivity.class);
-        intent.putExtra(EXTRA_KEYWORD,     keyword);
-        intent.putExtra(EXTRA_SYMPTOM,     symptom);
+        intent.putExtra(EXTRA_KEYWORD, keyword);
+        intent.putExtra(EXTRA_SYMPTOM, symptom);
         intent.putExtra(EXTRA_DOCTOR_TYPE, selectedDoctorType);
-        intent.putExtra(EXTRA_MIN_RATING,  selectedMinRating);
+        intent.putExtra(EXTRA_MIN_RATING, selectedMinRating);
 
         ArrayList<String> uriStrings = new ArrayList<>();
         for (Uri uri : selectedImages) uriStrings.add(uri.toString());
