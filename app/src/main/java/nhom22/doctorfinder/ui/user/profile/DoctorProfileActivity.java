@@ -3,6 +3,7 @@ package nhom22.doctorfinder.ui.user.profile;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,6 +25,8 @@ import nhom22.doctorfinder.data.remote.client.RetrofitClient;
 import nhom22.doctorfinder.data.remote.dto.response.DoctorResponse;
 import nhom22.doctorfinder.data.remote.dto.response.FollowDoctorItem;
 import nhom22.doctorfinder.data.remote.dto.response.FollowResponse;
+import nhom22.doctorfinder.data.remote.dto.response.RatingSummaryResponse;
+import nhom22.doctorfinder.data.remote.dto.response.ReviewItem;
 import nhom22.doctorfinder.utils.SharedPrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +59,10 @@ public class DoctorProfileActivity extends AppCompatActivity {
     private TextView     tvFollowText;
     private ProgressBar  pbFollow;        // loading nhỏ trên nút follow (tuỳ chọn)
 
+    // Reviews
+    private LinearLayout llReviewsContainer;
+    private TextView     tvNoReviews;
+
     // ───── State ─────
     private boolean isFollowed   = false;
     private boolean isFollowBusy = false; // tránh double-tap
@@ -80,6 +87,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
         bindViews();
         populateFromExtras();
         fetchFullProfile();
+        fetchRatingSummary();
+        fetchReviews();
         checkFollowStatus();   // Kiểm tra xem đã follow chưa ngay khi mở màn hình
     }
 
@@ -132,6 +141,10 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
         ivDoctorAvatar = findViewById(R.id.ivDoctorAvatar);
         loadAvatar(doctorAvatarUrl);
+
+        // ─── Reviews container ────────────────────────────────────────────────
+        llReviewsContainer = findViewById(R.id.llReviewsContainer);
+        tvNoReviews        = findViewById(R.id.tvNoReviews);
 
         // ─── Follow button ────────────────────────────────────────────────────
         btnFollow   = findViewById(R.id.btnFollow);
@@ -440,5 +453,105 @@ public class DoctorProfileActivity extends AppCompatActivity {
         i.putExtra("doctor_id", doctorId);
         i.putExtra("doctor_name", doctorName);
         startActivity(i);
+    }
+
+    // ─── API: Rating Summary ───────────────────────────────────────────────────
+
+    private void fetchRatingSummary() {
+        int id = parseDoctorId();
+        if (id < 0) return;
+
+        doctorApi.getRatingSummary(id).enqueue(new Callback<RatingSummaryResponse>() {
+            @Override
+            public void onResponse(Call<RatingSummaryResponse> call,
+                                   Response<RatingSummaryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    RatingSummaryResponse summary = response.body();
+                    if (tvRating != null) {
+                        tvRating.setText(summary.soSaoTrungBinh != null
+                                ? String.format("%.1f", summary.soSaoTrungBinh) : "0");
+                    }
+                    if (tvRatingCount != null) {
+                        tvRatingCount.setText("(" + summary.tongDanhGia + " đánh giá)");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RatingSummaryResponse> call, Throwable t) {
+                // Giữ nguyên giá trị từ Intent extras
+            }
+        });
+    }
+
+    // ─── API: Reviews ─────────────────────────────────────────────────────────
+
+    private void fetchReviews() {
+        int id = parseDoctorId();
+        if (id < 0) return;
+
+        doctorApi.getDoctorReviews(id).enqueue(new Callback<List<ReviewItem>>() {
+            @Override
+            public void onResponse(Call<List<ReviewItem>> call,
+                                   Response<List<ReviewItem>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<ReviewItem> reviews = response.body();
+                    if (reviews.isEmpty()) {
+                        if (tvNoReviews != null) tvNoReviews.setVisibility(View.VISIBLE);
+                    } else {
+                        renderReviews(reviews);
+                    }
+                } else {
+                    if (tvNoReviews != null) tvNoReviews.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReviewItem>> call, Throwable t) {
+                if (tvNoReviews != null) tvNoReviews.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void renderReviews(List<ReviewItem> reviews) {
+        if (llReviewsContainer == null) return;
+        llReviewsContainer.removeAllViews();
+
+        for (ReviewItem review : reviews) {
+            View itemView = LayoutInflater.from(this)
+                    .inflate(R.layout.item_review_card, llReviewsContainer, false);
+
+            TextView tvAvatar  = itemView.findViewById(R.id.tvRevAvatar1);
+            TextView tvRevName = itemView.findViewById(R.id.tvRevName1);
+            TextView tvRevDate = itemView.findViewById(R.id.tvRevDate1);
+            TextView tvRevText = itemView.findViewById(R.id.tvRevText1);
+
+            // Initials avatar
+            if (tvAvatar != null && review.hoTenNguoiDung != null
+                    && !review.hoTenNguoiDung.isEmpty()) {
+                tvAvatar.setText(review.hoTenNguoiDung
+                        .substring(0, Math.min(2, review.hoTenNguoiDung.length()))
+                        .toUpperCase());
+            }
+
+            if (tvRevName != null)
+                tvRevName.setText(review.hoTenNguoiDung != null ? review.hoTenNguoiDung : "");
+
+            if (tvRevDate != null && review.thoiGian != null) {
+                try {
+                    // "2026-05-13T13:02:47.896Z" → "13/05/2026"
+                    String datePart = review.thoiGian.substring(0, 10);
+                    String[] parts = datePart.split("-");
+                    tvRevDate.setText(parts[2] + "/" + parts[1] + "/" + parts[0]);
+                } catch (Exception e) {
+                    tvRevDate.setText(review.thoiGian);
+                }
+            }
+
+            if (tvRevText != null)
+                tvRevText.setText(review.noiDung != null ? review.noiDung : "");
+
+            llReviewsContainer.addView(itemView);
+        }
     }
 }

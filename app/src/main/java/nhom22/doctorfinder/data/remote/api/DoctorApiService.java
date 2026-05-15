@@ -3,6 +3,8 @@ package nhom22.doctorfinder.data.remote.api;
 import java.util.List;
 
 import nhom22.doctorfinder.data.remote.dto.response.DoctorResponse;
+import nhom22.doctorfinder.data.remote.dto.response.RatingSummaryResponse;
+import nhom22.doctorfinder.data.remote.dto.response.ReviewItem;
 import nhom22.doctorfinder.data.remote.dto.response.WorkingSlot;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -35,5 +37,13 @@ public interface DoctorApiService {
             @Path("maBacSi") int maBacSi,
             @Query("date") String date
     );
+
+    /** Lấy danh sách đánh giá của bác sĩ (không cần token). */
+    @GET("api/doctors/{maBacSi}/reviews")
+    Call<List<ReviewItem>> getDoctorReviews(@Path("maBacSi") int maBacSi);
+
+    /** Lấy tổng quan đánh giá của bác sĩ (không cần token). */
+    @GET("api/doctors/{maBacSi}/rating-summary")
+    Call<RatingSummaryResponse> getRatingSummary(@Path("maBacSi") int maBacSi);
 
 }

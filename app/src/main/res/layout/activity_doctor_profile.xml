@@ -592,13 +592,23 @@
 
                 </LinearLayout>
 
-                <!-- Review 1 -->
-                <include layout="@layout/item_review_card"
-                    android:id="@+id/review1" />
+                <!-- Dynamic reviews container (populated at runtime) -->
+                <LinearLayout
+                    android:id="@+id/llReviewsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
 
-                <!-- Review 2 -->
-                <include layout="@layout/item_review_card_alt"
-                    android:id="@+id/review2" />
+                <TextView
+                    android:id="@+id/tvNoReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa có đánh giá nào"
+                    android:textSize="13sp"
+                    android:textColor="@color/colorTextHint"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:visibility="gone" />
 
                 <Space android:layout_width="match_parent" android:layout_height="4dp" />
 
