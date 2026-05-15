@@ -70,13 +70,17 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
             tvDoctorName = itemView.findViewById(R.id.tvDoctorName);
             tvSpecialty = itemView.findViewById(R.id.tvSpecialty);
             tvHospital = itemView.findViewById(R.id.tvHospital);
-            tvStars = itemView.findViewById(R.id.tvStars);
             tvRating = itemView.findViewById(R.id.tvRating);
             tvReviewCount = itemView.findViewById(R.id.tvReviewCount);
             badgeTop = itemView.findViewById(R.id.badgeTop);
             badgeAvailable = itemView.findViewById(R.id.badgeAvailable);
             badgeOnline = itemView.findViewById(R.id.badgeOnline);
             onlineDot = itemView.findViewById(R.id.onlineDot);
+
+            tvStars = itemView.findViewById(R.id.tvStars);
+            tvRating = itemView.findViewById(R.id.tvRating);
+            tvReviewCount = itemView.findViewById(R.id.tvReviewCount);
+
         }
 
         private void setupClickListener() {

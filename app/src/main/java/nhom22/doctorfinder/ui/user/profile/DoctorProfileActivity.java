@@ -405,7 +405,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
     // ─── Populate từ response API ──────────────────────────────────────────────
 
     private void populateFromResponse(DoctorResponse d) {
-        setText(tvDoctorName, d.hoTenDayDu);
+        setText(tvDoctorName,
+                d.hoTenDayDu != null ? "BS. " + d.hoTenDayDu : "");
         setText(tvSpecialty, d.chuyenKhoa);
         setText(tvDegreeChip, d.trinhDoChuyenMon);
         setText(tvHospital, d.tenCoSoYTe);
@@ -452,6 +453,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 nhom22.doctorfinder.ui.user.schedule.SelectCenlendarActivity.class);
         i.putExtra("doctor_id", doctorId);
         i.putExtra("doctor_name", doctorName);
+        i.putExtra("doctor_avatar_url", doctorAvatarUrl);
         startActivity(i);
     }
 
