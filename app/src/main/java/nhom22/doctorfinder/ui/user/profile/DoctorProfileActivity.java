@@ -519,37 +519,65 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
         for (ReviewItem review : reviews) {
             View itemView = LayoutInflater.from(this)
-                    .inflate(R.layout.item_review_card, llReviewsContainer, false);
+                    .inflate(R.layout.item_review_card_alt, llReviewsContainer, false);
 
-            TextView tvAvatar  = itemView.findViewById(R.id.tvRevAvatar1);
-            TextView tvRevName = itemView.findViewById(R.id.tvRevName1);
-            TextView tvRevDate = itemView.findViewById(R.id.tvRevDate1);
-            TextView tvRevText = itemView.findViewById(R.id.tvRevText1);
+            ImageView ivAvatar = itemView.findViewById(R.id.ivRevAvatar);
+            TextView tvName   = itemView.findViewById(R.id.tvRevName2);
+            TextView tvDate   = itemView.findViewById(R.id.tvRevDate2);
+            TextView tvText   = itemView.findViewById(R.id.tvRevText2);
 
-            // Initials avatar
-            if (tvAvatar != null && review.hoTenNguoiDung != null
-                    && !review.hoTenNguoiDung.isEmpty()) {
-                tvAvatar.setText(review.hoTenNguoiDung
-                        .substring(0, Math.min(2, review.hoTenNguoiDung.length()))
-                        .toUpperCase());
-            }
-
-            if (tvRevName != null)
-                tvRevName.setText(review.hoTenNguoiDung != null ? review.hoTenNguoiDung : "");
-
-            if (tvRevDate != null && review.thoiGian != null) {
-                try {
-                    // "2026-05-13T13:02:47.896Z" → "13/05/2026"
-                    String datePart = review.thoiGian.substring(0, 10);
-                    String[] parts = datePart.split("-");
-                    tvRevDate.setText(parts[2] + "/" + parts[1] + "/" + parts[0]);
-                } catch (Exception e) {
-                    tvRevDate.setText(review.thoiGian);
+            // ===== Avatar (initials) =====
+            if (ivAvatar != null) {
+                if (review.anhDaiDienNguoiDung != null && !review.anhDaiDienNguoiDung.isEmpty()) {
+                    Glide.with(this)
+                            .load(review.anhDaiDienNguoiDung)
+                            .circleCrop()
+                            .placeholder(R.drawable.ic_doctor_placeholder)
+                            .into(ivAvatar);
+                } else {
+                    ivAvatar.setImageResource(R.drawable.ic_doctor_placeholder);
                 }
             }
 
-            if (tvRevText != null)
-                tvRevText.setText(review.noiDung != null ? review.noiDung : "");
+            // ===== Name =====
+            if (tvName != null) {
+                tvName.setText(review.hoTenNguoiDung != null
+                        ? review.hoTenNguoiDung
+                        : "Người dùng");
+            }
+
+            // ===== Date =====
+            if (tvDate != null && review.thoiGian != null) {
+                try {
+                    String datePart = review.thoiGian.substring(0, 10);
+                    String[] parts = datePart.split("-");
+                    tvDate.setText(parts[2] + "/" + parts[1] + "/" + parts[0]);
+                } catch (Exception e) {
+                    tvDate.setText(review.thoiGian);
+                }
+            }
+
+            // ===== Content =====
+            if (tvText != null) {
+                tvText.setText(review.noiDung != null ? review.noiDung : "");
+            }
+
+            // ===== ⭐ Dynamic Stars =====
+            LinearLayout starsLayout = itemView.findViewById(R.id.layoutStars);
+
+            if (starsLayout != null) {
+                int rating = review.soSao;
+
+                for (int i = 0; i < starsLayout.getChildCount(); i++) {
+                    TextView star = (TextView) starsLayout.getChildAt(i);
+
+                    if (i < rating) {
+                        star.setTextColor(getResources().getColor(R.color.colorStar));
+                    } else {
+                        star.setTextColor(getResources().getColor(R.color.colorStarOff));
+                    }
+                }
+            }
 
             llReviewsContainer.addView(itemView);
         }
