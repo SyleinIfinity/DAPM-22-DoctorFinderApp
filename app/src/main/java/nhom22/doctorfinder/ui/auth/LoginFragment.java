@@ -74,9 +74,9 @@ public class LoginFragment extends AuthFragment {
 
                 prefs.saveRole(response.vaiTro);
 
-                Toast.makeText(requireContext(),
-                        "UserID: " + response.maNguoiDung,
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(requireContext(),
+//                        "UserID: " + response.maNguoiDung,
+//                        Toast.LENGTH_SHORT).show();
 
                 startActivity(new Intent(requireContext(), UserActivity.class));
                 requireActivity().finish();
