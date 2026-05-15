@@ -3,6 +3,7 @@ package nhom22.doctorfinder.ui.user.profile;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,6 +25,8 @@ import nhom22.doctorfinder.data.remote.client.RetrofitClient;
 import nhom22.doctorfinder.data.remote.dto.response.DoctorResponse;
 import nhom22.doctorfinder.data.remote.dto.response.FollowDoctorItem;
 import nhom22.doctorfinder.data.remote.dto.response.FollowResponse;
+import nhom22.doctorfinder.data.remote.dto.response.RatingSummaryResponse;
+import nhom22.doctorfinder.data.remote.dto.response.ReviewItem;
 import nhom22.doctorfinder.utils.SharedPrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +59,10 @@ public class DoctorProfileActivity extends AppCompatActivity {
     private TextView     tvFollowText;
     private ProgressBar  pbFollow;        // loading nhỏ trên nút follow (tuỳ chọn)
 
+    // Reviews
+    private LinearLayout llReviewsContainer;
+    private TextView     tvNoReviews;
+
     // ───── State ─────
     private boolean isFollowed   = false;
     private boolean isFollowBusy = false; // tránh double-tap
@@ -80,6 +87,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
         bindViews();
         populateFromExtras();
         fetchFullProfile();
+        fetchRatingSummary();
+        fetchReviews();
         checkFollowStatus();   // Kiểm tra xem đã follow chưa ngay khi mở màn hình
     }
 
@@ -132,6 +141,10 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
         ivDoctorAvatar = findViewById(R.id.ivDoctorAvatar);
         loadAvatar(doctorAvatarUrl);
+
+        // ─── Reviews container ────────────────────────────────────────────────
+        llReviewsContainer = findViewById(R.id.llReviewsContainer);
+        tvNoReviews        = findViewById(R.id.tvNoReviews);
 
         // ─── Follow button ────────────────────────────────────────────────────
         btnFollow   = findViewById(R.id.btnFollow);
@@ -392,7 +405,8 @@ public class DoctorProfileActivity extends AppCompatActivity {
     // ─── Populate từ response API ──────────────────────────────────────────────
 
     private void populateFromResponse(DoctorResponse d) {
-        setText(tvDoctorName, d.hoTenDayDu);
+        setText(tvDoctorName,
+                d.hoTenDayDu != null ? "BS. " + d.hoTenDayDu : "");
         setText(tvSpecialty, d.chuyenKhoa);
         setText(tvDegreeChip, d.trinhDoChuyenMon);
         setText(tvHospital, d.tenCoSoYTe);
@@ -439,6 +453,135 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 nhom22.doctorfinder.ui.user.schedule.SelectCenlendarActivity.class);
         i.putExtra("doctor_id", doctorId);
         i.putExtra("doctor_name", doctorName);
+        i.putExtra("doctor_avatar_url", doctorAvatarUrl);
         startActivity(i);
+    }
+
+    // ─── API: Rating Summary ───────────────────────────────────────────────────
+
+    private void fetchRatingSummary() {
+        int id = parseDoctorId();
+        if (id < 0) return;
+
+        doctorApi.getRatingSummary(id).enqueue(new Callback<RatingSummaryResponse>() {
+            @Override
+            public void onResponse(Call<RatingSummaryResponse> call,
+                                   Response<RatingSummaryResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    RatingSummaryResponse summary = response.body();
+                    if (tvRating != null) {
+                        tvRating.setText(summary.soSaoTrungBinh != null
+                                ? String.format("%.1f", summary.soSaoTrungBinh) : "0");
+                    }
+                    if (tvRatingCount != null) {
+                        tvRatingCount.setText("(" + summary.tongDanhGia + " đánh giá)");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RatingSummaryResponse> call, Throwable t) {
+                // Giữ nguyên giá trị từ Intent extras
+            }
+        });
+    }
+
+    // ─── API: Reviews ─────────────────────────────────────────────────────────
+
+    private void fetchReviews() {
+        int id = parseDoctorId();
+        if (id < 0) return;
+
+        doctorApi.getDoctorReviews(id).enqueue(new Callback<List<ReviewItem>>() {
+            @Override
+            public void onResponse(Call<List<ReviewItem>> call,
+                                   Response<List<ReviewItem>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<ReviewItem> reviews = response.body();
+                    if (reviews.isEmpty()) {
+                        if (tvNoReviews != null) tvNoReviews.setVisibility(View.VISIBLE);
+                    } else {
+                        renderReviews(reviews);
+                    }
+                } else {
+                    if (tvNoReviews != null) tvNoReviews.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReviewItem>> call, Throwable t) {
+                if (tvNoReviews != null) tvNoReviews.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void renderReviews(List<ReviewItem> reviews) {
+        if (llReviewsContainer == null) return;
+        llReviewsContainer.removeAllViews();
+
+        for (ReviewItem review : reviews) {
+            View itemView = LayoutInflater.from(this)
+                    .inflate(R.layout.item_review_card_alt, llReviewsContainer, false);
+
+            ImageView ivAvatar = itemView.findViewById(R.id.ivRevAvatar);
+            TextView tvName   = itemView.findViewById(R.id.tvRevName2);
+            TextView tvDate   = itemView.findViewById(R.id.tvRevDate2);
+            TextView tvText   = itemView.findViewById(R.id.tvRevText2);
+
+            // ===== Avatar (initials) =====
+            if (ivAvatar != null) {
+                if (review.anhDaiDienNguoiDung != null && !review.anhDaiDienNguoiDung.isEmpty()) {
+                    Glide.with(this)
+                            .load(review.anhDaiDienNguoiDung)
+                            .circleCrop()
+                            .placeholder(R.drawable.ic_doctor_placeholder)
+                            .into(ivAvatar);
+                } else {
+                    ivAvatar.setImageResource(R.drawable.ic_doctor_placeholder);
+                }
+            }
+
+            // ===== Name =====
+            if (tvName != null) {
+                tvName.setText(review.hoTenNguoiDung != null
+                        ? review.hoTenNguoiDung
+                        : "Người dùng");
+            }
+
+            // ===== Date =====
+            if (tvDate != null && review.thoiGian != null) {
+                try {
+                    String datePart = review.thoiGian.substring(0, 10);
+                    String[] parts = datePart.split("-");
+                    tvDate.setText(parts[2] + "/" + parts[1] + "/" + parts[0]);
+                } catch (Exception e) {
+                    tvDate.setText(review.thoiGian);
+                }
+            }
+
+            // ===== Content =====
+            if (tvText != null) {
+                tvText.setText(review.noiDung != null ? review.noiDung : "");
+            }
+
+            // ===== ⭐ Dynamic Stars =====
+            LinearLayout starsLayout = itemView.findViewById(R.id.layoutStars);
+
+            if (starsLayout != null) {
+                int rating = review.soSao;
+
+                for (int i = 0; i < starsLayout.getChildCount(); i++) {
+                    TextView star = (TextView) starsLayout.getChildAt(i);
+
+                    if (i < rating) {
+                        star.setTextColor(getResources().getColor(R.color.colorStar));
+                    } else {
+                        star.setTextColor(getResources().getColor(R.color.colorStarOff));
+                    }
+                }
+            }
+
+            llReviewsContainer.addView(itemView);
+        }
     }
 }

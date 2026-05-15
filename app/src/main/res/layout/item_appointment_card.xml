@@ -215,29 +215,48 @@
                 android:layout_height="44dp"
                 android:orientation="horizontal">
 
+                <!-- Hủy -->
                 <Button
                     android:id="@+id/btnSecondary"
                     style="@style/ActionButton.Secondary"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Hủy lịch" />
+                    android:text="Hủy" />
 
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
                     android:background="@color/divider" />
 
+                <!-- Chi tiết -->
                 <Button
                     android:id="@+id/btnPrimary"
                     style="@style/ActionButton.Primary"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Xem chi tiết" />
+                    android:text="Chi tiết" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/divider" />
+
+                <!-- Review -->
+                <Button
+                    android:id="@+id/btnReview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Đánh giá"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"/>
 
             </LinearLayout>
-
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

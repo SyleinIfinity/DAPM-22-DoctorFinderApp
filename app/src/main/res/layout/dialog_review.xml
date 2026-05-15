@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    dialog_review.xml
+    Dialog đánh giá bác sĩ – inflate bởi HistoryFragment.showReviewDialog()
+    Gồm: tiêu đề · RatingBar 1–5 sao · EditText nội dung · Button gửi
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialog_rounded"
+    android:padding="24dp">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đánh giá bác sĩ"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:gravity="center"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Mô tả phụ -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chia sẻ trải nghiệm khám bệnh của bạn"
+        android:textSize="13sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <!-- RatingBar -->
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:numStars="5"
+        android:stepSize="1"
+        android:rating="0"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Nhãn nội dung -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nội dung đánh giá"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:layout_marginBottom="6dp" />
+
+    <!-- EditText nội dung -->
+    <EditText
+        android:id="@+id/etReviewContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:hint="Nhập nhận xét của bạn về bác sĩ..."
+        android:textSize="14sp"
+        android:gravity="top|start"
+        android:padding="12dp"
+        android:background="@drawable/bg_input_field"
+        android:inputType="textMultiLine"
+        android:maxLines="5"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Button gửi đánh giá -->
+    <Button
+        android:id="@+id/btnSubmitReview"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Gửi đánh giá"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:background="@drawable/bg_button_primary"
+        android:stateListAnimator="@null" />
+
+</LinearLayout>

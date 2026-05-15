@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -65,7 +67,7 @@ public class SelectCenlendarActivity extends AppCompatActivity {
     private DoctorApiService doctorApiService;
 
     // ─────────────────────────────────────────────────────────────────────────
-
+    private String doctorAvatarUrl;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +97,7 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String idStr  = intent.getStringExtra("doctor_id");
         doctorName    = intent.getStringExtra("doctor_name");
+        doctorAvatarUrl = intent.getStringExtra("doctor_avatar_url");
 
         if (idStr != null) {
             try { maBacSi = Integer.parseInt(idStr); }
@@ -119,6 +122,18 @@ public class SelectCenlendarActivity extends AppCompatActivity {
         flexSlotsChieu = findViewById(R.id.flexSlotsChieu);
         tvSelectedSlot = findViewById(R.id.tvSelectedSlot);
         tvDuration     = findViewById(R.id.tvDuration);
+        ImageView imgAvatarMini = findViewById(R.id.imgAvatarMini);
+        if (imgAvatarMini != null) {
+            if (doctorAvatarUrl != null && !doctorAvatarUrl.isEmpty()) {
+                Glide.with(this)
+                        .load(doctorAvatarUrl)
+                        .circleCrop()
+                        .placeholder(R.drawable.ic_doctor_placeholder)
+                        .into(imgAvatarMini);
+            } else {
+                imgAvatarMini.setImageResource(R.drawable.ic_doctor_placeholder);
+            }
+        }
 
         View btnTiepTuc = findViewById(R.id.btnTiepTuc);
         if (btnTiepTuc != null) btnTiepTuc.setOnClickListener(v -> onContinueClicked());

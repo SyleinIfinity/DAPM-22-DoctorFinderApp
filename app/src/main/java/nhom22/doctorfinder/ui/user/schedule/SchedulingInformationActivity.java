@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,18 +30,8 @@ import retrofit2.Response;
 
 public class SchedulingInformationActivity extends AppCompatActivity {
 
-    private static final String TAG = "SchedulingInfo";
-
-    // ── Enum loại phiếu – khớp với backend ──────────────────────────────────
-    // Dựa theo Swagger response: loaiPhieu = "PHONGKHAM"
-    // Bạn cần xác nhận backend chấp nhận đúng những giá trị nào,
-    // tạm dùng "PHONGKHAM" là giá trị mặc định duy nhất theo Swagger.
-    private static final String[] LOAI_PHIEU_LABELS = {
-            "Khám tại phòng khám", "Tái khám", "Yêu cầu khác"
-    };
-    private static final String[] LOAI_PHIEU_ENUMS = {
-            "PHONGKHAM", "TAI_KHAM", "YEU_CAU"
-    };
+    private static final String TAG        = "SchedulingInfo";
+    private static final String LOAI_PHIEU = "DAT_MOI";
 
     // ── Intent extras ────────────────────────────────────────────────────────
     private String doctorId;
@@ -58,26 +46,22 @@ public class SchedulingInformationActivity extends AppCompatActivity {
     private int maNguoiDung;
 
     // ── Views ────────────────────────────────────────────────────────────────
-    private TextView             tvSlotSummary;
-    private TextView             tvLocationSummary;
-    private TextView             tvCountdown;
-    private TextInputEditText    etHoTen;
-    private TextInputEditText    etSdt;
-    private TextInputEditText    etNgaySinh;
-    private AutoCompleteTextView actvLoaiPhieu;
-    private TextInputEditText    etTrieuChung;
-    private MaterialButton       btnGuiPhieu;
+    private TextView          tvSlotSummary;
+    private TextView          tvLocationSummary;
+    private TextView          tvCountdown;
+    private TextInputEditText etHoTen;
+    private TextInputEditText etSdt;
+    private TextInputEditText etNgaySinh;
+    private TextInputEditText etTrieuChung;
+    private MaterialButton    btnGuiPhieu;
 
     // ── Timer ────────────────────────────────────────────────────────────────
-    private CountDownTimer countDownTimer;
+    private CountDownTimer        countDownTimer;
     private static final long COUNTDOWN_MS = 10 * 60 * 1000L;
 
     // ── API ──────────────────────────────────────────────────────────────────
     private UserApiService userApiService;
-    private final Gson gson = new Gson();
-
-    // ── State ────────────────────────────────────────────────────────────────
-    private String selectedLoaiPhieuEnum = LOAI_PHIEU_ENUMS[0];
+    private final Gson     gson = new Gson();
 
     // =========================================================================
 
@@ -89,7 +73,6 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         readIntent();
         bindViews();
         setupToolbar();
-        setupLoaiPhieuDropdown();
         displaySlotSummary();
         loadUserProfile();
         startCountdown();
@@ -105,16 +88,16 @@ public class SchedulingInformationActivity extends AppCompatActivity {
     // ── 1. Đọc Intent ────────────────────────────────────────────────────────
 
     private void readIntent() {
-        Intent i  = getIntent();
-        doctorId  = i.getStringExtra("doctor_id");
-        doctorName = i.getStringExtra("doctor_name");
-        slotId    = i.getIntExtra("slot_id", -1);
-        slotDate  = i.getStringExtra("slot_date");
-        slotStart = i.getStringExtra("slot_start");
-        slotEnd   = i.getStringExtra("slot_end");
+        Intent i     = getIntent();
+        doctorId     = i.getStringExtra("doctor_id");
+        doctorName   = i.getStringExtra("doctor_name");
+        slotId       = i.getIntExtra("slot_id", -1);
+        slotDate     = i.getStringExtra("slot_date");
+        slotStart    = i.getStringExtra("slot_start");
+        slotEnd      = i.getStringExtra("slot_end");
         slotDuration = i.getIntExtra("slot_duration", 0);
 
-        maNguoiDung = SharedPrefManager.getInstance(this).getUserId();
+        maNguoiDung  = SharedPrefManager.getInstance(this).getUserId();
         Log.d(TAG, "maNguoiDung=" + maNguoiDung + " slotId=" + slotId);
 
         userApiService = RetrofitClient.getClient().create(UserApiService.class);
@@ -129,7 +112,6 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         etHoTen           = findViewById(R.id.etHoTen);
         etSdt             = findViewById(R.id.etSdt);
         etNgaySinh        = findViewById(R.id.etNgaySinh);
-        actvLoaiPhieu     = findViewById(R.id.actvLoaiPhieu);
         etTrieuChung      = findViewById(R.id.etTrieuChung);
         btnGuiPhieu       = findViewById(R.id.btnGuiPhieu);
     }
@@ -141,18 +123,7 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         if (toolbar != null) toolbar.setNavigationOnClickListener(v -> finish());
     }
 
-    // ── 4. Dropdown loại phiếu ───────────────────────────────────────────────
-
-    private void setupLoaiPhieuDropdown() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_dropdown_item_1line, LOAI_PHIEU_LABELS);
-        actvLoaiPhieu.setAdapter(adapter);
-        actvLoaiPhieu.setText(LOAI_PHIEU_LABELS[0], false);
-        actvLoaiPhieu.setOnItemClickListener((parent, view, pos, id) ->
-                selectedLoaiPhieuEnum = LOAI_PHIEU_ENUMS[pos]);
-    }
-
-    // ── 5. Hiển thị tóm tắt lịch ─────────────────────────────────────────────
+    // ── 4. Hiển thị tóm tắt lịch ─────────────────────────────────────────────
 
     private void displaySlotSummary() {
         if (tvSlotSummary != null) {
@@ -167,7 +138,7 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         }
     }
 
-    // ── 6. Gọi API lấy thông tin người dùng ──────────────────────────────────
+    // ── 5. Gọi API lấy thông tin người dùng ──────────────────────────────────
 
     private void loadUserProfile() {
         if (maNguoiDung <= 0) {
@@ -195,7 +166,6 @@ public class SchedulingInformationActivity extends AppCompatActivity {
     }
 
     private void fillUserForm(UserProfileResponse p) {
-        // Họ tên
         if (etHoTen != null) {
             if (p.hoTenDayDu != null && !p.hoTenDayDu.isEmpty()) {
                 etHoTen.setText(p.hoTenDayDu);
@@ -206,11 +176,9 @@ public class SchedulingInformationActivity extends AppCompatActivity {
             }
         }
 
-        // SĐT
         if (etSdt != null && p.soDienThoai != null)
             etSdt.setText(p.soDienThoai);
 
-        // Ngày sinh: chuyển yyyy-MM-dd → dd/MM/yyyy
         if (etNgaySinh != null && p.ngaySinh != null && !p.ngaySinh.isEmpty()) {
             try {
                 String[] parts = p.ngaySinh.split("-");
@@ -223,7 +191,7 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         }
     }
 
-    // ── 7. Countdown 10 phút ─────────────────────────────────────────────────
+    // ── 6. Countdown 10 phút ─────────────────────────────────────────────────
 
     private void startCountdown() {
         countDownTimer = new CountDownTimer(COUNTDOWN_MS, 1000) {
@@ -244,7 +212,7 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         }.start();
     }
 
-    // ── 8. Buttons ───────────────────────────────────────────────────────────
+    // ── 7. Buttons ───────────────────────────────────────────────────────────
 
     private void setupButtons() {
         MaterialButton btnQuayLai = findViewById(R.id.btnQuayLai);
@@ -256,10 +224,9 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         if (btnGuiPhieu != null) btnGuiPhieu.setOnClickListener(v -> submitAppointment());
     }
 
-    // ── 9. Gửi phiếu đặt lịch ───────────────────────────────────────────────
+    // ── 8. Gửi phiếu đặt lịch ───────────────────────────────────────────────
 
     private void submitAppointment() {
-        // Validate
         if (slotId <= 0) {
             Toast.makeText(this, "Thông tin lịch không hợp lệ", Toast.LENGTH_SHORT).show();
             return;
@@ -269,21 +236,18 @@ public class SchedulingInformationActivity extends AppCompatActivity {
             return;
         }
 
-        // Lấy triệu chứng (tuỳ chọn)
         String trieuChung = null;
         if (etTrieuChung != null && etTrieuChung.getText() != null) {
             String text = etTrieuChung.getText().toString().trim();
             if (!text.isEmpty()) trieuChung = text;
         }
 
-        // Disable button chống double-submit
         btnGuiPhieu.setEnabled(false);
 
-        // Build request — loaiPhieu dùng enum đúng với backend
         AppointmentRequest request = new AppointmentRequest(
                 maNguoiDung,
                 slotId,
-                selectedLoaiPhieuEnum,  // "PHONGKHAM" | "TAI_KHAM" | "YEU_CAU"
+                LOAI_PHIEU,   // luôn là "DAT_MOI"
                 trieuChung
         );
 
@@ -296,43 +260,33 @@ public class SchedulingInformationActivity extends AppCompatActivity {
                 btnGuiPhieu.setEnabled(true);
 
                 if (response.isSuccessful() && response.body() != null) {
-                    // Dừng đếm ngược
                     if (countDownTimer != null) countDownTimer.cancel();
 
                     Log.d(TAG, "Đặt lịch thành công: maPhieu=" +
                             response.body().maPhieuDatLich);
 
-                    // Truyền kết quả sang màn hình xác nhận
                     Intent intent = new Intent(
                             SchedulingInformationActivity.this,
-                            ConfirmAppointmentActivity.class
-                    );
+                            ConfirmAppointmentActivity.class);
 
-// API response
                     intent.putExtra("appointment_result", gson.toJson(response.body()));
-
-// 🔥 THÊM dữ liệu UI (quan trọng)
-                    intent.putExtra("doctor_name", doctorName);
-                    intent.putExtra("slot_date", slotDate);
-                    intent.putExtra("slot_start", slotStart);
-                    intent.putExtra("slot_end", slotEnd);
+                    intent.putExtra("doctor_name",   doctorName);
+                    intent.putExtra("slot_date",     slotDate);
+                    intent.putExtra("slot_start",    slotStart);
+                    intent.putExtra("slot_end",      slotEnd);
                     intent.putExtra("slot_duration", slotDuration);
-                    intent.putExtra("loai_phieu_label", actvLoaiPhieu.getText().toString());
 
-// triệu chứng
-                    if (etTrieuChung.getText() != null) {
+                    if (etTrieuChung != null && etTrieuChung.getText() != null)
                         intent.putExtra("trieu_chung", etTrieuChung.getText().toString());
-                    }
-
-// bệnh nhân
-                    intent.putExtra("patient_name", etHoTen.getText().toString());
-                    intent.putExtra("patient_phone", etSdt.getText().toString());
+                    if (etHoTen != null && etHoTen.getText() != null)
+                        intent.putExtra("patient_name", etHoTen.getText().toString());
+                    if (etSdt != null && etSdt.getText() != null)
+                        intent.putExtra("patient_phone", etSdt.getText().toString());
 
                     startActivity(intent);
                     finish();
 
                 } else {
-                    // Log body lỗi để debug
                     try {
                         String errBody = response.errorBody() != null
                                 ? response.errorBody().string() : "null";

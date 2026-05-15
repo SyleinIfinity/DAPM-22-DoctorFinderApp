@@ -29,21 +29,35 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     private List<AppointmentResponse> items;
     private final OnAppointmentClickListener listener;
 
+    // ─── Listener interface ───────────────────────────────────────────────────
+
     public interface OnAppointmentClickListener {
+        /** Bấm "Chi tiết" */
         void onPrimaryClick(AppointmentResponse appointment, int position);
+
+        /** Bấm "Hủy lịch" */
         void onSecondaryClick(AppointmentResponse appointment, int position);
+
+        /** Bấm "Đánh giá" – chỉ hiển thị khi trangThaiPhieu == DA_KHAM */
+        void onReviewClick(AppointmentResponse appointment, int position);
     }
 
+    // ─── Constructor ──────────────────────────────────────────────────────────
+
     public AppointmentAdapter(Context context, OnAppointmentClickListener listener) {
-        this.context = context;
-        this.items = new ArrayList<>();
+        this.context  = context;
+        this.items    = new ArrayList<>();
         this.listener = listener;
     }
+
+    // ─── Submit list ──────────────────────────────────────────────────────────
 
     public void submitList(List<AppointmentResponse> newList) {
         this.items = newList != null ? new ArrayList<>(newList) : new ArrayList<>();
         notifyDataSetChanged();
     }
+
+    // ─── RecyclerView overrides ───────────────────────────────────────────────
 
     @NonNull
     @Override
@@ -55,7 +69,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     @Override
     public void onBindViewHolder(@NonNull AppointmentViewHolder holder, int position) {
         AppointmentResponse currentItem = items.get(position);
-        
+
         // Month header logic
         boolean showMonthHeader = false;
         if (position == 0) {
@@ -63,12 +77,12 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         } else {
             AppointmentResponse prevItem = items.get(position - 1);
             String currentMonth = getMonth(currentItem.ngayCuThe);
-            String prevMonth = getMonth(prevItem.ngayCuThe);
+            String prevMonth    = getMonth(prevItem.ngayCuThe);
             if (!currentMonth.equals(prevMonth)) {
                 showMonthHeader = true;
             }
         }
-        
+
         holder.bind(currentItem, showMonthHeader);
     }
 
@@ -76,6 +90,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     public int getItemCount() {
         return items.size();
     }
+
+    // ─── ViewHolder ───────────────────────────────────────────────────────────
 
     class AppointmentViewHolder extends RecyclerView.ViewHolder {
 
@@ -87,24 +103,28 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         private final TextView tvDateTime;
         private final TextView tvLocationType;
         private final TextView tvNote;
-        private final Button btnPrimary;
-        private final Button btnSecondary;
+        private final Button   btnPrimary;
+        private final Button   btnSecondary;
+        private final Button   btnReview;
 
         AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvMonthHeader = itemView.findViewById(R.id.tvMonthHeader);
-            tvAvatar = itemView.findViewById(R.id.tvAvatar);
-            tvDoctorName = itemView.findViewById(R.id.tvDoctorName);
-            tvSpecialty = itemView.findViewById(R.id.tvSpecialty);
-            tvStatus = itemView.findViewById(R.id.tvStatus);
-            tvDateTime = itemView.findViewById(R.id.tvDateTime);
+            tvMonthHeader  = itemView.findViewById(R.id.tvMonthHeader);
+            tvAvatar       = itemView.findViewById(R.id.tvAvatar);
+            tvDoctorName   = itemView.findViewById(R.id.tvDoctorName);
+            tvSpecialty    = itemView.findViewById(R.id.tvSpecialty);
+            tvStatus       = itemView.findViewById(R.id.tvStatus);
+            tvDateTime     = itemView.findViewById(R.id.tvDateTime);
             tvLocationType = itemView.findViewById(R.id.tvLocationType);
-            tvNote = itemView.findViewById(R.id.tvNote);
-            btnPrimary = itemView.findViewById(R.id.btnPrimary);
-            btnSecondary = itemView.findViewById(R.id.btnSecondary);
+            tvNote         = itemView.findViewById(R.id.tvNote);
+            btnPrimary     = itemView.findViewById(R.id.btnPrimary);
+            btnSecondary   = itemView.findViewById(R.id.btnSecondary);
+            btnReview      = itemView.findViewById(R.id.btnReview);
         }
 
         void bind(AppointmentResponse item, boolean showMonthHeader) {
+
+            // ── Month header ──────────────────────────────────────────────────
             if (showMonthHeader) {
                 tvMonthHeader.setVisibility(View.VISIBLE);
                 tvMonthHeader.setText(getMonthHeader(item.ngayCuThe));
@@ -112,29 +132,25 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 tvMonthHeader.setVisibility(View.GONE);
             }
 
-            // Doctor Info
+            // ── Doctor info ───────────────────────────────────────────────────
             tvDoctorName.setText("BS. " + safeString(item.hoTenBacSi));
             tvSpecialty.setText(safeString(item.chuyenKhoa));
-            
-            // Avatar Initials
             tvAvatar.setText(getInitials(item.hoTenBacSi));
 
-            // Status
+            // ── Status badge ──────────────────────────────────────────────────
             tvStatus.setText(mapStatus(item.trangThaiPhieu));
-            
-            // Update styling based on status
+
             if ("DA_HUY".equals(item.trangThaiPhieu) || "TU_CHOI".equals(item.trangThaiPhieu)) {
-                tvStatus.setBackgroundResource(R.drawable.bg_badge_pending); // Note: Update this to a red badge drawable if available
+                tvStatus.setBackgroundResource(R.drawable.bg_badge_pending);
                 tvStatus.setTextColor(ContextCompat.getColor(context, R.color.status_pending_text));
             } else if ("DA_XAC_NHAN".equals(item.trangThaiPhieu)) {
-                // Adjust colors for confirmed
+                // Adjust colors for confirmed – keep defaults
             } else {
-                // Adjust colors for CHO_XAC_NHAN
                 tvStatus.setBackgroundResource(R.drawable.bg_badge_pending);
                 tvStatus.setTextColor(ContextCompat.getColor(context, R.color.status_pending_text));
             }
 
-            // Disable secondary button if status is DA_HUY or TU_CHOI
+            // ── Secondary button (Hủy lịch) ───────────────────────────────────
             if ("DA_HUY".equals(item.trangThaiPhieu)) {
                 btnSecondary.setEnabled(false);
                 btnSecondary.setText("Đã huỷ");
@@ -146,13 +162,19 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 btnSecondary.setText("Hủy lịch");
             }
 
-            // Date Time
-            tvDateTime.setText(formatDateTime(item.ngayCuThe, item.gioBatDau, item.gioKetThuc));
+            // ── Review button (Đánh giá) ──────────────────────────────────────
+            // Chỉ hiển thị khi trạng thái là DA_KHAM và chưa đánh giá
+            if ("DA_KHAM".equals(item.trangThaiPhieu) && !item.daDanhGia) {
+                btnReview.setVisibility(View.VISIBLE);
+            } else {
+                btnReview.setVisibility(View.GONE);
+            }
 
-            // Location Type
+            // ── DateTime & location ───────────────────────────────────────────
+            tvDateTime.setText(formatDateTime(item.ngayCuThe, item.gioBatDau, item.gioKetThuc));
             tvLocationType.setText(mapLocationType(item.loaiPhieu));
 
-            // Note
+            // ── Note ──────────────────────────────────────────────────────────
             if (item.trieuChungGhiChu != null && !item.trieuChungGhiChu.trim().isEmpty()) {
                 tvNote.setVisibility(View.VISIBLE);
                 tvNote.setText(mapLocationType(item.loaiPhieu) + " · " + item.trieuChungGhiChu);
@@ -160,6 +182,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 tvNote.setVisibility(View.GONE);
             }
 
+            // ── Click listeners ───────────────────────────────────────────────
             btnPrimary.setOnClickListener(v -> {
                 if (listener != null) listener.onPrimaryClick(item, getAdapterPosition());
             });
@@ -167,10 +190,15 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             btnSecondary.setOnClickListener(v -> {
                 if (listener != null) listener.onSecondaryClick(item, getAdapterPosition());
             });
+
+            // Adapter chỉ forward sự kiện click – Fragment xử lý dialog + API
+            btnReview.setOnClickListener(v -> {
+                if (listener != null) listener.onReviewClick(item, getAdapterPosition());
+            });
         }
     }
 
-    // --- Helper Functions ---
+    // ─── Helper methods ───────────────────────────────────────────────────────
 
     private String safeString(String text) {
         return text != null ? text : "";
@@ -186,10 +214,11 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         if (status == null) return "Chờ xác nhận";
         switch (status) {
             case "CHO_XAC_NHAN": return "Chờ xác nhận";
-            case "DA_XAC_NHAN": return "Đã xác nhận";
-            case "DA_HUY": return "Đã huỷ";
-            case "TU_CHOI": return "Bị từ chối";
-            default: return status;
+            case "DA_XAC_NHAN":  return "Đã xác nhận";
+            case "DA_HUY":       return "Đã huỷ";
+            case "TU_CHOI":      return "Bị từ chối";
+            case "DA_KHAM":      return "Đã khám";
+            default:             return status;
         }
     }
 
@@ -197,47 +226,38 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         if (type == null) return "Khám";
         switch (type) {
             case "PHONGKHAM": return "Tại phòng khám";
-            case "TAI_KHAM": return "Tái khám";
-            case "YEU_CAU": return "Yêu cầu khác";
-            default: return type;
+            case "TAI_KHAM":  return "Tái khám";
+            case "YEU_CAU":   return "Yêu cầu khác";
+            default:          return type;
         }
     }
 
-    // Input expected: dd/MM/yyyy or yyyy-MM-dd depending on backend. Assuming backend gives dd/MM/yyyy based on UI.
-    // Also time format: HH:mm:ss -> HH:mm
     private String formatDateTime(String date, String start, String end) {
         String fStart = removeSeconds(start);
-        String fEnd = removeSeconds(end);
+        String fEnd   = removeSeconds(end);
         return safeString(date) + " · " + fStart + " - " + fEnd;
     }
 
     private String removeSeconds(String time) {
         if (time == null) return "";
-        // If format is HH:mm:ss, return HH:mm
-        if (time.length() >= 5) {
-            return time.substring(0, 5);
-        }
+        if (time.length() >= 5) return time.substring(0, 5);
         return time;
     }
 
     private String getMonth(String dateStr) {
         if (dateStr == null || dateStr.isEmpty()) return "";
         try {
-            // Check if format is dd/MM/yyyy
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             Date date = sdf.parse(dateStr);
             if (date != null) {
-                SimpleDateFormat monthSdf = new SimpleDateFormat("MM", Locale.getDefault());
-                return monthSdf.format(date);
+                return new SimpleDateFormat("MM", Locale.getDefault()).format(date);
             }
         } catch (ParseException e) {
-            // Maybe it is yyyy-MM-dd
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = sdf.parse(dateStr);
                 if (date != null) {
-                    SimpleDateFormat monthSdf = new SimpleDateFormat("MM", Locale.getDefault());
-                    return monthSdf.format(date);
+                    return new SimpleDateFormat("MM", Locale.getDefault()).format(date);
                 }
             } catch (ParseException ex) {
                 // Ignore

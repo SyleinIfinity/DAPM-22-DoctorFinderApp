@@ -2,12 +2,12 @@ package nhom22.doctorfinder.data.remote.dto.response;
 
 /**
  * Response DTO cho endpoint POST /api/appointments.
- * trangThaiPhieu enum: CHO_XAC_NHAN | DA_XAC_NHAN | DA_HUY | TU_CHOI
+ * trangThaiPhieu enum: CHO_XAC_NHAN | DA_XAC_NHAN | DA_HUY | TU_CHOI | DA_KHAM
  */
 
 public class AppointmentResponse {
     public int    maPhieuDatLich;
-    public String trangThaiPhieu;       // CHO_XAC_NHAN | DA_XAC_NHAN | DA_HUY | TU_CHOI
+    public String trangThaiPhieu;       // CHO_XAC_NHAN | DA_XAC_NHAN | DA_HUY | TU_CHOI | DA_KHAM
     public String lyDoTuChoi;
     public String loaiPhieu;
     public String trieuChungGhiChu;
@@ -35,4 +35,11 @@ public class AppointmentResponse {
     public int    maKhungGio;
     public int    thoiLuongPhut;
     public String trangThaiLich;
-}
+
+    /**
+     * Cờ cục bộ (transient) – không đến từ API.
+     * Được set = true sau khi người dùng gửi đánh giá thành công
+     * để ẩn btnReview mà không cần reload danh sách.
+     */
+    public transient boolean daDanhGia = false;
+}
