@@ -360,46 +360,46 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <!-- Add relative divider -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="4dp">
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:gravity="center_vertical"-->
+<!--                            android:paddingTop="6dp"-->
+<!--                            android:paddingBottom="4dp">-->
 
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0.5dp"
-                                android:layout_weight="1"
-                                android:background="@color/border_light" />
+<!--                            <View-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_height="0.5dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:background="@color/border_light" />-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="  Đặt cho người thân?  "
-                                android:textSize="11sp"
-                                android:textColor="@color/text_muted" />
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="  Đặt cho người thân?  "-->
+<!--                                android:textSize="11sp"-->
+<!--                                android:textColor="@color/text_muted" />-->
 
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="0.5dp"
-                                android:layout_weight="1"
-                                android:background="@color/border_light" />
+<!--                            <View-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_height="0.5dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:background="@color/border_light" />-->
 
-                        </LinearLayout>
+<!--                        </LinearLayout>-->
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnThemNguoiThan"
-                            android:layout_width="match_parent"
-                            android:layout_height="38dp"
-                            android:text="+ Thêm người thân"
-                            android:textSize="12sp"
-                            android:textColor="@color/teal_600"
-                            app:strokeColor="@color/teal_100"
-                            app:cornerRadius="8dp"
-                            android:backgroundTint="@android:color/transparent"
-                            style="@style/Widget.Material3.Button.OutlinedButton" />
+<!--                        <com.google.android.material.button.MaterialButton-->
+<!--                            android:id="@+id/btnThemNguoiThan"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="38dp"-->
+<!--                            android:text="+ Thêm người thân"-->
+<!--                            android:textSize="12sp"-->
+<!--                            android:textColor="@color/teal_600"-->
+<!--                            app:strokeColor="@color/teal_100"-->
+<!--                            app:cornerRadius="8dp"-->
+<!--                            android:backgroundTint="@android:color/transparent"-->
+<!--                            style="@style/Widget.Material3.Button.OutlinedButton" />-->
 
                     </LinearLayout>
 
@@ -509,7 +509,7 @@
                                 android:textSize="13sp"
                                 android:inputType="textMultiLine|textCapSentences"
                                 android:gravity="top|start"
-                                android:hint="VD: Đau đầu liên tục 3 ngày, chóng mặt buổi sáng..."
+                                android:hint=""
                                 android:maxLength="500" />
 
                         </com.google.android.material.textfield.TextInputLayout>

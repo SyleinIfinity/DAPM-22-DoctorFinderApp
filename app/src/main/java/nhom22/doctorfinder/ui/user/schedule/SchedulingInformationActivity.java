@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,7 @@ public class SchedulingInformationActivity extends AppCompatActivity {
     private TextInputEditText etNgaySinh;
     private TextInputEditText etTrieuChung;
     private MaterialButton    btnGuiPhieu;
+    private AutoCompleteTextView actvGioiTinh;
 
     // ── Timer ────────────────────────────────────────────────────────────────
     private CountDownTimer        countDownTimer;
@@ -77,6 +80,7 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         loadUserProfile();
         startCountdown();
         setupButtons();
+        setupGenderDropdown();
     }
 
     @Override
@@ -86,7 +90,22 @@ public class SchedulingInformationActivity extends AppCompatActivity {
     }
 
     // ── 1. Đọc Intent ────────────────────────────────────────────────────────
+    private void setupGenderDropdown() {
+        if (actvGioiTinh == null) return;
 
+        String[] genders = {"Nam", "Nữ"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                genders
+        );
+
+        actvGioiTinh.setAdapter(adapter);
+
+        // default chọn Nam
+        actvGioiTinh.setText(genders[0], false);
+    }
     private void readIntent() {
         Intent i     = getIntent();
         doctorId     = i.getStringExtra("doctor_id");
@@ -114,6 +133,7 @@ public class SchedulingInformationActivity extends AppCompatActivity {
         etNgaySinh        = findViewById(R.id.etNgaySinh);
         etTrieuChung      = findViewById(R.id.etTrieuChung);
         btnGuiPhieu       = findViewById(R.id.btnGuiPhieu);
+        actvGioiTinh = findViewById(R.id.actvGioiTinh);
     }
 
     // ── 3. Toolbar ───────────────────────────────────────────────────────────

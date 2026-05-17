@@ -35,7 +35,7 @@ public class SearchBoxActivity extends AppCompatActivity {
     // ========== VIEWS ==========
     private TextInputEditText etKeyword;
     private TextInputEditText etSymptom;
-    private TextView chipTypeAll, chipTypeHospital, chipTypeClinic, chipTypeOnline;
+    private TextView chipTypeAll, chipTypeHospital, chipTypeClinic;
     private TextView chipRatingAll, chipRating45, chipRating40, chipRating35;
     private TextView tvImageCount;
     private ImageView ivImage1, ivImage2;
@@ -83,7 +83,7 @@ public class SearchBoxActivity extends AppCompatActivity {
         chipTypeAll      = findViewById(R.id.chipTypeAll);
         chipTypeHospital = findViewById(R.id.chipTypeHospital);
         chipTypeClinic   = findViewById(R.id.chipTypeClinic);
-        chipTypeOnline   = findViewById(R.id.chipTypeOnline);
+//        chipTypeOnline   = findViewById(R.id.chipTypeOnline);
         chipRatingAll    = findViewById(R.id.chipRatingAll);
         chipRating45     = findViewById(R.id.chipRating45);
         chipRating40     = findViewById(R.id.chipRating40);
@@ -122,7 +122,7 @@ public class SearchBoxActivity extends AppCompatActivity {
         bindTypeChip(chipTypeAll,      "Tất cả");
         bindTypeChip(chipTypeHospital, "Bệnh viện");
         bindTypeChip(chipTypeClinic,   "Phòng khám");
-        bindTypeChip(chipTypeOnline,   "Online");
+//        bindTypeChip(chipTypeOnline,   "Online");
 
         bindRatingChip(chipRatingAll, 0f);
         bindRatingChip(chipRating45,  4.5f);
@@ -158,7 +158,7 @@ public class SearchBoxActivity extends AppCompatActivity {
         applyChipState(chipTypeAll,      "Tất cả".equals(selectedDoctorType));
         applyChipState(chipTypeHospital, "Bệnh viện".equals(selectedDoctorType));
         applyChipState(chipTypeClinic,   "Phòng khám".equals(selectedDoctorType));
-        applyChipState(chipTypeOnline,   "Online".equals(selectedDoctorType));
+//        applyChipState(chipTypeOnline,   "Online".equals(selectedDoctorType));
     }
 
     private void refreshRatingChips() {
