@@ -19,14 +19,18 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 
 import nhom22.doctorfinder.R;
+import nhom22.doctorfinder.data.remote.api.ConversationApiService;
 import nhom22.doctorfinder.data.remote.api.DoctorApiService;
 import nhom22.doctorfinder.data.remote.api.FollowApiService;
 import nhom22.doctorfinder.data.remote.client.RetrofitClient;
+import nhom22.doctorfinder.data.remote.dto.request.CreateConversationRequest;
+import nhom22.doctorfinder.data.remote.dto.response.ConversationResponse;
 import nhom22.doctorfinder.data.remote.dto.response.DoctorResponse;
 import nhom22.doctorfinder.data.remote.dto.response.FollowDoctorItem;
 import nhom22.doctorfinder.data.remote.dto.response.FollowResponse;
 import nhom22.doctorfinder.data.remote.dto.response.RatingSummaryResponse;
 import nhom22.doctorfinder.data.remote.dto.response.ReviewItem;
+import nhom22.doctorfinder.ui.user.chat.ChatBoxActivity;
 import nhom22.doctorfinder.utils.SharedPrefManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,6 +74,9 @@ public class DoctorProfileActivity extends AppCompatActivity {
     // ───── API ─────
     private FollowApiService followApi;
     private DoctorApiService doctorApi;
+    private ConversationApiService conversationApi;
+
+    private View btnMessage;
     private ImageView ivDoctorAvatar;
     private String doctorAvatarUrl;
 
@@ -82,6 +89,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
         followApi = RetrofitClient.getClient().create(FollowApiService.class);
         doctorApi = RetrofitClient.getClient().create(DoctorApiService.class);
+        conversationApi = RetrofitClient.getClient().create(ConversationApiService.class);
 
         readIntentExtras();
         bindViews();
@@ -155,15 +163,9 @@ public class DoctorProfileActivity extends AppCompatActivity {
         }
 
         // ─── Các nút khác ─────────────────────────────────────────────────────
-        View btnMessage = findViewById(R.id.btnMessage);
+        btnMessage = findViewById(R.id.btnMessage);
         if (btnMessage != null) {
-            btnMessage.setOnClickListener(v -> {
-                Intent i = new Intent(this,
-                        nhom22.doctorfinder.ui.user.chat.ChatBoxActivity.class);
-                i.putExtra("doctor_id", doctorId);
-                i.putExtra("doctor_name", doctorName);
-                startActivity(i);
-            });
+            btnMessage.setOnClickListener(v -> onMessageButtonClicked());
         }
 
         View btnViewSchedule = findViewById(R.id.btnViewSchedule);
@@ -455,6 +457,79 @@ public class DoctorProfileActivity extends AppCompatActivity {
         i.putExtra("doctor_name", doctorName);
         i.putExtra("doctor_avatar_url", doctorAvatarUrl);
         startActivity(i);
+    }
+
+    private void setMessageButtonLoading(boolean loading) {
+        if (btnMessage == null) return;
+        btnMessage.setEnabled(!loading);
+        btnMessage.setAlpha(loading ? 0.55f : 1f);
+    }
+
+    /**
+     * Tạo (hoặc mở) cuộc hội thoại với bác sĩ rồi vào màn chat.
+     */
+    private void onMessageButtonClicked() {
+        int doctorIdInt = parseDoctorId();
+        if (doctorIdInt < 0) {
+            Toast.makeText(this, "Không xác định được bác sĩ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        SharedPrefManager prefs = SharedPrefManager.getInstance(this);
+        int userId = prefs.getUserId();
+        if (userId < 0) {
+            Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        setMessageButtonLoading(true);
+        Toast.makeText(this, "Đang kết nối...", Toast.LENGTH_SHORT).show();
+
+        conversationApi.createConversation(new CreateConversationRequest(userId, doctorIdInt))
+                .enqueue(new Callback<ConversationResponse>() {
+                    @Override
+                    public void onResponse(Call<ConversationResponse> call,
+                                           Response<ConversationResponse> response) {
+                        setMessageButtonLoading(false);
+                        if (response.isSuccessful() && response.body() != null) {
+                            ConversationResponse cr = response.body();
+                            if (cr.maCuocHoiThoai <= 0) {
+                                Toast.makeText(DoctorProfileActivity.this,
+                                        "Không tạo được cuộc trò chuyện",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            Intent i = new Intent(DoctorProfileActivity.this, ChatBoxActivity.class);
+                            i.putExtra("maCuocHoiThoai", cr.maCuocHoiThoai);
+                            i.putExtra("maTaiKhoanNguoiDung", userId);
+                            i.putExtra("doctor_name", doctorNameFromConversation(cr, doctorName));
+                            String avatarUrl = (cr.anhDaiDienBacSi != null && !cr.anhDaiDienBacSi.isEmpty())
+                                    ? cr.anhDaiDienBacSi
+                                    : doctorAvatarUrl;
+                            i.putExtra("doctor_avatar_url", avatarUrl != null ? avatarUrl : "");
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(DoctorProfileActivity.this,
+                                    "Không tạo được cuộc trò chuyện",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ConversationResponse> call, Throwable t) {
+                        setMessageButtonLoading(false);
+                        Toast.makeText(DoctorProfileActivity.this,
+                                "Lỗi kết nối: " + (t.getMessage() != null ? t.getMessage() : ""),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private static String doctorNameFromConversation(ConversationResponse cr, String fallback) {
+        if (cr == null) return fallback != null ? fallback : "";
+        if (cr.hoTenBacSi != null && !cr.hoTenBacSi.isEmpty()) return cr.hoTenBacSi;
+        if (cr.tenBacSi != null && !cr.tenBacSi.isEmpty()) return cr.tenBacSi;
+        return fallback != null ? fallback : "";
     }
 
     // ─── API: Rating Summary ───────────────────────────────────────────────────
