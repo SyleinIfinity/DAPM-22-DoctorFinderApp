@@ -90,12 +90,19 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Collections.sort(list, Comparator.comparingInt(a -> a.maTinNhan));
     }
 
+    private String formatTime(String thoiGianGui) {
+        if (thoiGianGui == null || thoiGianGui.length() < 16) return "";
+        return thoiGianGui.substring(11, 16);
+    }
+
     private class SentHolder extends RecyclerView.ViewHolder {
         final TextView tvMessage;
+        final TextView tvTime;
 
         SentHolder(@NonNull View itemView) {
             super(itemView);
             tvMessage = itemView.findViewById(R.id.tvMessage);
+            tvTime = itemView.findViewById(R.id.tvTime);
         }
 
         void bind(MessageResponse m) {
@@ -104,16 +111,21 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 if (text == null) text = "";
                 tvMessage.setText(text);
             }
+            if (tvTime != null) {
+                tvTime.setText(formatTime(m.thoiGianGui));
+            }
         }
     }
 
     private class ReceivedHolder extends RecyclerView.ViewHolder {
         final TextView tvMessage;
+        final TextView tvTime;
         final ImageView ivAvatar;
 
         ReceivedHolder(@NonNull View itemView) {
             super(itemView);
             tvMessage = itemView.findViewById(R.id.tvMessage);
+            tvTime = itemView.findViewById(R.id.tvTime);
             ivAvatar = itemView.findViewById(R.id.ivAvatar);
         }
 
@@ -122,6 +134,9 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 String text = m.noiDungTinNhan;
                 if (text == null) text = "";
                 tvMessage.setText(text);
+            }
+            if (tvTime != null) {
+                tvTime.setText(formatTime(m.thoiGianGui));
             }
             loadDoctorAvatar(ivAvatar);
         }

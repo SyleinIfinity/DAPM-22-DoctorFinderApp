@@ -9,18 +9,32 @@
     android:paddingStart="72dp"
     android:paddingEnd="12dp">
 
-    <TextView
-        android:id="@+id/tvMessage"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_chat_bubble_sent"
-        android:maxWidth="260dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="Chào bác sĩ, dạo này tôi hay bị đau đầu."
-        android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:orientation="vertical"
+        android:gravity="end">
 
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_chat_bubble_sent"
+            android:maxWidth="260dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textSize="11sp"
+            android:textColor="@color/colorTextHint" />
+
+    </LinearLayout>
 </LinearLayout>

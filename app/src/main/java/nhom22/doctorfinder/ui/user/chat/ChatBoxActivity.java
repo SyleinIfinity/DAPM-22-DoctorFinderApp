@@ -127,6 +127,26 @@ public class ChatBoxActivity extends AppCompatActivity {
         if (btnSend != null) {
             btnSend.setOnClickListener(v -> sendCurrentMessage());
         }
+
+        setupSuggestionChips();
+    }
+
+    private void setupSuggestionChips() {
+        bindChip(R.id.chipDatLich, "Tôi muốn đặt lịch khám");
+        bindChip(R.id.chipXemHoSo, "Cho tôi xem hồ sơ bác sĩ");
+        bindChip(R.id.chipGiaKham, "Giá khám là bao nhiêu?");
+    }
+
+    private void bindChip(int viewId, String messageText) {
+        View chip = findViewById(viewId);
+        if (chip == null) return;
+        chip.setOnClickListener(v -> sendSuggestion(messageText));
+    }
+
+    private void sendSuggestion(String text) {
+        if (etMessage == null) return;
+        etMessage.setText(text);
+        sendCurrentMessage();
     }
 
     /**

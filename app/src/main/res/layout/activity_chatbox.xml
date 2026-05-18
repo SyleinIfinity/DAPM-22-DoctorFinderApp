@@ -152,29 +152,38 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/chipDatLich"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/bg_chip_suggestion"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
                     android:text="Đặt lịch"
                     android:textColor="#333333" />
 
                 <TextView
+                    android:id="@+id/chipXemHoSo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/bg_chip_suggestion"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
                     android:text="Xem hồ sơ bác sĩ"
                     android:textColor="#333333" />
 
                 <TextView
+                    android:id="@+id/chipGiaKham"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_chip_suggestion"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
                     android:text="Giá khám"
