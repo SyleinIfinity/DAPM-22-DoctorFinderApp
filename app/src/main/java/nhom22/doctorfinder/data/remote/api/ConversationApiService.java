@@ -4,6 +4,7 @@ import java.util.List;
 
 import nhom22.doctorfinder.data.remote.dto.request.CreateConversationRequest;
 import nhom22.doctorfinder.data.remote.dto.request.SendMessageRequest;
+import nhom22.doctorfinder.data.remote.dto.response.ConversationListItem;
 import nhom22.doctorfinder.data.remote.dto.response.ConversationResponse;
 import nhom22.doctorfinder.data.remote.dto.response.MessageResponse;
 import retrofit2.Call;
@@ -14,6 +15,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ConversationApiService {
+
+    /**
+     * Danh sách cuộc hội thoại của người dùng.
+     */
+    @GET("api/conversations")
+    Call<List<ConversationListItem>> getConversations(@Query("maNguoiDung") int maNguoiDung);
 
     @POST("api/conversations")
     Call<ConversationResponse> createConversation(@Body CreateConversationRequest body);
