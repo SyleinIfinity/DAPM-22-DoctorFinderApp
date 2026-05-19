@@ -60,8 +60,17 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
 
     private static String doctorTitle(ConversationListItem item) {
         String raw = !TextUtils.isEmpty(item.hoTenBacSi) ? item.hoTenBacSi : item.tenBacSi;
-        if (TextUtils.isEmpty(raw)) return "Bác sĩ";
-        return raw.trim();
+
+        if (TextUtils.isEmpty(raw)) return "BS.";
+
+        raw = raw.trim();
+
+        // tránh bị lặp "BS. BS. ..."
+        if (raw.startsWith("BS.")) {
+            return raw;
+        }
+
+        return "BS. " + raw;
     }
 
     private static String lastPreview(ConversationListItem item) {
